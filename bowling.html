@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ボウリング | My Hobby Page</title>
+<style>
+:root{
+  --bg:#faf8ff;--bg2:#f0ecff;--fg:#1a0a3d;--fg2:#4a3a6a;
+  --acc:#5c3bc9;--card:#ffffff;--nav:rgba(240,236,255,.95);
+  --hero:linear-gradient(135deg,#1a0a3d,#5c3bc9,#9c72f0);
+  --htxt:#f0ecff;--bdr:#c8b8f0;--shd:rgba(26,10,61,.15);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Hiragino Kaku Gothic Pro','メイリオ',sans-serif;background:var(--bg);color:var(--fg);transition:background .5s,color .5s}
+.tp{position:fixed;top:50%;right:0;transform:translateY(-50%);background:var(--nav);border:1px solid var(--bdr);border-radius:12px 0 0 12px;padding:10px 6px;z-index:999;backdrop-filter:blur(8px);box-shadow:-2px 0 15px var(--shd)}
+.tp h5{font-size:9px;text-align:center;color:var(--fg2);margin-bottom:6px}
+.tb{display:block;width:30px;height:30px;border-radius:50%;border:2px solid transparent;cursor:pointer;margin:3px auto;transition:transform .2s;position:relative}
+.tb:hover,.tb.on{transform:scale(1.25)}.tb.on{border-color:var(--fg)}
+.tb::after{content:attr(data-n);position:absolute;right:38px;top:50%;transform:translateY(-50%);background:var(--fg);color:var(--bg);padding:3px 8px;border-radius:5px;font-size:10px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
+.tb:hover::after{opacity:1}
+nav{position:fixed;top:0;width:100%;background:var(--nav);backdrop-filter:blur(10px);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;z-index:100;box-shadow:0 2px 20px var(--shd);border-bottom:1px solid var(--bdr)}
+.logo{font-size:18px;font-weight:900;color:var(--acc);text-decoration:none}
+.nl{display:flex;gap:24px;list-style:none}
+.nl a{text-decoration:none;color:var(--fg);font-size:14px;padding:5px 12px;border-radius:8px;transition:all .3s}
+.nl a:hover,.nl a.cur{background:var(--acc);color:var(--htxt)}
+.hero{min-height:100vh;background:var(--hero);display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='20' fill='none' stroke='%23fff' stroke-width='.5' stroke-opacity='.08'/%3E%3Ccircle cx='30' cy='30' r='10' fill='none' stroke='%23fff' stroke-width='.5' stroke-opacity='.08'/%3E%3C/svg%3E")}
+.hc{max-width:760px;color:var(--htxt);position:relative;z-index:1}
+.he{font-size:80px;margin-bottom:20px;display:block;animation:sp 1.5s ease-in-out infinite alternate}
+@keyframes sp{0%{transform:rotate(-5deg) scale(1)}100%{transform:rotate(5deg) scale(1.05)}}
+.hero h1{font-size:clamp(32px,6vw,64px);font-weight:900;margin-bottom:14px;text-shadow:0 2px 20px rgba(0,0,0,.3);line-height:1.2}
+.hero p{font-size:clamp(15px,2vw,20px);opacity:.9;margin-bottom:36px;line-height:1.9}
+.btn{display:inline-block;padding:12px 30px;border-radius:50px;text-decoration:none;font-size:15px;font-weight:700;transition:all .3s;border:2px solid var(--htxt);color:var(--htxt)}
+.btn:hover{background:var(--htxt);color:var(--acc);transform:translateY(-2px)}
+.sec{padding:70px 24px;background:var(--bg)}
+.sec2{padding:70px 24px;background:var(--bg2)}
+.st{font-size:clamp(24px,4vw,38px);font-weight:900;color:var(--fg);margin-bottom:10px;text-align:center}
+.ss{font-size:15px;color:var(--fg2);margin-bottom:48px;line-height:1.9;text-align:center}
+/* Score board */
+.sb{max-width:900px;margin:0 auto;background:var(--card);border-radius:18px;padding:28px;border:1px solid var(--bdr);box-shadow:0 6px 30px var(--shd);overflow-x:auto}
+.sb table{width:100%;border-collapse:collapse;min-width:600px}
+.sb th{background:var(--acc);color:var(--htxt);padding:12px 10px;font-size:13px;text-align:center;border-radius:0}
+.sb th:first-child{border-radius:8px 0 0 0}.sb th:last-child{border-radius:0 8px 0 0}
+.sb td{padding:11px 10px;text-align:center;border-bottom:1px solid var(--bdr);font-size:14px;color:var(--fg2)}
+.sb tr:last-child td{border-bottom:none}
+.sb tr:hover td{background:var(--bg2)}
+.score-hi{color:var(--acc);font-weight:900;font-size:18px}
+.strike{background:var(--acc)!important;color:var(--htxt)!important;font-weight:900;border-radius:4px}
+/* Pin diagram */
+.pins{display:flex;justify-content:center;margin:40px auto;max-width:280px;flex-wrap:wrap}
+.pin-row{display:flex;justify-content:center;gap:12px;width:100%;margin-bottom:10px}
+.pin{width:44px;height:44px;border-radius:50%;border:3px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:all .3s;background:var(--card);font-weight:900;color:var(--fg2)}
+.pin.down{background:var(--acc);color:var(--htxt);border-color:var(--acc);transform:scale(.9)}
+.pin-label{text-align:center;font-size:12px;color:var(--fg2);margin-top:8px}
+/* Achievement cards */
+.ag{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;max-width:1080px;margin:0 auto}
+.ac{background:var(--card);border-radius:14px;padding:22px 18px;border:1px solid var(--bdr);box-shadow:0 3px 14px var(--shd);text-align:center;transition:all .3s}
+.ac:hover{transform:translateY(-4px);border-color:var(--acc);box-shadow:0 10px 30px var(--shd)}
+.ae{font-size:40px;margin-bottom:10px}
+.at{font-size:14px;font-weight:700;color:var(--acc);margin-bottom:4px}
+.ad{font-size:12px;color:var(--fg2);line-height:1.7}
+/* Progress bars */
+.pg{max-width:700px;margin:0 auto}
+.pi{margin-bottom:24px}
+.plab{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;color:var(--fg2)}
+.pbar{height:14px;background:var(--bg2);border-radius:10px;overflow:hidden}
+.pfill{height:100%;background:linear-gradient(90deg,var(--acc),var(--htxt));border-radius:10px;transition:width 1s ease}
+/* Tips cards */
+.tg{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;max-width:1080px;margin:0 auto}
+.tc2{background:var(--card);border-radius:14px;padding:24px 20px;border:1px solid var(--bdr);box-shadow:0 3px 14px var(--shd)}
+.te2{font-size:32px;margin-bottom:10px}
+.tt2{font-size:15px;font-weight:700;color:var(--acc);margin-bottom:6px}
+.td2{font-size:13px;color:var(--fg2);line-height:1.8}
+footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:36px;text-align:center;color:var(--fg2);font-size:13px}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:var(--acc);border-radius:3px}
+@media(max-width:768px){nav{padding:0 16px}.nl{gap:10px}.tp{display:none}}
+</style>
+</head>
+<body>
+
+<!-- Theme Panel -->
+<div class="tp">
+  <h5>テーマ</h5>
+  <button class="tb on" onclick="setT(0)" data-n="①クラシック" style="background:linear-gradient(135deg,#1a0a3d,#5c3bc9)"></button>
+  <button class="tb" onclick="setT(1)" data-n="②レトロ50s" style="background:linear-gradient(135deg,#8b1a1a,#e04040)"></button>
+  <button class="tb" onclick="setT(2)" data-n="③モダン" style="background:linear-gradient(135deg,#1a3a1a,#2e8b2e)"></button>
+  <button class="tb" onclick="setT(3)" data-n="④ネオン夜" style="background:linear-gradient(135deg,#0a0a0a,#ff00ff)"></button>
+  <button class="tb" onclick="setT(4)" data-n="⑤ファミリー" style="background:linear-gradient(135deg,#ff6b35,#ffd166)"></button>
+  <button class="tb" onclick="setT(5)" data-n="⑥チャンピオン" style="background:linear-gradient(135deg,#1a2a3a,#2c5f8a)"></button>
+  <button class="tb" onclick="setT(6)" data-n="⑦コズミック" style="background:linear-gradient(135deg,#0d0d2e,#4a0e6e)"></button>
+  <button class="tb" onclick="setT(7)" data-n="⑧ヴィンテージ" style="background:linear-gradient(135deg,#3d2a0a,#8b6914)"></button>
+  <button class="tb" onclick="setT(8)" data-n="⑨プロ" style="background:linear-gradient(135deg,#1a1a1a,#444444)"></button>
+  <button class="tb" onclick="setT(9)" data-n="⑩コミュニティ" style="background:linear-gradient(135deg,#1a3a2a,#2e6b50)"></button>
+</div>
+
+<!-- Nav -->
+<nav>
+  <a href="index.html" class="logo">🎳 ボウリング</a>
+  <ul class="nl">
+    <li><a href="index.html">ホーム</a></li>
+    <li><a href="travel.html">✈️ 旅行</a></li>
+    <li><a href="bowling.html" class="cur">🎳 ボウリング</a></li>
+    <li><a href="drone.html">🚁 ドローン</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hc">
+    <span class="he">🎳</span>
+    <h1>ストライクへの<br>軌跡</h1>
+    <p>スコア記録・上達の記録・ボウリングの楽しさ<br>ピンを倒す爽快感をここに</p>
+    <a href="#scores" class="btn">スコアを見る</a>
+  </div>
+</section>
+
+<!-- Score Board -->
+<section class="sec" id="scores">
+  <h2 class="st">スコア記録</h2>
+  <p class="ss">最近のゲームのスコアを記録しています</p>
+  <div class="sb">
+    <table>
+      <tr>
+        <th>日付</th><th>レーン</th><th>1G</th><th>2G</th><th>3G</th><th>合計</th><th>ハイスコア</th>
+      </tr>
+      <tr><td>2026/03/08</td><td>ラウンド1</td><td>158</td><td>172</td><td>165</td><td>495</td><td class="score-hi">172</td></tr>
+      <tr><td>2026/02/28</td><td>スポルティ</td><td>185</td><td>192</td><td>178</td><td>555</td><td class="score-hi">192</td></tr>
+      <tr><td>2026/02/15</td><td>ラウンド1</td><td>163</td><td>171</td><td>188</td><td>522</td><td class="score-hi">188</td></tr>
+      <tr><td>2026/01/25</td><td>バウリング</td><td>145</td><td>167</td><td>160</td><td>472</td><td class="score-hi">167</td></tr>
+      <tr><td>2026/01/10</td><td>スポルティ</td><td>201</td><td>188</td><td>195</td><td>584</td><td class="score-hi">201</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- Pin Diagram -->
+<section class="sec2">
+  <h2 class="st">ピン配置シミュレーター</h2>
+  <p class="ss">クリックして残りピンを確認！</p>
+  <div class="pins">
+    <div class="pin-row"><div class="pin" onclick="this.classList.toggle('down')">7</div><div class="pin" onclick="this.classList.toggle('down')">8</div><div class="pin" onclick="this.classList.toggle('down')">9</div><div class="pin" onclick="this.classList.toggle('down')">10</div></div>
+    <div class="pin-row"><div class="pin" onclick="this.classList.toggle('down')">4</div><div class="pin" onclick="this.classList.toggle('down')">5</div><div class="pin" onclick="this.classList.toggle('down')">6</div></div>
+    <div class="pin-row"><div class="pin" onclick="this.classList.toggle('down')">2</div><div class="pin" onclick="this.classList.toggle('down')">3</div></div>
+    <div class="pin-row"><div class="pin" onclick="this.classList.toggle('down')">1</div></div>
+    <div class="pin-label">クリックでピンを倒す</div>
+  </div>
+  <div style="text-align:center;margin-top:16px">
+    <button class="btn" onclick="document.querySelectorAll('.pin').forEach(p=>p.classList.remove('down'))">リセット</button>
+  </div>
+</section>
+
+<!-- Achievement -->
+<section class="sec">
+  <h2 class="st">実績・記録</h2>
+  <p class="ss">これまでの頑張りの記録</p>
+  <div class="ag">
+    <div class="ac"><div class="ae">🏆</div><div class="at">ハイスコア</div><div class="ad">自己最高スコア<br><strong style="font-size:22px;color:var(--acc)">238点</strong></div></div>
+    <div class="ac"><div class="ae">🎯</div><div class="at">ストライク連続</div><div class="ad">最高連続ストライク<br><strong style="font-size:22px;color:var(--acc)">5回</strong></div></div>
+    <div class="ac"><div class="ae">📊</div><div class="at">平均スコア</div><div class="ad">直近10ゲーム平均<br><strong style="font-size:22px;color:var(--acc)">175点</strong></div></div>
+    <div class="ac"><div class="ae">🎳</div><div class="at">総ゲーム数</div><div class="ad">累計プレイ回数<br><strong style="font-size:22px;color:var(--acc)">243回</strong></div></div>
+    <div class="ac"><div class="ae">⚡</div><div class="at">ストライク率</div><div class="ad">全投球中ストライク<br><strong style="font-size:22px;color:var(--acc)">34%</strong></div></div>
+    <div class="ac"><div class="ae">🎖️</div><div class="at">スペア率</div><div class="ad">スペア達成率<br><strong style="font-size:22px;color:var(--acc)">68%</strong></div></div>
+  </div>
+</section>
+
+<!-- Progress -->
+<section class="sec2">
+  <h2 class="st">上達の記録</h2>
+  <p class="ss">各スキルの向上度合い</p>
+  <div class="pg">
+    <div class="pi"><div class="plab"><span>ストライク率</span><span>34%</span></div><div class="pbar"><div class="pfill" style="width:34%"></div></div></div>
+    <div class="pi"><div class="plab"><span>スペア率</span><span>68%</span></div><div class="pbar"><div class="pfill" style="width:68%"></div></div></div>
+    <div class="pi"><div class="plab"><span>安定性（スコアのブレ）</span><span>75%</span></div><div class="pbar"><div class="pfill" style="width:75%"></div></div></div>
+    <div class="pi"><div class="plab"><span>コントロール（狙ったところへ）</span><span>60%</span></div><div class="pbar"><div class="pfill" style="width:60%"></div></div></div>
+    <div class="pi"><div class="plab"><span>メンタル（プレッシャー耐性）</span><span>80%</span></div><div class="pbar"><div class="pfill" style="width:80%"></div></div></div>
+  </div>
+</section>
+
+<!-- Tips -->
+<section class="sec">
+  <h2 class="st">ボウリングのコツ</h2>
+  <p class="ss">上達するためのポイントを共有</p>
+  <div class="tg">
+    <div class="tc2"><div class="te2">🎯</div><div class="tt2">アプローチの安定</div><div class="td2">毎回同じフォームで投げることが安定したスコアへの近道。鏡の前で確認しましょう。</div></div>
+    <div class="tc2"><div class="te2">👀</div><div class="tt2">スパットを狙う</div><div class="td2">ピンを見るより手前のスパット（矢印マーク）を狙う方が精度が上がります。</div></div>
+    <div class="tc2"><div class="te2">💪</div><div class="tt2">リリースの一貫性</div><div class="td2">手首の角度とリリースタイミングを毎回同じにすることで再現性が上がります。</div></div>
+    <div class="tc2"><div class="te2">🏃</div><div class="tt2">アプローチの歩数</div><div class="td2">4歩か5歩、自分に合った歩数を決めてリズムよく歩くことが大切です。</div></div>
+    <div class="tc2"><div class="te2">🧘</div><div class="tt2">リラックス</div><div class="td2">力みすぎず、ボールの重さを利用したナチュラルなスイングを意識しましょう。</div></div>
+    <div class="tc2"><div class="te2">📝</div><div class="tt2">スコアを記録する</div><div class="td2">毎回スコアを記録することで弱点や改善点が見えてきます。</div></div>
+  </div>
+</section>
+
+<footer>
+  <p style="font-size:22px;margin-bottom:10px">🎳 ボウリングページ</p>
+  <p>旅行 ✈️ ｜ ボウリング 🎳 ｜ ドローン 🚁</p>
+  <p style="margin-top:10px"><a href="index.html" style="color:var(--acc);text-decoration:none">← ホームへ戻る</a></p>
+  <p style="margin-top:10px;opacity:.6">© 2026 My Hobby Page. All rights reserved.</p>
+</footer>
+
+<script>
+const T=[
+  {bg:'#faf8ff',bg2:'#f0ecff',fg:'#1a0a3d',fg2:'#4a3a6a',acc:'#5c3bc9',card:'#ffffff',nav:'rgba(240,236,255,.95)',hero:'linear-gradient(135deg,#1a0a3d,#5c3bc9,#9c72f0)',htxt:'#f0ecff',bdr:'#c8b8f0',shd:'rgba(26,10,61,.15)',em:'🎳'},
+  {bg:'#fff5f0',bg2:'#ffe8e0',fg:'#2a0a0a',fg2:'#6a2020',acc:'#c0392b',card:'#fff9f8',nav:'rgba(255,235,228,.95)',hero:'linear-gradient(135deg,#6b0000,#c0392b,#e74c3c)',htxt:'#fff0ec',bdr:'#f0b8b0',shd:'rgba(42,10,10,.15)',em:'🕹️'},
+  {bg:'#f0fff4',bg2:'#dcf0e4',fg:'#0a2a0a',fg2:'#1a5a1a',acc:'#27ae60',card:'#f8fff9',nav:'rgba(210,240,220,.95)',hero:'linear-gradient(135deg,#0a3d1a,#1e8449,#27ae60)',htxt:'#e8ffe8',bdr:'#90d0a0',shd:'rgba(10,42,10,.15)',em:'🟢'},
+  {bg:'#0a0a14',bg2:'#10101e',fg:'#e8e8ff',fg2:'#a0a0d0',acc:'#ff00ff',card:'#14142a',nav:'rgba(10,10,20,.95)',hero:'linear-gradient(135deg,#000000,#1a0030,#ff00ff)',htxt:'#ffffff',bdr:'#300050',shd:'rgba(255,0,255,.2)',em:'🌈'},
+  {bg:'#fff9e8',bg2:'#fff0c8',fg:'#2a1a00',fg2:'#6a4a00',acc:'#ff6b35',card:'#fffdf5',nav:'rgba(255,240,200,.95)',hero:'linear-gradient(135deg,#c0390b,#ff6b35,#ffd166)',htxt:'#fff8e8',bdr:'#ffc880',shd:'rgba(42,26,0,.15)',em:'👨‍👩‍👧‍👦'},
+  {bg:'#e8f0f8',bg2:'#d0e0f0',fg:'#0a1a2a',fg2:'#1a3a5a',acc:'#2c6096',card:'#f0f6fc',nav:'rgba(200,220,240,.95)',hero:'linear-gradient(135deg,#0a1a30,#1e4080,#2c6096)',htxt:'#e0f0ff',bdr:'#80a8d0',shd:'rgba(10,26,42,.15)',em:'🥇'},
+  {bg:'#0d0d20',bg2:'#14142e',fg:'#d0b8ff',fg2:'#9060d0',acc:'#bf00ff',card:'#18183a',nav:'rgba(12,12,28,.95)',hero:'linear-gradient(135deg,#050510,#1a0530,#4a0e6e)',htxt:'#f0d8ff',bdr:'#402060',shd:'rgba(191,0,255,.25)',em:'🌌'},
+  {bg:'#fdf8ee',bg2:'#f5eccc',fg:'#2a1a00',fg2:'#6a4a10',acc:'#b8860b',card:'#fdfaf2',nav:'rgba(245,234,200,.95)',hero:'linear-gradient(135deg,#3d2800,#7a5010,#b8860b)',htxt:'#fdf8e0',bdr:'#e0c878',shd:'rgba(42,26,0,.15)',em:'🪵'},
+  {bg:'#f5f5f5',bg2:'#e8e8e8',fg:'#111111',fg2:'#444444',acc:'#222222',card:'#ffffff',nav:'rgba(250,250,250,.98)',hero:'linear-gradient(135deg,#000000,#222222,#444444)',htxt:'#ffffff',bdr:'#cccccc',shd:'rgba(0,0,0,.1)',em:'🎯'},
+  {bg:'#eef6f0',bg2:'#d8eede',fg:'#0a2a14',fg2:'#1a5a30',acc:'#1a6b38',card:'#f5fbf7',nav:'rgba(208,235,215,.95)',hero:'linear-gradient(135deg,#082010,#1a6b38,#2e9a56)',htxt:'#e0f5e8',bdr:'#88c8a0',shd:'rgba(10,42,20,.15)',em:'👥'}
+];
+function setT(i){
+  const t=T[i],r=document.documentElement.style;
+  r.setProperty('--bg',t.bg);r.setProperty('--bg2',t.bg2);
+  r.setProperty('--fg',t.fg);r.setProperty('--fg2',t.fg2);
+  r.setProperty('--acc',t.acc);r.setProperty('--card',t.card);
+  r.setProperty('--nav',t.nav);r.setProperty('--hero',t.hero);
+  r.setProperty('--htxt',t.htxt);r.setProperty('--bdr',t.bdr);
+  r.setProperty('--shd',t.shd);
+  document.querySelector('.he').textContent=t.em;
+  document.querySelectorAll('.tb').forEach((b,j)=>b.classList.toggle('on',j===i));
+  localStorage.setItem('bt',i);
+}
+const s=localStorage.getItem('bt');
+if(s!==null)setT(+s);
+</script>
+</body>
+</html>

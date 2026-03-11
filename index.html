@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>私の趣味のページ</title>
+<style>
+:root {
+  --bg: #f0f5ea; --bg2: #dde8d3; --fg: #2c4a2e; --fg2: #4a7a4e;
+  --acc: #5a9e5f; --card: #f8faf6; --nav: rgba(220,235,215,0.95);
+  --hero: linear-gradient(135deg,#2c5f2e,#4a8f4e,#1a3d1c);
+  --htxt: #e8f5e9; --bdr: #c8ddc0; --shd: rgba(44,74,46,.15);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Hiragino Kaku Gothic Pro','メイリオ',sans-serif;background:var(--bg);color:var(--fg);transition:background .5s,color .5s}
+/* ── Theme Panel ── */
+.tp{position:fixed;top:50%;right:0;transform:translateY(-50%);background:var(--nav);border:1px solid var(--bdr);border-radius:12px 0 0 12px;padding:10px 6px;z-index:999;backdrop-filter:blur(8px);box-shadow:-2px 0 15px var(--shd)}
+.tp h5{font-size:9px;text-align:center;color:var(--fg2);margin-bottom:6px;letter-spacing:.5px}
+.tb{display:block;width:30px;height:30px;border-radius:50%;border:2px solid transparent;cursor:pointer;margin:3px auto;transition:transform .2s;position:relative}
+.tb:hover,.tb.on{transform:scale(1.25)}
+.tb.on{border-color:var(--fg)}
+.tb::after{content:attr(data-n);position:absolute;right:38px;top:50%;transform:translateY(-50%);background:var(--fg);color:var(--bg);padding:3px 8px;border-radius:5px;font-size:10px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
+.tb:hover::after{opacity:1}
+/* ── Nav ── */
+nav{position:fixed;top:0;width:100%;background:var(--nav);backdrop-filter:blur(10px);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;z-index:100;box-shadow:0 2px 20px var(--shd);border-bottom:1px solid var(--bdr)}
+.logo{font-size:18px;font-weight:900;color:var(--acc);text-decoration:none}
+.nl{display:flex;gap:24px;list-style:none}
+.nl a{text-decoration:none;color:var(--fg);font-size:14px;padding:5px 12px;border-radius:8px;transition:all .3s}
+.nl a:hover{background:var(--acc);color:var(--htxt)}
+/* ── Hero ── */
+.hero{min-height:100vh;background:var(--hero);display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.03'%3E%3Ccircle cx='20' cy='20' r='3'/%3E%3C/g%3E%3C/svg%3E")}
+.hc{max-width:760px;color:var(--htxt);position:relative;z-index:1}
+.he{font-size:70px;margin-bottom:20px;display:block;animation:fl 3s ease-in-out infinite}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hero h1{font-size:clamp(32px,6vw,64px);font-weight:900;margin-bottom:14px;text-shadow:0 2px 20px rgba(0,0,0,.3);line-height:1.2}
+.hero p{font-size:clamp(15px,2vw,20px);opacity:.9;margin-bottom:36px;line-height:1.9}
+.hbts{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;padding:12px 30px;border-radius:50px;text-decoration:none;font-size:15px;font-weight:700;transition:all .3s;border:none;cursor:pointer}
+.bp{background:var(--htxt);color:var(--acc)}
+.bs{background:transparent;color:var(--htxt);border:2px solid var(--htxt)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.25)}
+/* ── About ── */
+.about{padding:80px 24px;background:var(--bg2);text-align:center}
+.st{font-size:clamp(26px,4vw,40px);font-weight:900;color:var(--fg);margin-bottom:12px}
+.ss{font-size:16px;color:var(--fg2);margin-bottom:48px;line-height:1.9}
+.abox{max-width:700px;margin:0 auto;text-align:left;background:var(--card);padding:32px;border-radius:16px;border:1px solid var(--bdr);box-shadow:0 4px 20px var(--shd);line-height:2;font-size:15px;color:var(--fg2)}
+.abox strong{color:var(--acc)}
+/* ── Cards ── */
+.hobbies{padding:80px 24px;background:var(--bg)}
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px;max-width:1080px;margin:0 auto}
+.hc2{background:var(--card);border-radius:20px;padding:36px 28px;text-align:center;box-shadow:0 4px 28px var(--shd);border:1px solid var(--bdr);transition:all .4s;text-decoration:none;display:block;color:var(--fg)}
+.hc2:hover{transform:translateY(-8px);box-shadow:0 12px 50px var(--shd);border-color:var(--acc)}
+.ce{font-size:56px;margin-bottom:16px;display:block}
+.ct{font-size:22px;font-weight:700;color:var(--acc);margin-bottom:10px}
+.cd{font-size:14px;color:var(--fg2);line-height:1.9}
+.cbtn{margin-top:18px;padding:9px 22px;background:var(--acc);color:var(--htxt);border-radius:50px;display:inline-block;font-size:13px;font-weight:700}
+/* ── Stats ── */
+.stats{padding:60px 24px;background:var(--hero);display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:28px;text-align:center}
+.si{color:var(--htxt)}
+.sn{font-size:44px;font-weight:900;display:block}
+.sl{font-size:14px;opacity:.9}
+/* ── Gallery ── */
+.gallery{padding:80px 24px;background:var(--bg2)}
+.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;max-width:1080px;margin:0 auto}
+.gi{aspect-ratio:1;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:44px;background:var(--card);border:1px solid var(--bdr);transition:all .3s;cursor:pointer}
+.gi:hover{transform:scale(1.07);border-color:var(--acc);box-shadow:0 6px 20px var(--shd)}
+/* ── Footer ── */
+footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:36px;text-align:center;color:var(--fg2);font-size:13px}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-thumb{background:var(--acc);border-radius:3px}
+@media(max-width:768px){nav{padding:0 16px}.nl{gap:12px}.tp{display:none}}
+</style>
+</head>
+<body>
+
+<!-- Theme Panel -->
+<div class="tp">
+  <h5>テーマ</h5>
+  <button class="tb on" onclick="setT(0)" data-n="①自然の森" style="background:linear-gradient(135deg,#2c5f2e,#4a8f4e)"></button>
+  <button class="tb" onclick="setT(1)" data-n="②海の青" style="background:linear-gradient(135deg,#0077b6,#00b4d8)"></button>
+  <button class="tb" onclick="setT(2)" data-n="③和の心" style="background:linear-gradient(135deg,#6b4c30,#8b2635)"></button>
+  <button class="tb" onclick="setT(3)" data-n="④秋の彩り" style="background:linear-gradient(135deg,#c0392b,#e67e22)"></button>
+  <button class="tb" onclick="setT(4)" data-n="⑤シンプル白" style="background:#fff;border:1px solid #ccc"></button>
+  <button class="tb" onclick="setT(5)" data-n="⑥夕暮れ空" style="background:linear-gradient(135deg,#8e44ad,#e74c3c,#f39c12)"></button>
+  <button class="tb" onclick="setT(6)" data-n="⑦桜の風" style="background:linear-gradient(135deg,#ad1457,#f48fb1)"></button>
+  <button class="tb" onclick="setT(7)" data-n="⑧山の霧" style="background:linear-gradient(135deg,#263238,#78909c)"></button>
+  <button class="tb" onclick="setT(8)" data-n="⑨黄金の野" style="background:linear-gradient(135deg,#5c4610,#d4a017)"></button>
+  <button class="tb" onclick="setT(9)" data-n="⑩星の夜" style="background:linear-gradient(135deg,#0a0a1a,#1a3a6a)"></button>
+</div>
+
+<!-- Nav -->
+<nav>
+  <a href="index.html" class="logo">🌟 My Hobby</a>
+  <ul class="nl">
+    <li><a href="index.html">ホーム</a></li>
+    <li><a href="travel.html">✈️ 旅行</a></li>
+    <li><a href="bowling.html">🎳 ボウリング</a></li>
+    <li><a href="drone.html">🚁 ドローン</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hc">
+    <span class="he">🌟</span>
+    <h1>私の趣味の世界へ<br>ようこそ</h1>
+    <p>旅行・ボウリング・ドローン<br>日々の喜びと発見を共有するページです</p>
+    <div class="hbts">
+      <a href="travel.html" class="btn bp">趣味ページを見る</a>
+      <a href="#about" class="btn bs">このページについて</a>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section class="about" id="about">
+  <h2 class="st">このページについて</h2>
+  <p class="ss">日々の生活を豊かにする3つの趣味について<br>写真や記録を交えながら紹介していきます</p>
+  <div class="abox">
+    このホームページは、私の大切な3つの趣味——<strong>旅行</strong>、<strong>ボウリング</strong>、<strong>ドローン</strong>——を紹介するために作りました。
+    各ページでは、旅先での思い出、ゲームのスコア記録、ドローン撮影の空撮映像などを楽しくまとめています。
+    年齢を問わずゆっくりとご覧いただけるよう、10種類のカラーテーマをご用意しました。
+    右側のボタンでお好みのテーマに切り替えてお楽しみください。
+  </div>
+</section>
+
+<!-- Hobbies -->
+<section class="hobbies" id="hobbies">
+  <div style="text-align:center;margin-bottom:56px">
+    <h2 class="st">趣味のページ</h2>
+    <p class="ss">3つの趣味のページへ、どうぞ</p>
+  </div>
+  <div class="cg">
+    <a href="travel.html" class="hc2">
+      <span class="ce">✈️</span>
+      <div class="ct">旅行</div>
+      <p class="cd">国内外の旅先での風景、グルメ、出会いを記録しています。次の旅先はどこにしようかな？</p>
+      <div class="cbtn">ページを見る →</div>
+    </a>
+    <a href="bowling.html" class="hc2">
+      <span class="ce">🎳</span>
+      <div class="ct">ボウリング</div>
+      <p class="cd">スコア記録から上達の軌跡まで。ストライクの瞬間の喜びをみなさんと共有します。</p>
+      <div class="cbtn">ページを見る →</div>
+    </a>
+    <a href="drone.html" class="hc2">
+      <span class="ce">🚁</span>
+      <div class="ct">ドローン</div>
+      <p class="cd">空からの絶景映像と写真。ドローン飛行の魅力と日々の発見をお届けします。</p>
+      <div class="cbtn">ページを見る →</div>
+    </a>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="stats">
+  <div class="si"><span class="sn">47</span><span class="sl">旅先の数</span></div>
+  <div class="si"><span class="sn">200+</span><span class="sl">ボウリングゲーム数</span></div>
+  <div class="si"><span class="sn">150h</span><span class="sl">ドローン飛行時間</span></div>
+  <div class="si"><span class="sn">∞</span><span class="sl">楽しい思い出</span></div>
+</div>
+
+<!-- Gallery -->
+<section class="gallery">
+  <div style="text-align:center;margin-bottom:56px">
+    <h2 class="st">思い出ギャラリー</h2>
+    <p class="ss">趣味の世界を絵文字で表現</p>
+  </div>
+  <div class="gg">
+    <div class="gi">🗼</div><div class="gi">🌋</div><div class="gi">🏖️</div>
+    <div class="gi">🏔️</div><div class="gi">🎳</div><div class="gi">🏆</div>
+    <div class="gi">🚁</div><div class="gi">🌅</div><div class="gi">🗺️</div>
+    <div class="gi">🎯</div><div class="gi">📷</div><div class="gi">🌍</div>
+  </div>
+</section>
+
+<footer>
+  <p style="font-size:22px;margin-bottom:10px">🌟 My Hobby Page</p>
+  <p>旅行 ✈️ ｜ ボウリング 🎳 ｜ ドローン 🚁</p>
+  <p style="margin-top:10px;opacity:.6">© 2026 My Hobby Page. All rights reserved.</p>
+</footer>
+
+<script>
+const T=[
+  {bg:'#f0f5ea',bg2:'#dde8d3',fg:'#2c4a2e',fg2:'#4a7a4e',acc:'#5a9e5f',card:'#f8faf6',nav:'rgba(220,235,215,.95)',hero:'linear-gradient(135deg,#2c5f2e,#4a8f4e,#1a3d1c)',htxt:'#e8f5e9',bdr:'#c8ddc0',shd:'rgba(44,74,46,.15)',em:'🌿'},
+  {bg:'#e8f4f8',bg2:'#d0e8f0',fg:'#1a3a4a',fg2:'#2a5a6a',acc:'#0077b6',card:'#f0f8fc',nav:'rgba(200,235,245,.95)',hero:'linear-gradient(135deg,#0077b6,#00b4d8,#023e8a)',htxt:'#ffffff',bdr:'#b0d8e8',shd:'rgba(0,100,160,.15)',em:'🌊'},
+  {bg:'#f5f0e8',bg2:'#e8e0d0',fg:'#3d2b1a',fg2:'#6b4c30',acc:'#8b2635',card:'#faf6f0',nav:'rgba(235,225,210,.95)',hero:'linear-gradient(135deg,#6b4c30,#8b6040,#3d2b1a)',htxt:'#f5f0e8',bdr:'#d8c8b0',shd:'rgba(61,43,26,.15)',em:'⛩️'},
+  {bg:'#fdf3e7',bg2:'#f5e0c0',fg:'#4a2000',fg2:'#8b4500',acc:'#d4680c',card:'#fdf8f0',nav:'rgba(240,220,190,.95)',hero:'linear-gradient(135deg,#c0392b,#e67e22,#8b2500)',htxt:'#fff8f0',bdr:'#e8c88a',shd:'rgba(74,32,0,.15)',em:'🍁'},
+  {bg:'#ffffff',bg2:'#f5f5f5',fg:'#222222',fg2:'#666666',acc:'#444444',card:'#f9f9f9',nav:'rgba(255,255,255,.98)',hero:'linear-gradient(135deg,#333333,#555555,#111111)',htxt:'#ffffff',bdr:'#e0e0e0',shd:'rgba(0,0,0,.08)',em:'⚪'},
+  {bg:'#f5eef8',bg2:'#e8d8f0',fg:'#2d1f4a',fg2:'#5a3d7a',acc:'#8e44ad',card:'#faf5fd',nav:'rgba(230,215,245,.95)',hero:'linear-gradient(135deg,#2c1654,#8e44ad,#e74c3c,#f39c12)',htxt:'#ffffff',bdr:'#d0b8e8',shd:'rgba(45,31,74,.15)',em:'🌆'},
+  {bg:'#fff5f7',bg2:'#fce8ec',fg:'#3d1520',fg2:'#7a3040',acc:'#e91e63',card:'#fff9fa',nav:'rgba(255,235,240,.95)',hero:'linear-gradient(135deg,#ad1457,#e91e63,#f48fb1)',htxt:'#fff0f3',bdr:'#f0c0cc',shd:'rgba(61,21,32,.12)',em:'🌸'},
+  {bg:'#eef2f5',bg2:'#dce4ea',fg:'#1a2a35',fg2:'#3a5060',acc:'#546e7a',card:'#f5f8fa',nav:'rgba(215,228,238,.95)',hero:'linear-gradient(135deg,#263238,#37474f,#546e7a)',htxt:'#eceff1',bdr:'#c0d0d8',shd:'rgba(26,42,53,.15)',em:'🏔️'},
+  {bg:'#fdf8e8',bg2:'#f5ecc8',fg:'#3d2e00',fg2:'#7a5c00',acc:'#c8950c',card:'#fdfaf0',nav:'rgba(245,235,200,.95)',hero:'linear-gradient(135deg,#5c4610,#8b6914,#d4a017)',htxt:'#fdf8e8',bdr:'#e8d090',shd:'rgba(61,46,0,.15)',em:'🌾'},
+  {bg:'#0d1b2a',bg2:'#1a2d40',fg:'#e8f0f8',fg2:'#a0b8cc',acc:'#ffd700',card:'#1a2d40',nav:'rgba(10,20,35,.95)',hero:'linear-gradient(135deg,#0a0a1a,#0d1b2a,#1a0a2e)',htxt:'#e8f0f8',bdr:'#2a4060',shd:'rgba(0,0,0,.4)',em:'⭐'}
+];
+function setT(i){
+  const t=T[i],r=document.documentElement.style;
+  r.setProperty('--bg',t.bg);r.setProperty('--bg2',t.bg2);
+  r.setProperty('--fg',t.fg);r.setProperty('--fg2',t.fg2);
+  r.setProperty('--acc',t.acc);r.setProperty('--card',t.card);
+  r.setProperty('--nav',t.nav);r.setProperty('--hero',t.hero);
+  r.setProperty('--htxt',t.htxt);r.setProperty('--bdr',t.bdr);
+  r.setProperty('--shd',t.shd);
+  document.querySelector('.he').textContent=t.em;
+  document.querySelectorAll('.tb').forEach((b,j)=>b.classList.toggle('on',j===i));
+  localStorage.setItem('ht',i);
+}
+const s=localStorage.getItem('ht');
+if(s!==null)setT(+s);
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+  e.preventDefault();const el=document.querySelector(a.getAttribute('href'));
+  if(el)el.scrollIntoView({behavior:'smooth'});
+}));
+</script>
+</body>
+</html>

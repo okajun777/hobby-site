@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ドローン | My Hobby Page</title>
+<style>
+:root{
+  --bg:#e8f4f8;--bg2:#d0e8f0;--fg:#0a1e2e;--fg2:#1a3a4e;
+  --acc:#0077b6;--card:#f0f8fc;--nav:rgba(200,235,245,.95);
+  --hero:linear-gradient(135deg,#0a1e2e,#0077b6,#00c8e8);
+  --htxt:#e0f4ff;--bdr:#80c8e0;--shd:rgba(10,30,46,.15);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Hiragino Kaku Gothic Pro','メイリオ',sans-serif;background:var(--bg);color:var(--fg);transition:background .5s,color .5s}
+.tp{position:fixed;top:50%;right:0;transform:translateY(-50%);background:var(--nav);border:1px solid var(--bdr);border-radius:12px 0 0 12px;padding:10px 6px;z-index:999;backdrop-filter:blur(8px);box-shadow:-2px 0 15px var(--shd)}
+.tp h5{font-size:9px;text-align:center;color:var(--fg2);margin-bottom:6px}
+.tb{display:block;width:30px;height:30px;border-radius:50%;border:2px solid transparent;cursor:pointer;margin:3px auto;transition:transform .2s;position:relative}
+.tb:hover,.tb.on{transform:scale(1.25)}.tb.on{border-color:var(--fg)}
+.tb::after{content:attr(data-n);position:absolute;right:38px;top:50%;transform:translateY(-50%);background:var(--fg);color:var(--bg);padding:3px 8px;border-radius:5px;font-size:10px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
+.tb:hover::after{opacity:1}
+nav{position:fixed;top:0;width:100%;background:var(--nav);backdrop-filter:blur(10px);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;z-index:100;box-shadow:0 2px 20px var(--shd);border-bottom:1px solid var(--bdr)}
+.logo{font-size:18px;font-weight:900;color:var(--acc);text-decoration:none}
+.nl{display:flex;gap:24px;list-style:none}
+.nl a{text-decoration:none;color:var(--fg);font-size:14px;padding:5px 12px;border-radius:8px;transition:all .3s}
+.nl a:hover,.nl a.cur{background:var(--acc);color:var(--htxt)}
+.hero{min-height:100vh;background:var(--hero);display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23fff' stroke-width='.5' stroke-opacity='.06'%3E%3Cline x1='0' y1='40' x2='80' y2='40'/%3E%3Cline x1='40' y1='0' x2='40' y2='80'/%3E%3C/g%3E%3C/svg%3E")}
+.hc{max-width:760px;color:var(--htxt);position:relative;z-index:1}
+.he{font-size:80px;margin-bottom:20px;display:block;animation:hv 2s ease-in-out infinite}
+@keyframes hv{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-8px) rotate(-3deg)}75%{transform:translateY(-4px) rotate(3deg)}}
+.hero h1{font-size:clamp(32px,6vw,64px);font-weight:900;margin-bottom:14px;text-shadow:0 2px 20px rgba(0,0,0,.3);line-height:1.2}
+.hero p{font-size:clamp(15px,2vw,20px);opacity:.9;margin-bottom:36px;line-height:1.9}
+.btn{display:inline-block;padding:12px 30px;border-radius:50px;text-decoration:none;font-size:15px;font-weight:700;transition:all .3s;border:2px solid var(--htxt);color:var(--htxt)}
+.btn:hover{background:var(--htxt);color:var(--acc);transform:translateY(-2px)}
+.sec{padding:70px 24px;background:var(--bg)}
+.sec2{padding:70px 24px;background:var(--bg2)}
+.st{font-size:clamp(24px,4vw,38px);font-weight:900;color:var(--fg);margin-bottom:10px;text-align:center}
+.ss{font-size:15px;color:var(--fg2);margin-bottom:48px;line-height:1.9;text-align:center}
+/* Drone specs card */
+.specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:1080px;margin:0 auto}
+.sp{background:var(--card);border-radius:16px;padding:24px;border:1px solid var(--bdr);box-shadow:0 4px 20px var(--shd);transition:all .3s}
+.sp:hover{transform:translateY(-4px);border-color:var(--acc)}
+.sph{font-size:18px;font-weight:900;color:var(--acc);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--bdr)}
+.spr{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--bdr);font-size:13px}
+.spr:last-child{border-bottom:none}
+.spk{color:var(--fg2)}
+.spv{font-weight:700;color:var(--acc)}
+/* Photo gallery aerial -->  */
+.ag{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;max-width:1080px;margin:0 auto}
+.ap{border-radius:14px;overflow:hidden;border:1px solid var(--bdr);box-shadow:0 4px 16px var(--shd);cursor:pointer;transition:all .3s;position:relative;background:var(--hero);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center}
+.ap:hover{transform:scale(1.04);box-shadow:0 10px 35px var(--shd);border-color:var(--acc)}
+.ap .ape{font-size:50px}
+.ap .apl{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.7));color:#fff;padding:10px 12px;font-size:12px;font-weight:700}
+/* Flight log */
+.fl{max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.fe{display:flex;gap:16px;background:var(--card);border-radius:12px;padding:16px 20px;border:1px solid var(--bdr);box-shadow:0 3px 12px var(--shd);transition:all .3s}
+.fe:hover{border-color:var(--acc);transform:translateX(4px)}
+.fei{font-size:28px;flex-shrink:0}
+.fed{flex:1}
+.fet{font-size:15px;font-weight:700;color:var(--acc);margin-bottom:3px}
+.fes{font-size:12px;color:var(--fg2);opacity:.8;margin-bottom:6px}
+.fed p{font-size:13px;color:var(--fg2);line-height:1.7}
+.feta{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.ftag{background:var(--bg2);color:var(--fg2);font-size:11px;padding:2px 10px;border-radius:20px;border:1px solid var(--bdr)}
+/* Tips */
+.tg{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;max-width:1080px;margin:0 auto}
+.tc2{background:var(--card);border-radius:14px;padding:24px 20px;border:1px solid var(--bdr);box-shadow:0 3px 14px var(--shd)}
+.te2{font-size:32px;margin-bottom:10px}
+.tt2{font-size:15px;font-weight:700;color:var(--acc);margin-bottom:6px}
+.td2{font-size:13px;color:var(--fg2);line-height:1.8}
+/* Regulations box */
+.rbox{max-width:700px;margin:0 auto;background:var(--card);border-radius:16px;padding:28px;border:2px solid var(--acc);box-shadow:0 6px 28px var(--shd)}
+.ri{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--bdr)}
+.ri:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.rie{font-size:24px;flex-shrink:0;margin-top:2px}
+.rit{font-size:14px;font-weight:700;color:var(--acc);margin-bottom:4px}
+.rid{font-size:13px;color:var(--fg2);line-height:1.7}
+footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:36px;text-align:center;color:var(--fg2);font-size:13px}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:var(--acc);border-radius:3px}
+@media(max-width:768px){nav{padding:0 16px}.nl{gap:10px}.tp{display:none}}
+</style>
+</head>
+<body>
+
+<!-- Theme Panel -->
+<div class="tp">
+  <h5>テーマ</h5>
+  <button class="tb on" onclick="setT(0)" data-n="①空撮・青空" style="background:linear-gradient(135deg,#0a1e2e,#0077b6)"></button>
+  <button class="tb" onclick="setT(1)" data-n="②テック未来" style="background:linear-gradient(135deg,#0d1117,#00ff88)"></button>
+  <button class="tb" onclick="setT(2)" data-n="③フォト撮影" style="background:linear-gradient(135deg,#1a1a1a,#b87333)"></button>
+  <button class="tb" onclick="setT(3)" data-n="④レーシング" style="background:linear-gradient(135deg,#1a0a00,#ff4400)"></button>
+  <button class="tb" onclick="setT(4)" data-n="⑤自然空撮" style="background:linear-gradient(135deg,#0a2a0a,#1a7a1a)"></button>
+  <button class="tb" onclick="setT(5)" data-n="⑥映像制作" style="background:linear-gradient(135deg,#0a0a0a,#555555)"></button>
+  <button class="tb" onclick="setT(6)" data-n="⑦アドベンチャー" style="background:linear-gradient(135deg,#1a0a00,#8b4500)"></button>
+  <button class="tb" onclick="setT(7)" data-n="⑧都市空撮" style="background:linear-gradient(135deg,#1a1a30,#4040aa)"></button>
+  <button class="tb" onclick="setT(8)" data-n="⑨夕日空撮" style="background:linear-gradient(135deg,#8b2500,#e65100,#f39c12)"></button>
+  <button class="tb" onclick="setT(9)" data-n="⑩星空空撮" style="background:linear-gradient(135deg,#030308,#0a0a20)"></button>
+</div>
+
+<!-- Nav -->
+<nav>
+  <a href="index.html" class="logo">🚁 ドローン</a>
+  <ul class="nl">
+    <li><a href="index.html">ホーム</a></li>
+    <li><a href="travel.html">✈️ 旅行</a></li>
+    <li><a href="bowling.html">🎳 ボウリング</a></li>
+    <li><a href="drone.html" class="cur">🚁 ドローン</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hc">
+    <span class="he">🚁</span>
+    <h1>空からの視点で<br>世界を見る</h1>
+    <p>ドローンで撮影した空撮映像・写真<br>飛行記録と空の冒険をここに</p>
+    <a href="#gallery" class="btn">空撮ギャラリーを見る</a>
+  </div>
+</section>
+
+<!-- Specs -->
+<section class="sec" id="specs">
+  <h2 class="st">使用機体スペック</h2>
+  <p class="ss">メインで使用しているドローン</p>
+  <div class="specs">
+    <div class="sp">
+      <div class="sph">🚁 メイン機</div>
+      <div class="spr"><span class="spk">機種名</span><span class="spv">DJI Mini 4 Pro</span></div>
+      <div class="spr"><span class="spk">最大飛行時間</span><span class="spv">34分</span></div>
+      <div class="spr"><span class="spk">最大飛行距離</span><span class="spv">20km</span></div>
+      <div class="spr"><span class="spk">カメラ解像度</span><span class="spv">4K/60fps</span></div>
+      <div class="spr"><span class="spk">重量</span><span class="spv">249g</span></div>
+      <div class="spr"><span class="spk">折りたたみ</span><span class="spv">対応</span></div>
+    </div>
+    <div class="sp">
+      <div class="sph">📷 サブ機</div>
+      <div class="spr"><span class="spk">機種名</span><span class="spv">DJI Air 3</span></div>
+      <div class="spr"><span class="spk">最大飛行時間</span><span class="spv">46分</span></div>
+      <div class="spr"><span class="spk">最大飛行距離</span><span class="spv">20km</span></div>
+      <div class="spr"><span class="spk">カメラ解像度</span><span class="spv">4K/60fps</span></div>
+      <div class="spr"><span class="spk">重量</span><span class="spv">720g</span></div>
+      <div class="spr"><span class="spk">デュアルカメラ</span><span class="spv">対応</span></div>
+    </div>
+    <div class="sp">
+      <div class="sph">📊 飛行実績</div>
+      <div class="spr"><span class="spk">総飛行時間</span><span class="spv">150時間</span></div>
+      <div class="spr"><span class="spk">飛行回数</span><span class="spv">320回</span></div>
+      <div class="spr"><span class="spk">撮影地点数</span><span class="spv">47ヶ所</span></div>
+      <div class="spr"><span class="spk">最長1回飛行</span><span class="spv">32分</span></div>
+      <div class="spr"><span class="spk">最高高度</span><span class="spv">150m</span></div>
+      <div class="spr"><span class="spk">動画本数</span><span class="spv">280本</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Gallery -->
+<section class="sec2" id="gallery">
+  <h2 class="st">空撮ギャラリー</h2>
+  <p class="ss">印象に残った空撮シーンを紹介</p>
+  <div class="ag">
+    <div class="ap"><div class="ape">🌅</div><div class="apl">朝日の海岸線</div></div>
+    <div class="ap"><div class="ape">🏔️</div><div class="apl">山岳の絶景</div></div>
+    <div class="ap"><div class="ape">🌾</div><div class="apl">夏の田んぼ</div></div>
+    <div class="ap"><div class="ape">🌃</div><div class="apl">夜景の街並み</div></div>
+    <div class="ap"><div class="ape">🌊</div><div class="apl">海と砂浜</div></div>
+    <div class="ap"><div class="ape">🌲</div><div class="apl">深い森の上空</div></div>
+    <div class="ap"><div class="ape">🏯</div><div class="apl">城の全景</div></div>
+    <div class="ap"><div class="ape">🌸</div><div class="apl">桜の空撮</div></div>
+    <div class="ap"><div class="ape">⛰️</div><div class="apl">火山の噴煙</div></div>
+    <div class="ap"><div class="ape">🌉</div><div class="apl">橋の絶景</div></div>
+    <div class="ap"><div class="ape">🎑</div><div class="apl">棚田の景色</div></div>
+    <div class="ap"><div class="ape">❄️</div><div class="apl">雪山の全景</div></div>
+  </div>
+</section>
+
+<!-- Flight Log -->
+<section class="sec">
+  <h2 class="st">飛行ログ</h2>
+  <p class="ss">最近の飛行記録</p>
+  <div class="fl">
+    <div class="fe">
+      <div class="fei">🌅</div>
+      <div class="fed">
+        <div class="fet">北海道・富良野の花畑空撮</div>
+        <div class="fes">2026年7月12日 ｜ 飛行時間: 28分 ｜ 高度: 80m</div>
+        <p>ラベンダー畑一面の紫の絨毯を上空から。条件が揃った完璧な快晴でした。</p>
+        <div class="feta"><span class="ftag">4K撮影</span><span class="ftag">晴天</span><span class="ftag">農地上空</span></div>
+      </div>
+    </div>
+    <div class="fe">
+      <div class="fei">🌃</div>
+      <div class="fed">
+        <div class="fet">東京湾・夜景空撮</div>
+        <div class="fes">2026年3月5日 ｜ 飛行時間: 22分 ｜ 高度: 120m</div>
+        <p>夜の東京湾上空から見た光の街並み。ISO感度を上げてノイズを抑えた夜景撮影。</p>
+        <div class="feta"><span class="ftag">夜景</span><span class="ftag">4K/30fps</span><span class="ftag">低ISO</span></div>
+      </div>
+    </div>
+    <div class="fe">
+      <div class="fei">🌊</div>
+      <div class="fed">
+        <div class="fet">沖縄・離島の海岸線</div>
+        <div class="fes">2026年2月18日 ｜ 飛行時間: 32分 ｜ 高度: 60m</div>
+        <p>エメラルドグリーンと深いブルーのコントラストが美しい沖縄の海を空撮。</p>
+        <div class="feta"><span class="ftag">海</span><span class="ftag">晴天</span><span class="ftag">偏光フィルター使用</span></div>
+      </div>
+    </div>
+    <div class="fe">
+      <div class="fei">🍁</div>
+      <div class="fed">
+        <div class="fet">京都・嵐山の紅葉空撮</div>
+        <div class="fes">2025年11月22日 ｜ 飛行時間: 18分 ｜ 高度: 100m</div>
+        <p>燃えるような紅葉を上空から。赤・橙・黄のグラデーションが圧巻でした。</p>
+        <div class="feta"><span class="ftag">紅葉</span><span class="ftag">秋</span><span class="ftag">低速撮影</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Regulations -->
+<section class="sec2">
+  <h2 class="st">飛行ルール・法規制</h2>
+  <p class="ss">安全・法令を守った飛行を心がけています</p>
+  <div class="rbox">
+    <div class="ri">
+      <span class="rie">📜</span>
+      <div>
+        <div class="rit">航空法による規制</div>
+        <div class="rid">100g以上のドローンは航空法の対象。飛行登録・リモートID装備が必要。国土交通省への申請が必要な空域あり。</div>
+      </div>
+    </div>
+    <div class="ri">
+      <span class="rie">🚫</span>
+      <div>
+        <div class="rit">飛行禁止エリア</div>
+        <div class="rid">空港周辺・150m以上の高度・人口集中地区・夜間飛行・目視外飛行などは原則許可が必要です。</div>
+      </div>
+    </div>
+    <div class="ri">
+      <span class="rie">📱</span>
+      <div>
+        <div class="rit">DIPS2.0の活用</div>
+        <div class="rid">国土交通省のDIPS（ドローン情報基盤システム）で飛行計画の申請・登録を行っています。</div>
+      </div>
+    </div>
+    <div class="ri">
+      <span class="rie">✅</span>
+      <div>
+        <div class="rit">安全飛行の心がけ</div>
+        <div class="rid">飛行前点検・電波確認・気象確認を必ず実施。周囲の安全を最優先に楽しんでいます。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Tips -->
+<section class="sec">
+  <h2 class="st">ドローン撮影のコツ</h2>
+  <p class="ss">空撮をより楽しむためのポイント</p>
+  <div class="tg">
+    <div class="tc2"><div class="te2">🌤️</div><div class="tt2">天候を選ぶ</div><div class="td2">快晴の朝か夕方がゴールデンタイム。雲の影が少なく、光の色が美しくなります。</div></div>
+    <div class="tc2"><div class="te2">🔋</div><div class="tt2">バッテリー管理</div><div class="td2">最低でも3本のバッテリーを持参。飛行前に必ず満充電にしておきましょう。</div></div>
+    <div class="tc2"><div class="te2">📐</div><div class="tt2">構図を考える</div><div class="td2">三分割法や対角線構図を意識した空撮は、見ている人を引き込む映像になります。</div></div>
+    <div class="tc2"><div class="te2">🎬</div><div class="tt2">低速で滑らかに</div><div class="td2">操作は常にゆっくりと。急激な動きは映像が見づらくなるので、ゆっくり滑らかに。</div></div>
+    <div class="tc2"><div class="te2">🔍</div><div class="tt2">事前のロケハン</div><div class="td2">Google Earthや地図アプリで撮影地点を事前確認。飛行禁止区域も必ずチェック。</div></div>
+    <div class="tc2"><div class="te2">💾</div><div class="tt2">データのバックアップ</div><div class="td2">撮影後は必ずすぐにデータをPCやクラウドにバックアップ。SDカードの破損に備えて。</div></div>
+  </div>
+</section>
+
+<footer>
+  <p style="font-size:22px;margin-bottom:10px">🚁 ドローンページ</p>
+  <p>旅行 ✈️ ｜ ボウリング 🎳 ｜ ドローン 🚁</p>
+  <p style="margin-top:10px"><a href="index.html" style="color:var(--acc);text-decoration:none">← ホームへ戻る</a></p>
+  <p style="margin-top:10px;opacity:.6">© 2026 My Hobby Page. All rights reserved.</p>
+</footer>
+
+<script>
+const T=[
+  {bg:'#e8f4f8',bg2:'#d0e8f0',fg:'#0a1e2e',fg2:'#1a3a4e',acc:'#0077b6',card:'#f0f8fc',nav:'rgba(200,235,245,.95)',hero:'linear-gradient(135deg,#0a1e2e,#0077b6,#00c8e8)',htxt:'#e0f4ff',bdr:'#80c8e0',shd:'rgba(10,30,46,.15)',em:'🚁'},
+  {bg:'#0d1117',bg2:'#0d1f17',fg:'#00ff88',fg2:'#00cc66',acc:'#00ff88',card:'#0d1f17',nav:'rgba(8,16,12,.95)',hero:'linear-gradient(135deg,#000000,#001a0a,#003320)',htxt:'#ccffe8',bdr:'#006633',shd:'rgba(0,255,136,.2)',em:'🤖'},
+  {bg:'#1e1a14',bg2:'#2a2018',fg:'#e8d8c0',fg2:'#b09070',acc:'#d4905a',card:'#2a2418',nav:'rgba(28,22,16,.95)',hero:'linear-gradient(135deg,#0a0806,#1a1208,#b87333)',htxt:'#f0e8d0',bdr:'#604830',shd:'rgba(212,144,90,.2)',em:'📷'},
+  {bg:'#100400',bg2:'#1a0800',fg:'#ffcc99',fg2:'#ff8844',acc:'#ff4400',card:'#1a0800',nav:'rgba(16,4,0,.95)',hero:'linear-gradient(135deg,#0a0000,#2a0800,#ff4400)',htxt:'#ffe0cc',bdr:'#6a2000',shd:'rgba(255,68,0,.25)',em:'⚡'},
+  {bg:'#eef6ee',bg2:'#d8eed8',fg:'#0a200a',fg2:'#1a5a1a',acc:'#1a6b1a',card:'#f5fbf5',nav:'rgba(208,236,208,.95)',hero:'linear-gradient(135deg,#061806,#0f3d0f,#1a7a1a)',htxt:'#e0f5e0',bdr:'#78c078',shd:'rgba(10,32,10,.15)',em:'🌿'},
+  {bg:'#111111',bg2:'#1a1a1a',fg:'#f0f0f0',fg2:'#a0a0a0',acc:'#e0e0e0',card:'#1e1e1e',nav:'rgba(14,14,14,.95)',hero:'linear-gradient(135deg,#000000,#111111,#222222)',htxt:'#f0f0f0',bdr:'#333333',shd:'rgba(0,0,0,.4)',em:'🎬'},
+  {bg:'#f8f0e8',bg2:'#f0e0cc',fg:'#1a0800',fg2:'#4a2a00',acc:'#8b4500',card:'#fdfaf5',nav:'rgba(242,226,202,.95)',hero:'linear-gradient(135deg,#3d1a00,#8b4500,#c87030)',htxt:'#fdf0e0',bdr:'#e0b080',shd:'rgba(26,8,0,.15)',em:'🏞️'},
+  {bg:'#10101e',bg2:'#181826',fg:'#d0d0f0',fg2:'#8080c0',acc:'#6060cc',card:'#18182e',nav:'rgba(12,12,22,.95)',hero:'linear-gradient(135deg,#06060e,#101026,#1a1a4a)',htxt:'#d8d8f8',bdr:'#303068',shd:'rgba(96,96,204,.2)',em:'🏙️'},
+  {bg:'#fde8d8',bg2:'#f8d0b8',fg:'#1a0800',fg2:'#6a2a00',acc:'#c0520c',card:'#fdf5ee',nav:'rgba(252,226,200,.95)',hero:'linear-gradient(135deg,#4a1000,#c0520c,#e07030,#f39c12)',htxt:'#fff0e0',bdr:'#e09060',shd:'rgba(26,8,0,.15)',em:'🌄'},
+  {bg:'#030308',bg2:'#08081a',fg:'#c0d0e8',fg2:'#6080a8',acc:'#304080',card:'#0a0a1e',nav:'rgba(4,4,14,.95)',hero:'linear-gradient(135deg,#000005,#020210,#050520)',htxt:'#b8ccee',bdr:'#182040',shd:'rgba(255,255,255,.08)',em:'🌌'}
+];
+function setT(i){
+  const t=T[i],r=document.documentElement.style;
+  r.setProperty('--bg',t.bg);r.setProperty('--bg2',t.bg2);
+  r.setProperty('--fg',t.fg);r.setProperty('--fg2',t.fg2);
+  r.setProperty('--acc',t.acc);r.setProperty('--card',t.card);
+  r.setProperty('--nav',t.nav);r.setProperty('--hero',t.hero);
+  r.setProperty('--htxt',t.htxt);r.setProperty('--bdr',t.bdr);
+  r.setProperty('--shd',t.shd);
+  document.querySelector('.he').textContent=t.em;
+  document.querySelectorAll('.tb').forEach((b,j)=>b.classList.toggle('on',j===i));
+  localStorage.setItem('dt',i);
+}
+const s=localStorage.getItem('dt');
+if(s!==null)setT(+s);
+</script>
+</body>
+</html>
