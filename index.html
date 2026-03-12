@@ -5,71 +5,140 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>私の趣味のページ</title>
 <style>
-:root {
-  --bg: #f0f5ea; --bg2: #dde8d3; --fg: #2c4a2e; --fg2: #4a7a4e;
-  --acc: #5a9e5f; --card: #f8faf6; --nav: rgba(220,235,215,0.95);
-  --hero: linear-gradient(135deg,#2c5f2e,#4a8f4e,#1a3d1c);
-  --htxt: #e8f5e9; --bdr: #c8ddc0; --shd: rgba(44,74,46,.15);
+:root{
+  --bg:#f0f5ea;--bg2:#dde8d3;--fg:#2c4a2e;--fg2:#4a7a4e;
+  --acc:#5a9e5f;--card:#f8faf6;--nav:rgba(220,235,215,0.95);
+  --hero:linear-gradient(135deg,#2c5f2e,#4a8f4e,#1a3d1c);
+  --htxt:#e8f5e9;--bdr:#c8ddc0;--shd:rgba(44,74,46,.15);
+  --sidebar:200px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Hiragino Kaku Gothic Pro','メイリオ',sans-serif;background:var(--bg);color:var(--fg);transition:background .5s,color .5s}
+html{scroll-behavior:smooth}
+body{font-family:'Hiragino Kaku Gothic Pro','メイリオ',sans-serif;background:var(--bg);color:var(--fg);min-height:100vh}
+
 /* ── Theme Panel ── */
 .tp{position:fixed;top:50%;right:0;transform:translateY(-50%);background:var(--nav);border:1px solid var(--bdr);border-radius:12px 0 0 12px;padding:10px 6px;z-index:999;backdrop-filter:blur(8px);box-shadow:-2px 0 15px var(--shd)}
 .tp h5{font-size:9px;text-align:center;color:var(--fg2);margin-bottom:6px;letter-spacing:.5px}
 .tb{display:block;width:30px;height:30px;border-radius:50%;border:2px solid transparent;cursor:pointer;margin:3px auto;transition:transform .2s;position:relative}
-.tb:hover,.tb.on{transform:scale(1.25)}
-.tb.on{border-color:var(--fg)}
+.tb:hover,.tb.on{transform:scale(1.25)}.tb.on{border-color:var(--fg)}
 .tb::after{content:attr(data-n);position:absolute;right:38px;top:50%;transform:translateY(-50%);background:var(--fg);color:var(--bg);padding:3px 8px;border-radius:5px;font-size:10px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
 .tb:hover::after{opacity:1}
-/* ── Nav ── */
-nav{position:fixed;top:0;width:100%;background:var(--nav);backdrop-filter:blur(10px);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;z-index:100;box-shadow:0 2px 20px var(--shd);border-bottom:1px solid var(--bdr)}
-.logo{font-size:18px;font-weight:900;color:var(--acc);text-decoration:none}
-.nl{display:flex;gap:24px;list-style:none}
-.nl a{text-decoration:none;color:var(--fg);font-size:14px;padding:5px 12px;border-radius:8px;transition:all .3s}
-.nl a:hover{background:var(--acc);color:var(--htxt)}
-/* ── Hero ── */
-.hero{min-height:100vh;background:var(--hero);display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.03'%3E%3Ccircle cx='20' cy='20' r='3'/%3E%3C/g%3E%3C/svg%3E")}
-.hc{max-width:760px;color:var(--htxt);position:relative;z-index:1}
-.he{font-size:70px;margin-bottom:20px;display:block;animation:fl 3s ease-in-out infinite}
-@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.hero h1{font-size:clamp(32px,6vw,64px);font-weight:900;margin-bottom:14px;text-shadow:0 2px 20px rgba(0,0,0,.3);line-height:1.2}
-.hero p{font-size:clamp(15px,2vw,20px);opacity:.9;margin-bottom:36px;line-height:1.9}
-.hbts{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-.btn{display:inline-block;padding:12px 30px;border-radius:50px;text-decoration:none;font-size:15px;font-weight:700;transition:all .3s;border:none;cursor:pointer}
-.bp{background:var(--htxt);color:var(--acc)}
-.bs{background:transparent;color:var(--htxt);border:2px solid var(--htxt)}
-.btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.25)}
-/* ── About ── */
-.about{padding:80px 24px;background:var(--bg2);text-align:center}
-.st{font-size:clamp(26px,4vw,40px);font-weight:900;color:var(--fg);margin-bottom:12px}
-.ss{font-size:16px;color:var(--fg2);margin-bottom:48px;line-height:1.9}
-.abox{max-width:700px;margin:0 auto;text-align:left;background:var(--card);padding:32px;border-radius:16px;border:1px solid var(--bdr);box-shadow:0 4px 20px var(--shd);line-height:2;font-size:15px;color:var(--fg2)}
-.abox strong{color:var(--acc)}
-/* ── Cards ── */
-.hobbies{padding:80px 24px;background:var(--bg)}
-.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px;max-width:1080px;margin:0 auto}
-.hc2{background:var(--card);border-radius:20px;padding:36px 28px;text-align:center;box-shadow:0 4px 28px var(--shd);border:1px solid var(--bdr);transition:all .4s;text-decoration:none;display:block;color:var(--fg)}
-.hc2:hover{transform:translateY(-8px);box-shadow:0 12px 50px var(--shd);border-color:var(--acc)}
-.ce{font-size:56px;margin-bottom:16px;display:block}
-.ct{font-size:22px;font-weight:700;color:var(--acc);margin-bottom:10px}
-.cd{font-size:14px;color:var(--fg2);line-height:1.9}
-.cbtn{margin-top:18px;padding:9px 22px;background:var(--acc);color:var(--htxt);border-radius:50px;display:inline-block;font-size:13px;font-weight:700}
-/* ── Stats ── */
-.stats{padding:60px 24px;background:var(--hero);display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:28px;text-align:center}
-.si{color:var(--htxt)}
-.sn{font-size:44px;font-weight:900;display:block}
-.sl{font-size:14px;opacity:.9}
-/* ── Gallery ── */
-.gallery{padding:80px 24px;background:var(--bg2)}
-.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;max-width:1080px;margin:0 auto}
-.gi{aspect-ratio:1;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:44px;background:var(--card);border:1px solid var(--bdr);transition:all .3s;cursor:pointer}
-.gi:hover{transform:scale(1.07);border-color:var(--acc);box-shadow:0 6px 20px var(--shd)}
-/* ── Footer ── */
-footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:36px;text-align:center;color:var(--fg2);font-size:13px}
-::-webkit-scrollbar{width:5px}
+
+/* ── Top Bar ── */
+.topbar{position:fixed;top:0;left:0;right:0;height:48px;background:var(--nav);backdrop-filter:blur(10px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 20px;z-index:200;box-shadow:0 2px 16px var(--shd)}
+.topbar-logo{font-size:18px;font-weight:900;color:var(--acc);text-decoration:none;letter-spacing:.5px}
+.topbar-right{margin-left:auto;font-size:13px;color:var(--fg2);display:flex;gap:16px;align-items:center}
+.topbar-right span{opacity:.7;font-size:12px}
+
+/* ── Layout: sidebar + main ── */
+.layout{display:flex;padding-top:48px;min-height:100vh}
+
+/* ── Sidebar ── */
+.sidebar{width:var(--sidebar);flex-shrink:0;position:fixed;top:48px;left:0;bottom:0;background:var(--bg2);border-right:1px solid var(--bdr);overflow-y:auto;display:flex;flex-direction:column;z-index:100}
+.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:2px}
+
+/* Profile block */
+.sb-profile{padding:24px 16px 18px;text-align:center;border-bottom:1px solid var(--bdr)}
+.sb-avatar{width:70px;height:70px;border-radius:50%;background:var(--hero);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 4px 14px var(--shd)}
+.sb-name{font-size:14px;font-weight:900;color:var(--fg);margin-bottom:4px}
+.sb-bio{font-size:11px;color:var(--fg2);line-height:1.6}
+
+/* Nav links */
+.sb-nav{padding:12px 0;border-bottom:1px solid var(--bdr)}
+.sb-nav-label{font-size:9px;font-weight:700;color:var(--fg2);letter-spacing:1px;padding:0 16px;margin-bottom:6px;opacity:.7}
+.sb-link{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:13px;font-weight:600;color:var(--fg);text-decoration:none;transition:all .2s;border-left:3px solid transparent}
+.sb-link:hover,.sb-link.cur{background:var(--card);color:var(--acc);border-left-color:var(--acc)}
+.sb-link .icon{font-size:16px;width:20px;text-align:center}
+
+/* Recent activity */
+.sb-section{padding:14px 16px;border-bottom:1px solid var(--bdr)}
+.sb-section h4{font-size:10px;font-weight:700;color:var(--fg2);letter-spacing:.8px;margin-bottom:10px;opacity:.7}
+.sb-activity{display:flex;flex-direction:column;gap:8px}
+.sb-act-item{display:flex;align-items:flex-start;gap:8px;font-size:11px}
+.sb-act-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+.sb-act-text{color:var(--fg);line-height:1.5}
+.sb-act-date{font-size:10px;color:var(--fg2);opacity:.7;margin-top:1px}
+
+/* Mini stats */
+.sb-stats{padding:14px 16px}
+.sb-stats h4{font-size:10px;font-weight:700;color:var(--fg2);letter-spacing:.8px;margin-bottom:10px;opacity:.7}
+.sb-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sb-stat{background:var(--card);border-radius:10px;padding:10px 8px;text-align:center;border:1px solid var(--bdr)}
+.sb-stat-num{font-size:18px;font-weight:900;color:var(--acc);display:block;line-height:1}
+.sb-stat-lbl{font-size:9px;color:var(--fg2);margin-top:3px;display:block}
+
+/* ── Main content ── */
+.main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:calc(100vh - 48px)}
+
+/* Hero compact */
+.hero{background:var(--hero);padding:40px 36px;display:flex;align-items:center;gap:32px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='2' fill='%23fff' fill-opacity='0.05'/%3E%3C/svg%3E")}
+.hero-emoji{font-size:64px;animation:fl 3s ease-in-out infinite;position:relative;z-index:1;flex-shrink:0}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.hero-text{color:var(--htxt);position:relative;z-index:1}
+.hero-text h1{font-size:clamp(20px,3vw,32px);font-weight:900;margin-bottom:8px;line-height:1.3;text-shadow:0 2px 14px rgba(0,0,0,.25)}
+.hero-text p{font-size:14px;opacity:.9;line-height:1.8;margin-bottom:16px}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-block;padding:8px 22px;border-radius:50px;font-size:13px;font-weight:700;text-decoration:none;transition:all .3s;cursor:pointer;border:none}
+.btn-p{background:var(--htxt);color:var(--acc)}
+.btn-s{background:transparent;color:var(--htxt);border:2px solid rgba(255,255,255,.7)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.2)}
+
+/* Content area */
+.content{padding:28px 32px;flex:1;background:var(--bg)}
+
+/* Section header */
+.sec-hd{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.sec-hd h2{font-size:18px;font-weight:900;color:var(--fg)}
+.sec-hd::after{content:'';flex:1;height:1px;background:var(--bdr)}
+
+/* Hobby cards 3 col */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px}
+.hcard{background:var(--card);border-radius:16px;padding:24px 20px;text-align:center;border:1px solid var(--bdr);box-shadow:0 3px 18px var(--shd);transition:all .35s;text-decoration:none;display:block;color:var(--fg)}
+.hcard:hover{transform:translateY(-6px);box-shadow:0 12px 36px var(--shd);border-color:var(--acc)}
+.hcard-em{font-size:42px;margin-bottom:12px;display:block}
+.hcard-title{font-size:16px;font-weight:900;color:var(--acc);margin-bottom:6px}
+.hcard-desc{font-size:12px;color:var(--fg2);line-height:1.8}
+.hcard-tag{display:inline-block;margin-top:12px;padding:5px 14px;background:var(--acc);color:var(--htxt);border-radius:50px;font-size:11px;font-weight:700}
+
+/* About + Gallery row */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
+
+.about-box{background:var(--card);border-radius:16px;padding:24px;border:1px solid var(--bdr);box-shadow:0 3px 18px var(--shd)}
+.about-box p{font-size:13px;color:var(--fg2);line-height:2}
+.about-box strong{color:var(--acc)}
+
+.gallery-box{background:var(--card);border-radius:16px;padding:20px;border:1px solid var(--bdr);box-shadow:0 3px 18px var(--shd)}
+.gg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.gi{aspect-ratio:1;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;background:var(--bg2);border:1px solid var(--bdr);cursor:pointer;transition:all .25s}
+.gi:hover{transform:scale(1.1);border-color:var(--acc);background:var(--card)}
+
+/* Footer inside main */
+footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:20px 32px;display:flex;align-items:center;justify-content:space-between;color:var(--fg2);font-size:12px}
+.footer-logo{font-size:16px;font-weight:900;color:var(--acc)}
+.footer-links{display:flex;gap:16px}
+.footer-links a{color:var(--fg2);text-decoration:none;font-size:12px;transition:color .2s}
+.footer-links a:hover{color:var(--acc)}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg2)}
 ::-webkit-scrollbar-thumb{background:var(--acc);border-radius:3px}
-@media(max-width:768px){nav{padding:0 16px}.nl{gap:12px}.tp{display:none}}
+
+/* ── Responsive ── */
+@media(max-width:900px){
+  :root{--sidebar:160px}
+  .cards{grid-template-columns:1fr 1fr}
+  .two-col{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .sidebar{display:none}
+  .main{margin-left:0}
+  .cards{grid-template-columns:1fr}
+  .tp{display:none}
+  .hero{flex-direction:column;text-align:center;padding:28px 20px}
+  .content{padding:20px 16px}
+}
 </style>
 </head>
 <body>
@@ -89,97 +158,175 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:36px;text-a
   <button class="tb" onclick="setT(9)" data-n="⑩星の夜" style="background:linear-gradient(135deg,#0a0a1a,#1a3a6a)"></button>
 </div>
 
-<!-- Nav -->
-<nav>
-  <a href="index.html" class="logo">🌟 My Hobby</a>
-  <ul class="nl">
-    <li><a href="index.html">ホーム</a></li>
-    <li><a href="travel.html">✈️ 旅行</a></li>
-    <li><a href="bowling.html">🎳 ボウリング</a></li>
-    <li><a href="drone.html">🚁 ドローン</a></li>
-  </ul>
-</nav>
+<!-- Top Bar -->
+<header class="topbar">
+  <a href="index.html" class="topbar-logo">🌟 My Hobby Page</a>
+  <div class="topbar-right">
+    <span>旅行 ✈️</span>
+    <span>ボウリング 🎳</span>
+    <span>ドローン 🚁</span>
+  </div>
+</header>
 
-<!-- Hero -->
-<section class="hero">
-  <div class="hc">
-    <span class="he">🌟</span>
-    <h1>私の趣味の世界へ<br>ようこそ</h1>
-    <p>旅行・ボウリング・ドローン<br>日々の喜びと発見を共有するページです</p>
-    <div class="hbts">
-      <a href="travel.html" class="btn bp">趣味ページを見る</a>
-      <a href="#about" class="btn bs">このページについて</a>
+<div class="layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+
+    <!-- Profile -->
+    <div class="sb-profile">
+      <div class="sb-avatar" id="sb-av">🌟</div>
+      <div class="sb-name">My Hobby</div>
+      <div class="sb-bio">旅行・ボウリング・ドローンを楽しんでいます</div>
     </div>
-  </div>
-</section>
 
-<!-- About -->
-<section class="about" id="about">
-  <h2 class="st">このページについて</h2>
-  <p class="ss">日々の生活を豊かにする3つの趣味について<br>写真や記録を交えながら紹介していきます</p>
-  <div class="abox">
-    このホームページは、私の大切な3つの趣味——<strong>旅行</strong>、<strong>ボウリング</strong>、<strong>ドローン</strong>——を紹介するために作りました。
-    各ページでは、旅先での思い出、ゲームのスコア記録、ドローン撮影の空撮映像などを楽しくまとめています。
-    年齢を問わずゆっくりとご覧いただけるよう、10種類のカラーテーマをご用意しました。
-    右側のボタンでお好みのテーマに切り替えてお楽しみください。
-  </div>
-</section>
+    <!-- Navigation -->
+    <nav class="sb-nav">
+      <div class="sb-nav-label">MENU</div>
+      <a href="index.html" class="sb-link cur">
+        <span class="icon">🏠</span>ホーム
+      </a>
+      <a href="travel.html" class="sb-link">
+        <span class="icon">✈️</span>旅行
+      </a>
+      <a href="bowling.html" class="sb-link">
+        <span class="icon">🎳</span>ボウリング
+      </a>
+      <a href="drone.html" class="sb-link">
+        <span class="icon">🚁</span>ドローン
+      </a>
+    </nav>
 
-<!-- Hobbies -->
-<section class="hobbies" id="hobbies">
-  <div style="text-align:center;margin-bottom:56px">
-    <h2 class="st">趣味のページ</h2>
-    <p class="ss">3つの趣味のページへ、どうぞ</p>
-  </div>
-  <div class="cg">
-    <a href="travel.html" class="hc2">
-      <span class="ce">✈️</span>
-      <div class="ct">旅行</div>
-      <p class="cd">国内外の旅先での風景、グルメ、出会いを記録しています。次の旅先はどこにしようかな？</p>
-      <div class="cbtn">ページを見る →</div>
-    </a>
-    <a href="bowling.html" class="hc2">
-      <span class="ce">🎳</span>
-      <div class="ct">ボウリング</div>
-      <p class="cd">スコア記録から上達の軌跡まで。ストライクの瞬間の喜びをみなさんと共有します。</p>
-      <div class="cbtn">ページを見る →</div>
-    </a>
-    <a href="drone.html" class="hc2">
-      <span class="ce">🚁</span>
-      <div class="ct">ドローン</div>
-      <p class="cd">空からの絶景映像と写真。ドローン飛行の魅力と日々の発見をお届けします。</p>
-      <div class="cbtn">ページを見る →</div>
-    </a>
-  </div>
-</section>
+    <!-- Recent Activity -->
+    <div class="sb-section">
+      <h4>最近の活動</h4>
+      <div class="sb-activity">
+        <div class="sb-act-item">
+          <span class="sb-act-icon">🚁</span>
+          <div>
+            <div class="sb-act-text">沖縄空撮</div>
+            <div class="sb-act-date">3月5日</div>
+          </div>
+        </div>
+        <div class="sb-act-item">
+          <span class="sb-act-icon">🎳</span>
+          <div>
+            <div class="sb-act-text">192点達成</div>
+            <div class="sb-act-date">2月28日</div>
+          </div>
+        </div>
+        <div class="sb-act-item">
+          <span class="sb-act-icon">✈️</span>
+          <div>
+            <div class="sb-act-text">北海道の旅</div>
+            <div class="sb-act-date">7月12日</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<!-- Stats -->
-<div class="stats">
-  <div class="si"><span class="sn">47</span><span class="sl">旅先の数</span></div>
-  <div class="si"><span class="sn">200+</span><span class="sl">ボウリングゲーム数</span></div>
-  <div class="si"><span class="sn">150h</span><span class="sl">ドローン飛行時間</span></div>
-  <div class="si"><span class="sn">∞</span><span class="sl">楽しい思い出</span></div>
-</div>
+    <!-- Mini Stats -->
+    <div class="sb-stats">
+      <h4>スタッツ</h4>
+      <div class="sb-stat-grid">
+        <div class="sb-stat">
+          <span class="sb-stat-num">47</span>
+          <span class="sb-stat-lbl">旅先</span>
+        </div>
+        <div class="sb-stat">
+          <span class="sb-stat-num">200+</span>
+          <span class="sb-stat-lbl">ゲーム</span>
+        </div>
+        <div class="sb-stat">
+          <span class="sb-stat-num">150h</span>
+          <span class="sb-stat-lbl">飛行</span>
+        </div>
+        <div class="sb-stat">
+          <span class="sb-stat-num">238</span>
+          <span class="sb-stat-lbl">最高点</span>
+        </div>
+      </div>
+    </div>
 
-<!-- Gallery -->
-<section class="gallery">
-  <div style="text-align:center;margin-bottom:56px">
-    <h2 class="st">思い出ギャラリー</h2>
-    <p class="ss">趣味の世界を絵文字で表現</p>
-  </div>
-  <div class="gg">
-    <div class="gi">🗼</div><div class="gi">🌋</div><div class="gi">🏖️</div>
-    <div class="gi">🏔️</div><div class="gi">🎳</div><div class="gi">🏆</div>
-    <div class="gi">🚁</div><div class="gi">🌅</div><div class="gi">🗺️</div>
-    <div class="gi">🎯</div><div class="gi">📷</div><div class="gi">🌍</div>
-  </div>
-</section>
+  </aside>
 
-<footer>
-  <p style="font-size:22px;margin-bottom:10px">🌟 My Hobby Page</p>
-  <p>旅行 ✈️ ｜ ボウリング 🎳 ｜ ドローン 🚁</p>
-  <p style="margin-top:10px;opacity:.6">© 2026 My Hobby Page. All rights reserved.</p>
-</footer>
+  <!-- ── Main ── -->
+  <div class="main">
+
+    <!-- Hero -->
+    <section class="hero">
+      <span class="hero-emoji" id="he">🌿</span>
+      <div class="hero-text">
+        <h1>私の趣味の世界へ<br>ようこそ</h1>
+        <p>旅行・ボウリング・ドローン<br>日々の喜びと発見を共有するページです</p>
+        <div class="hero-btns">
+          <a href="travel.html" class="btn btn-p">趣味ページを見る</a>
+          <a href="#about" class="btn btn-s">このページについて</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content -->
+    <div class="content">
+
+      <!-- Hobby Cards -->
+      <div class="sec-hd"><h2>趣味のページ</h2></div>
+      <div class="cards">
+        <a href="travel.html" class="hcard">
+          <span class="hcard-em">✈️</span>
+          <div class="hcard-title">旅行</div>
+          <p class="hcard-desc">国内外の旅先での風景、グルメ、出会いを記録しています。</p>
+          <span class="hcard-tag">ページを見る →</span>
+        </a>
+        <a href="bowling.html" class="hcard">
+          <span class="hcard-em">🎳</span>
+          <div class="hcard-title">ボウリング</div>
+          <p class="hcard-desc">スコア記録から上達の軌跡まで。ストライクの瞬間を共有。</p>
+          <span class="hcard-tag">ページを見る →</span>
+        </a>
+        <a href="drone.html" class="hcard">
+          <span class="hcard-em">🚁</span>
+          <div class="hcard-title">ドローン</div>
+          <p class="hcard-desc">空からの絶景映像と写真。飛行の魅力と発見をお届け。</p>
+          <span class="hcard-tag">ページを見る →</span>
+        </a>
+      </div>
+
+      <!-- About + Gallery -->
+      <div id="about" class="two-col">
+        <div class="about-box">
+          <div class="sec-hd" style="margin-bottom:14px"><h2>このページについて</h2></div>
+          <p>
+            このホームページは、私の大切な3つの趣味——<strong>旅行</strong>、<strong>ボウリング</strong>、<strong>ドローン</strong>——を紹介するために作りました。<br><br>
+            各ページでは旅先の思い出、スコア記録、空撮映像などを楽しくまとめています。
+            右側の丸いボタンでお好みのカラーテーマに切り替えてお楽しみください。
+          </p>
+        </div>
+        <div class="gallery-box">
+          <div class="sec-hd" style="margin-bottom:14px"><h2>思い出ギャラリー</h2></div>
+          <div class="gg">
+            <div class="gi">🗼</div><div class="gi">🌋</div><div class="gi">🏖️</div><div class="gi">🏔️</div>
+            <div class="gi">🎳</div><div class="gi">🏆</div><div class="gi">🚁</div><div class="gi">🌅</div>
+            <div class="gi">🗺️</div><div class="gi">🎯</div><div class="gi">📷</div><div class="gi">🌍</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+
+    <!-- Footer -->
+    <footer>
+      <span class="footer-logo">🌟 My Hobby Page</span>
+      <div class="footer-links">
+        <a href="travel.html">✈️ 旅行</a>
+        <a href="bowling.html">🎳 ボウリング</a>
+        <a href="drone.html">🚁 ドローン</a>
+      </div>
+      <span style="opacity:.6">© 2026</span>
+    </footer>
+
+  </div><!-- /main -->
+</div><!-- /layout -->
 
 <script>
 const T=[
@@ -202,16 +349,13 @@ function setT(i){
   r.setProperty('--nav',t.nav);r.setProperty('--hero',t.hero);
   r.setProperty('--htxt',t.htxt);r.setProperty('--bdr',t.bdr);
   r.setProperty('--shd',t.shd);
-  document.querySelector('.he').textContent=t.em;
+  document.getElementById('he').textContent=t.em;
+  document.getElementById('sb-av').textContent=t.em;
   document.querySelectorAll('.tb').forEach((b,j)=>b.classList.toggle('on',j===i));
   localStorage.setItem('ht',i);
 }
 const s=localStorage.getItem('ht');
 if(s!==null)setT(+s);
-document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
-  e.preventDefault();const el=document.querySelector(a.getAttribute('href'));
-  if(el)el.scrollIntoView({behavior:'smooth'});
-}));
 </script>
 </body>
 </html>
