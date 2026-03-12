@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Index ワイヤーフレーム 6案</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Hiragino Kaku Gothic Pro','メイリオ',sans-serif;background:#e8e8e8;color:#333;padding:40px 24px}
+h1{text-align:center;font-size:28px;color:#222;margin-bottom:8px;letter-spacing:1px}
+.sub{text-align:center;color:#666;font-size:14px;margin-bottom:48px}
+
+/* ── Grid of 6 wireframes ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(540px,1fr));gap:40px;max-width:1300px;margin:0 auto}
+
+/* ── Wireframe wrapper ── */
+.wf{background:#fff;border:2px solid #ccc;border-radius:8px;overflow:hidden;box-shadow:4px 4px 0 #bbb;position:relative}
+.wf-label{position:absolute;top:0;left:0;background:#333;color:#fff;font-size:11px;font-weight:700;padding:4px 12px;border-radius:0 0 6px 0;z-index:10;letter-spacing:.5px}
+
+/* ── Wireframe common parts ── */
+.wf-inner{padding:0;font-size:0;line-height:0}
+.box{display:inline-block;background:#d8d8d8;border:1px solid #b8b8b8;border-radius:2px;position:relative}
+.box.dark{background:#aaa;border-color:#888}
+.box.mid{background:#c4c4c4;border-color:#a8a8a8}
+.box.light{background:#e8e8e8;border-color:#ccc}
+.box.accent{background:#888;border-color:#666}
+.box.white{background:#f8f8f8;border-color:#ccc}
+.lbl{font-size:10px;line-height:1.3;font-style:normal;color:#555;display:flex;align-items:center;justify-content:center;text-align:center;width:100%;height:100%;position:absolute;top:0;left:0;padding:4px;font-weight:500}
+.lbl.inv{color:#fff}
+.lbl.sm{font-size:9px}
+
+/* ── Flexible row/col layout ── */
+.r{display:flex;gap:0}
+.c{display:flex;flex-direction:column;gap:0}
+.flex{display:flex}
+.w{flex:1}
+
+/* ── Case badge ── */
+.case-header{background:#333;color:#fff;padding:10px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:10px}
+.case-num{background:#fff;color:#333;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0}
+.case-desc{font-size:11px;opacity:.85;margin-top:2px;font-weight:400}
+</style>
+</head>
+<body>
+
+<h1>Index ワイヤーフレーム</h1>
+<p class="sub">6案 ― レイアウト構成の比較</p>
+
+<div class="grid">
+
+  <!-- ============================
+       案①  全画面ヒーロー＋縦スクロール
+       ============================ -->
+  <div class="wf">
+    <div class="case-header">
+      <div class="case-num">1</div>
+      <div>
+        <div>全画面ヒーロー ＋ 縦スクロール型</div>
+        <div class="case-desc">大きなビジュアルで引き込み、下にスクロールで趣味カードを見せる王道構成</div>
+      </div>
+    </div>
+    <div class="wf-inner" style="font-size:12px;line-height:1">
+
+      <!-- Nav -->
+      <div class="box dark" style="width:100%;height:36px;border-radius:0">
+        <span class="lbl inv" style="justify-content:space-between;padding:0 16px">
+          <span>🌟 My Hobby</span>
+          <span style="display:flex;gap:12px"><span>ホーム</span><span>旅行</span><span>ボウリング</span><span>ドローン</span></span>
+        </span>
+      </div>
+
+      <!-- Hero full -->
+      <div class="box mid" style="width:100%;height:200px;border-radius:0">
+        <span class="lbl" style="flex-direction:column;gap:8px">
+          <span style="font-size:28px">✈️🎳🚁</span>
+          <span style="font-size:13px;font-weight:700;color:#333">私の趣味の世界へようこそ</span>
+          <span style="font-size:10px;color:#666">旅行・ボウリング・ドローン</span>
+          <span style="display:flex;gap:8px;margin-top:6px">
+            <span style="background:#888;color:#fff;padding:4px 14px;border-radius:20px;font-size:10px">趣味を見る</span>
+            <span style="background:transparent;color:#888;padding:4px 14px;border-radius:20px;font-size:10px;border:1px solid #888">詳細へ</span>
+          </span>
+        </span>
+      </div>
+
+      <!-- About band -->
+      <div class="box light" style="width:100%;height:56px;border-radius:0;border-top:1px dashed #bbb">
+        <span class="lbl" style="flex-direction:column;gap:3px">
+          <span style="font-size:11px;font-weight:700">このページについて</span>
+          <span style="font-size:9px;color:#777">趣味の紹介・記録・共有</span>
+        </span>
+      </div>
+
+      <!-- 3 hobby cards -->
+      <div style="display:flex;padding:12px;gap:8px;background:#f5f5f5">
+        <div class="box white" style="flex:1;height:110px">
+          <span class="lbl" style="flex-direction:column;gap:4px">
+            <span style="font-size:20px">✈️</span>
+            <span style="font-size:11px;font-weight:700;color:#555">旅行</span>
+            <span style="font-size:9px;color:#888;line-height:1.4">国内外の旅先の<br>記録・思い出</span>
+            <span style="background:#aaa;color:#fff;padding:2px 10px;border-radius:10px;font-size:9px;margin-top:2px">見る →</span>
+          </span>
+        </div>
+        <div class="box white" style="flex:1;height:110px">
+          <span class="lbl" style="flex-direction:column;gap:4px">
+            <span style="font-size:20px">🎳</span>
+            <span style="font-size:11px;font-weight:700;color:#555">ボウリング</span>
+            <span style="font-size:9px;color:#888;line-height:1.4">スコア記録と<br>上達の軌跡</span>
+            <span style="background:#aaa;color:#fff;padding:2px 10px;border-radius:10px;font-size:9px;margin-top:2px">見る →</span>
+          </span>
+        </div>
+        <div class="box white" style="flex:1;height:110px">
+          <span class="lbl" style="flex-direction:column;gap:4px">
+            <span style="font-size:20px">🚁</span>
+            <span style="font-size:11px;font-weight:700;color:#555">ドローン</span>
+            <span style="font-size:9px;color:#888;line-height:1.4">空撮映像と<br>飛行記録</span>
+            <span style="background:#aaa;color:#fff;padding:2px 10px;border-radius:10px;font-size:9px;margin-top:2px">見る →</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Stats strip -->
+      <div style="display:flex;background:#888">
+        <div style="flex:1;height:40px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px;border-right:1px solid #999">
+          <span style="font-size:14px;font-weight:900;color:#fff">47</span>
+          <span style="font-size:8px;color:#ddd">旅先</span>
+        </div>
+        <div style="flex:1;height:40px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px;border-right:1px solid #999">
+          <span style="font-size:14px;font-weight:900;color:#fff">200+</span>
+          <span style="font-size:8px;color:#ddd">ゲーム数</span>
+        </div>
+        <div style="flex:1;height:40px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px;border-right:1px solid #999">
+          <span style="font-size:14px;font-weight:900;color:#fff">150h</span>
+          <span style="font-size:8px;color:#ddd">飛行時間</span>
+        </div>
+        <div style="flex:1;height:40px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px">
+          <span style="font-size:14px;font-weight:900;color:#fff">∞</span>
+          <span style="font-size:8px;color:#ddd">思い出</span>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="box light" style="width:100%;height:28px;border-radius:0">
+        <span class="lbl sm" style="color:#999">🌟 My Hobby Page ｜ © 2026</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================
+       案②  左サイドバー＋メインコンテンツ
+       ============================ -->
+  <div class="wf">
+    <div class="case-header">
+      <div class="case-num">2</div>
+      <div>
+        <div>左サイドバー ＋ メインコンテンツ型</div>
+        <div class="case-desc">趣味ナビを常に左に表示。PCでの使いやすさを重視したポータル風</div>
+      </div>
+    </div>
+    <div class="wf-inner" style="font-size:12px;line-height:1">
+
+      <!-- Top bar -->
+      <div class="box dark" style="width:100%;height:32px;border-radius:0">
+        <span class="lbl inv">🌟 My Hobby Page — 旅行 / ボウリング / ドローン</span>
+      </div>
+
+      <!-- Body: sidebar + main -->
+      <div style="display:flex;min-height:380px">
+
+        <!-- Sidebar -->
+        <div style="width:120px;background:#ddd;border-right:1px solid #bbb;flex-shrink:0;display:flex;flex-direction:column;gap:0">
+          <div style="padding:10px 8px;border-bottom:1px solid #bbb">
+            <div style="background:#888;border-radius:50%;width:48px;height:48px;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:20px">👤</div>
+            <div style="font-size:9px;text-align:center;color:#555;font-weight:700">プロフィール</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0">
+            <div style="padding:9px 10px;font-size:10px;font-weight:700;background:#ccc;color:#333;border-bottom:1px solid #bbb">🏠 ホーム</div>
+            <div style="padding:9px 10px;font-size:10px;color:#555;border-bottom:1px solid #bbb">✈️ 旅行</div>
+            <div style="padding:9px 10px;font-size:10px;color:#555;border-bottom:1px solid #bbb">🎳 ボウリング</div>
+            <div style="padding:9px 10px;font-size:10px;color:#555;border-bottom:1px solid #bbb">🚁 ドローン</div>
+          </div>
+          <div style="padding:8px;margin-top:8px">
+            <div style="background:#bbb;height:60px;border-radius:4px;display:flex;align-items:center;justify-content:center">
+              <span style="font-size:8px;color:#666;text-align:center;line-height:1.4">最近の<br>活動</span>
+            </div>
+          </div>
+          <div style="padding:8px;margin-top:4px">
+            <div style="background:#bbb;height:70px;border-radius:4px;display:flex;align-items:center;justify-content:center">
+              <span style="font-size:8px;color:#666;text-align:center;line-height:1.4">スタット<br>ミニ表示</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:0;background:#f5f5f5">
+
+          <!-- Hero compact -->
+          <div class="box mid" style="width:100%;height:120px;border-radius:0;flex-shrink:0">
+            <span class="lbl" style="flex-direction:column;gap:6px">
+              <span style="font-size:20px">✈️🎳🚁</span>
+              <span style="font-size:12px;font-weight:700;color:#333">私の趣味の世界へようこそ</span>
+              <span style="font-size:9px;color:#666">旅行・ボウリング・ドローンを楽しんでいます</span>
+            </span>
+          </div>
+
+          <!-- Cards row -->
+          <div style="display:flex;gap:8px;padding:10px">
+            <div class="box white" style="flex:1;height:88px">
+              <span class="lbl" style="flex-direction:column;gap:3px"><span style="font-size:18px">✈️</span><span style="font-size:10px;font-weight:700;color:#555">旅行</span><span style="font-size:8px;color:#888">47ヶ所</span></span>
+            </div>
+            <div class="box white" style="flex:1;height:88px">
+              <span class="lbl" style="flex-direction:column;gap:3px"><span style="font-size:18px">🎳</span><span style="font-size:10px;font-weight:700;color:#555">ボウリング</span><span style="font-size:8px;color:#888">200+ゲーム</span></span>
+            </div>
+            <div class="box white" style="flex:1;height:88px">
+              <span class="lbl" style="flex-direction:column;gap:3px"><span style="font-size:18px">🚁</span><span style="font-size:10px;font-weight:700;color:#555">ドローン</span><span style="font-size:8px;color:#888">150h飛行</span></span>
+            </div>
+          </div>
+
+          <!-- About text area -->
+          <div style="padding:0 10px 10px">
+            <div class="box white" style="width:100%;height:60px">
+              <span class="lbl" style="flex-direction:column;gap:3px">
+                <span style="font-size:10px;font-weight:700">このページについて</span>
+                <span style="font-size:8px;color:#888;line-height:1.5">趣味の記録と思い出を共有するページです。<br>どのページもゆっくりご覧ください。</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Gallery mini -->
+          <div style="padding:0 10px 10px;display:flex;gap:6px;flex-wrap:wrap">
+            <div class="box" style="width:42px;height:42px"><span class="lbl" style="font-size:18px">🗼</span></div>
+            <div class="box" style="width:42px;height:42px"><span class="lbl" style="font-size:18px">🌋</span></div>
+            <div class="box" style="width:42px;height:42px"><span class="lbl" style="font-size:18px">🏖️</span></div>
+            <div class="box" style="width:42px;height:42px"><span class="lbl" style="font-size:18px">🎳</span></div>
+            <div class="box" style="width:42px;height:42px"><span class="lbl" style="font-size:18px">🏆</span></div>
+            <div class="box" style="width:42px;height:42px"><span class="lbl" style="font-size:18px">🚁</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="box light" style="width:100%;height:28px;border-radius:0">
+        <span class="lbl sm" style="color:#999">© 2026 My Hobby Page</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================
+       案③  カードグリッド中心型
+       ============================ -->
+  <div class="wf">
+    <div class="case-header">
+      <div class="case-num">3</div>
+      <div>
+        <div>カードグリッド中心型</div>
+        <div class="case-desc">ヒーローを薄くして趣味カードを大きく前面に。シンプルで直感的</div>
+      </div>
+    </div>
+    <div class="wf-inner" style="font-size:12px;line-height:1">
+
+      <!-- Nav -->
+      <div class="box dark" style="width:100%;height:36px;border-radius:0">
+        <span class="lbl inv" style="justify-content:space-between;padding:0 16px">
+          <span>🌟 My Hobby</span>
+          <span style="display:flex;gap:10px"><span>ホーム</span><span>旅行</span><span>ボウリング</span><span>ドローン</span></span>
+        </span>
+      </div>
+
+      <!-- Slim hero -->
+      <div class="box mid" style="width:100%;height:80px;border-radius:0">
+        <span class="lbl" style="gap:16px">
+          <span style="font-size:24px">✈️🎳🚁</span>
+          <span style="display:flex;flex-direction:column;gap:3px">
+            <span style="font-size:13px;font-weight:700;color:#333">私の趣味の世界へようこそ</span>
+            <span style="font-size:9px;color:#666">旅行・ボウリング・ドローンを楽しんでいます</span>
+          </span>
+        </span>
+      </div>
+
+      <!-- Big hobby cards 1x3 tall -->
+      <div style="display:flex;gap:0;background:#f0f0f0;padding:16px;gap:10px">
+        <div class="box white" style="flex:1;height:170px;border-radius:8px">
+          <span class="lbl" style="flex-direction:column;gap:8px">
+            <span style="font-size:36px">✈️</span>
+            <span style="font-size:14px;font-weight:900;color:#444">旅行</span>
+            <span style="font-size:9px;color:#888;line-height:1.5;text-align:center">国内外の旅先の風景<br>グルメ・出会いを記録</span>
+            <span style="margin-top:6px">
+              <span style="background:#888;color:#fff;padding:5px 16px;border-radius:20px;font-size:10px">ページを見る →</span>
+            </span>
+          </span>
+        </div>
+        <div class="box white" style="flex:1;height:170px;border-radius:8px">
+          <span class="lbl" style="flex-direction:column;gap:8px">
+            <span style="font-size:36px">🎳</span>
+            <span style="font-size:14px;font-weight:900;color:#444">ボウリング</span>
+            <span style="font-size:9px;color:#888;line-height:1.5;text-align:center">スコア記録と<br>上達の軌跡</span>
+            <span style="margin-top:6px">
+              <span style="background:#888;color:#fff;padding:5px 16px;border-radius:20px;font-size:10px">ページを見る →</span>
+            </span>
+          </span>
+        </div>
+        <div class="box white" style="flex:1;height:170px;border-radius:8px">
+          <span class="lbl" style="flex-direction:column;gap:8px">
+            <span style="font-size:36px">🚁</span>
+            <span style="font-size:14px;font-weight:900;color:#444">ドローン</span>
+            <span style="font-size:9px;color:#888;line-height:1.5;text-align:center">空撮映像と写真<br>飛行記録</span>
+            <span style="margin-top:6px">
+              <span style="background:#888;color:#fff;padding:5px 16px;border-radius:20px;font-size:10px">ページを見る →</span>
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Stats + About 2col -->
+      <div style="display:flex;gap:10px;padding:10px 16px">
+        <div class="box light" style="flex:1;height:70px">
+          <span class="lbl" style="flex-direction:column;gap:4px">
+            <span style="font-size:10px;font-weight:700">自己紹介</span>
+            <span style="font-size:8px;color:#888;line-height:1.5">趣味を通じた日々の記録を<br>このページで共有しています</span>
+          </span>
+        </div>
+        <div style="flex:1;display:flex;gap:6px">
+          <div class="box mid" style="flex:1;height:70px"><span class="lbl inv" style="flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:900">47</span><span style="font-size:8px">旅先</span></span></div>
+          <div class="box mid" style="flex:1;height:70px"><span class="lbl inv" style="flex-direction:column;gap:2px"><span style="font-size:13px;font-weight:900">200+</span><span style="font-size:8px">ゲーム</span></span></div>
+          <div class="box mid" style="flex:1;height:70px"><span class="lbl inv" style="flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:900">150h</span><span style="font-size:8px">飛行</span></span></div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="box dark" style="width:100%;height:28px;border-radius:0">
+        <span class="lbl inv sm">© 2026 My Hobby Page</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================
+       案④  マガジン／記事スタイル
+       ============================ -->
+  <div class="wf">
+    <div class="case-header">
+      <div class="case-num">4</div>
+      <div>
+        <div>マガジン ／ 記事スタイル型</div>
+        <div class="case-desc">左大きなフィーチャーと右列に記事リスト。ブログ・雑誌風で読み応えあり</div>
+      </div>
+    </div>
+    <div class="wf-inner" style="font-size:12px;line-height:1">
+
+      <!-- Header -->
+      <div class="box dark" style="width:100%;height:28px;border-radius:0">
+        <span class="lbl inv" style="justify-content:space-between;padding:0 16px">
+          <span style="font-size:10px;opacity:.7">旅行 ✈️ ／ ボウリング 🎳 ／ ドローン 🚁</span>
+          <span style="font-size:10px">🌟 My Hobby</span>
+        </span>
+      </div>
+      <div class="box mid" style="width:100%;height:28px;border-radius:0;border-top:1px solid #ccc">
+        <span class="lbl" style="justify-content:center;gap:20px;font-size:10px;font-weight:700">
+          <span>ホーム</span><span>旅行</span><span>ボウリング</span><span>ドローン</span>
+        </span>
+      </div>
+
+      <!-- Feature + sidebar -->
+      <div style="display:flex;gap:0;padding:12px;gap:10px;background:#f5f5f5">
+
+        <!-- Feature article -->
+        <div style="flex:2;display:flex;flex-direction:column;gap:8px">
+          <div class="box mid" style="width:100%;height:130px;border-radius:4px">
+            <span class="lbl" style="flex-direction:column;gap:6px">
+              <span style="font-size:28px">✈️🎳🚁</span>
+              <span style="font-size:13px;font-weight:700;color:#333">私の3つの趣味</span>
+              <span style="font-size:9px;color:#666;line-height:1.5">旅行・ボウリング・ドローンの記録</span>
+            </span>
+          </div>
+          <div style="display:flex;gap:6px">
+            <div class="box white" style="flex:1;height:70px;border-radius:4px">
+              <span class="lbl" style="flex-direction:column;gap:3px"><span style="font-size:16px">✈️</span><span style="font-size:9px;font-weight:700;color:#555">旅行記録</span><span style="font-size:8px;color:#888">最新の旅先</span></span>
+            </div>
+            <div class="box white" style="flex:1;height:70px;border-radius:4px">
+              <span class="lbl" style="flex-direction:column;gap:3px"><span style="font-size:16px">🎳</span><span style="font-size:9px;font-weight:700;color:#555">スコア更新</span><span style="font-size:8px;color:#888">先週192点！</span></span>
+            </div>
+          </div>
+          <div class="box white" style="width:100%;height:50px;border-radius:4px">
+            <span class="lbl" style="flex-direction:column;gap:2px">
+              <span style="font-size:10px;font-weight:700">自己紹介・このページについて</span>
+              <span style="font-size:8px;color:#888">趣味を通じた日々の記録と発見を共有しています</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Right column articles -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:7px">
+          <div style="font-size:10px;font-weight:700;color:#666;border-bottom:2px solid #bbb;padding-bottom:4px">最近の投稿</div>
+          <div class="box white" style="width:100%;height:48px;border-radius:4px">
+            <span class="lbl" style="flex-direction:column;gap:2px;padding:8px">
+              <span style="font-size:9px;font-weight:700;color:#444">🚁 沖縄空撮 絶景映像</span>
+              <span style="font-size:8px;color:#999">2026/03/05</span>
+            </span>
+          </div>
+          <div class="box white" style="width:100%;height:48px;border-radius:4px">
+            <span class="lbl" style="flex-direction:column;gap:2px;padding:8px">
+              <span style="font-size:9px;font-weight:700;color:#444">🎳 自己最高192点達成</span>
+              <span style="font-size:8px;color:#999">2026/02/28</span>
+            </span>
+          </div>
+          <div class="box white" style="width:100%;height:48px;border-radius:4px">
+            <span class="lbl" style="flex-direction:column;gap:2px;padding:8px">
+              <span style="font-size:9px;font-weight:700;color:#444">✈️ 北海道・花畑の旅</span>
+              <span style="font-size:8px;color:#999">2025/07/12</span>
+            </span>
+          </div>
+          <div class="box white" style="width:100%;height:48px;border-radius:4px">
+            <span class="lbl" style="flex-direction:column;gap:2px;padding:8px">
+              <span style="font-size:9px;font-weight:700;color:#444">🚁 夜景空撮チャレンジ</span>
+              <span style="font-size:8px;color:#999">2026/03/08</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats bar -->
+      <div style="display:flex;background:#999">
+        <div style="flex:1;height:36px;display:flex;align-items:center;justify-content:center;gap:6px;border-right:1px solid #aaa">
+          <span style="font-size:13px;font-weight:900;color:#fff">47</span><span style="font-size:8px;color:#eee">旅先</span>
+        </div>
+        <div style="flex:1;height:36px;display:flex;align-items:center;justify-content:center;gap:6px;border-right:1px solid #aaa">
+          <span style="font-size:13px;font-weight:900;color:#fff">200+</span><span style="font-size:8px;color:#eee">ゲーム</span>
+        </div>
+        <div style="flex:1;height:36px;display:flex;align-items:center;justify-content:center;gap:6px">
+          <span style="font-size:13px;font-weight:900;color:#fff">150h</span><span style="font-size:8px;color:#eee">飛行</span>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="box light" style="width:100%;height:26px;border-radius:0">
+        <span class="lbl sm" style="color:#999">© 2026 My Hobby Page</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================
+       案⑤  タイル（Pinterest）風
+       ============================ -->
+  <div class="wf">
+    <div class="case-header">
+      <div class="case-num">5</div>
+      <div>
+        <div>タイル（Pinterest）風</div>
+        <div class="case-desc">高さの異なるカードを敷き詰め、視覚的に賑やかで探索しやすいレイアウト</div>
+      </div>
+    </div>
+    <div class="wf-inner" style="font-size:12px;line-height:1">
+
+      <!-- Nav -->
+      <div class="box dark" style="width:100%;height:36px;border-radius:0">
+        <span class="lbl inv" style="justify-content:space-between;padding:0 16px">
+          <span>🌟 My Hobby</span>
+          <span style="display:flex;gap:10px;font-size:11px"><span>ホーム</span><span>旅行</span><span>ボウリング</span><span>ドローン</span></span>
+        </span>
+      </div>
+
+      <!-- Masonry-like grid -->
+      <div style="padding:12px;background:#f0f0f0;display:flex;gap:8px">
+        <!-- Col 1 -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:8px">
+          <div class="box mid" style="height:140px;border-radius:8px">
+            <span class="lbl" style="flex-direction:column;gap:4px">
+              <span style="font-size:26px">✈️</span>
+              <span style="font-size:12px;font-weight:700;color:#333">旅行</span>
+              <span style="font-size:8px;color:#666">47ヶ所の旅先記録</span>
+            </span>
+          </div>
+          <div class="box white" style="height:75px;border-radius:8px">
+            <span class="lbl" style="flex-direction:column;gap:3px">
+              <span style="font-size:18px">🗼</span><span style="font-size:8px;color:#666">東京・下町散策</span>
+            </span>
+          </div>
+          <div class="box" style="height:55px;border-radius:8px">
+            <span class="lbl" style="flex-direction:column;gap:3px">
+              <span style="font-size:14px;font-weight:900;color:#888">47</span><span style="font-size:8px;color:#888">旅先の数</span>
+            </span>
+          </div>
+        </div>
+        <!-- Col 2 -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:8px">
+          <div class="box white" style="height:80px;border-radius:8px">
+            <span class="lbl" style="flex-direction:column;gap:3px">
+              <span style="font-size:10px;font-weight:700">このページについて</span>
+              <span style="font-size:8px;color:#888;line-height:1.4">趣味の記録と発見を共有</span>
+            </span>
+          </div>
+          <div class="box mid" style="height:110px;border-radius:8px">
+            <span class="lbl" style="flex-direction:column;gap:4px">
+              <span style="font-size:26px">🎳</span>
+              <span style="font-size:12px;font-weight:700;color:#333">ボウリング</span>
+              <span style="font-size:8px;color:#666">200+ゲーム記録</span>
+            </span>
+          </div>
+          <div class="box white" style="height:80px;border-radius:8px">
+            <span class="lbl" style="flex-direction:column;gap:3px">
+              <span style="font-size:18px">🎯</span><span style="font-size:8px;color:#666">ストライク192点</span>
+            </span>
+          </div>
+        </div>
+        <!-- Col 3 -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:8px">
+          <div class="box white" style="height:60px;border-radius:8px">
+            <span class="lbl" style="flex-direction:column;gap:3px">
+              <span style="font-size:18px">🌅</span><span style="font-size:8px;color:#666">朝日の空撮</span>
+            </span>
+          </div>
+          <div class="box mid" style="height:130px;border-radius:8px">
+            <span class="lbl" style="flex-direction:column;gap:4px">
+              <span style="font-size:26px">🚁</span>
+              <span style="font-size:12px;font-weight:700;color:#333">ドローン</span>
+              <span style="font-size:8px;color:#666">150h飛行記録</span>
+            </span>
+          </div>
+          <div class="box" style="height:80px;border-radius:8px">
+            <span class="lbl" style="flex-direction:column;gap:3px">
+              <span style="font-size:18px">🌃</span><span style="font-size:8px;color:#666">夜景空撮</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="box dark" style="width:100%;height:28px;border-radius:0">
+        <span class="lbl inv sm">🌟 My Hobby Page ｜ © 2026</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================
+       案⑥  シングルページ・フルスクリーンセクション
+       ============================ -->
+  <div class="wf">
+    <div class="case-header">
+      <div class="case-num">6</div>
+      <div>
+        <div>フルスクリーン・セクション切り替え型</div>
+        <div class="case-desc">各セクションが画面いっぱいに広がる没入型。スクロールで場面が切り替わる演出</div>
+      </div>
+    </div>
+    <div class="wf-inner" style="font-size:12px;line-height:1">
+
+      <!-- Fixed nav -->
+      <div class="box dark" style="width:100%;height:32px;border-radius:0">
+        <span class="lbl inv" style="justify-content:center;gap:20px;font-size:10px">
+          <span>🌟</span><span>▼ ホーム</span><span>旅行</span><span>ボウリング</span><span>ドローン</span>
+        </span>
+      </div>
+
+      <!-- Section 1: Welcome -->
+      <div class="box mid" style="width:100%;height:135px;border-radius:0">
+        <span class="lbl" style="flex-direction:column;gap:8px">
+          <span style="font-size:32px">🌟</span>
+          <span style="font-size:15px;font-weight:900;color:#333">私の趣味の世界へようこそ</span>
+          <span style="font-size:10px;color:#666">旅行・ボウリング・ドローン</span>
+          <span style="background:#888;color:#fff;padding:5px 18px;border-radius:20px;font-size:10px;margin-top:4px">↓ スクロールして探索</span>
+        </span>
+      </div>
+
+      <!-- Scroll indicator line -->
+      <div style="height:14px;background:#e0e0e0;display:flex;align-items:center;justify-content:center;border-top:1px dashed #ccc;border-bottom:1px dashed #ccc">
+        <span style="font-size:8px;color:#aaa;letter-spacing:2px">— SCROLL DOWN —</span>
+      </div>
+
+      <!-- Section 2: Travel -->
+      <div style="background:#dde8d3;height:100px;display:flex;align-items:center;justify-content:center;gap:20px">
+        <span style="font-size:32px">✈️</span>
+        <div>
+          <div style="font-size:13px;font-weight:900;color:#2c4a2e">旅行</div>
+          <div style="font-size:9px;color:#4a7a4e;margin-top:3px">国内外の旅先 ／ 47ヶ所記録</div>
+          <span style="display:inline-block;background:#5a9e5f;color:#fff;padding:3px 12px;border-radius:10px;font-size:9px;margin-top:6px">ページへ →</span>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div style="height:14px;background:#e0e0e0;display:flex;align-items:center;justify-content:center;border-top:1px dashed #ccc;border-bottom:1px dashed #ccc">
+        <span style="font-size:8px;color:#aaa;letter-spacing:2px">— SCROLL DOWN —</span>
+      </div>
+
+      <!-- Section 3: Bowling -->
+      <div style="background:#f0ecff;height:90px;display:flex;align-items:center;justify-content:center;gap:20px">
+        <span style="font-size:32px">🎳</span>
+        <div>
+          <div style="font-size:13px;font-weight:900;color:#1a0a3d">ボウリング</div>
+          <div style="font-size:9px;color:#4a3a6a;margin-top:3px">200+ゲーム ／ 自己最高238点</div>
+          <span style="display:inline-block;background:#5c3bc9;color:#fff;padding:3px 12px;border-radius:10px;font-size:9px;margin-top:6px">ページへ →</span>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div style="height:14px;background:#e0e0e0;display:flex;align-items:center;justify-content:center;border-top:1px dashed #ccc;border-bottom:1px dashed #ccc">
+        <span style="font-size:8px;color:#aaa;letter-spacing:2px">— SCROLL DOWN —</span>
+      </div>
+
+      <!-- Section 4: Drone -->
+      <div style="background:#d0e8f0;height:80px;display:flex;align-items:center;justify-content:center;gap:20px">
+        <span style="font-size:32px">🚁</span>
+        <div>
+          <div style="font-size:13px;font-weight:900;color:#0a1e2e">ドローン</div>
+          <div style="font-size:9px;color:#1a3a4e;margin-top:3px">150h飛行 ／ 47ヶ所空撮</div>
+          <span style="display:inline-block;background:#0077b6;color:#fff;padding:3px 12px;border-radius:10px;font-size:9px;margin-top:6px">ページへ →</span>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="box dark" style="width:100%;height:24px;border-radius:0">
+        <span class="lbl inv sm">🌟 My Hobby Page ｜ © 2026</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Legend -->
+<div style="max-width:1300px;margin:40px auto 0;background:#fff;border:1px solid #ccc;border-radius:8px;padding:20px 24px">
+  <h2 style="font-size:15px;color:#333;margin-bottom:14px;border-bottom:2px solid #eee;padding-bottom:8px">📋 各案の特徴まとめ</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;font-size:12px">
+    <div style="padding:10px;background:#f8f8f8;border-radius:6px;border-left:3px solid #888">
+      <strong>案①　全画面ヒーロー＋縦スクロール</strong><br>
+      <span style="color:#666">王道構成。大きなビジュアルで第一印象◎。年齢問わず使いやすい。</span>
+    </div>
+    <div style="padding:10px;background:#f8f8f8;border-radius:6px;border-left:3px solid #888">
+      <strong>案②　左サイドバー＋メインコンテンツ</strong><br>
+      <span style="color:#666">PCで見やすいポータル風。プロフィールと最新情報を常に表示。</span>
+    </div>
+    <div style="padding:10px;background:#f8f8f8;border-radius:6px;border-left:3px solid #888">
+      <strong>案③　カードグリッド中心</strong><br>
+      <span style="color:#666">シンプルで直感的。3つの趣味への導線が一目でわかる。</span>
+    </div>
+    <div style="padding:10px;background:#f8f8f8;border-radius:6px;border-left:3px solid #888">
+      <strong>案④　マガジン／記事スタイル</strong><br>
+      <span style="color:#666">ブログ感覚で最新投稿を見せる。更新頻度が高い場合に最適。</span>
+    </div>
+    <div style="padding:10px;background:#f8f8f8;border-radius:6px;border-left:3px solid #888">
+      <strong>案⑤　タイル（Pinterest）風</strong><br>
+      <span style="color:#666">視覚的に賑やかで探索感あり。写真が多い場合に映える。</span>
+    </div>
+    <div style="padding:10px;background:#f8f8f8;border-radius:6px;border-left:3px solid #888">
+      <strong>案⑥　フルスクリーンセクション</strong><br>
+      <span style="color:#666">モダンで没入感あり。スクロールで3つの趣味を順番に紹介。</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -107,6 +107,47 @@ body{font-family:'Hiragino Kaku Gothic Pro','メイリオ',sans-serif;background
 .dcard-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
 .dtag{font-size:9px;background:var(--bg2);color:var(--fg2);padding:2px 8px;border-radius:10px;border:1px solid var(--bdr)}
 
+/* Photo gallery */
+.photo-gallery{margin-top:20px;padding-top:18px;border-top:1px solid var(--bdr)}
+.pg-album{margin-bottom:20px}
+.pg-title{font-size:12px;font-weight:700;color:var(--fg2);letter-spacing:.6px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.pg-title span{font-size:14px}
+.pg-title::after{content:'';flex:1;height:1px;background:var(--bdr)}
+.pg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-bottom:6px}
+.pg-item{border-radius:8px;overflow:hidden;border:1px solid var(--bdr);cursor:pointer;transition:all .3s;position:relative;aspect-ratio:4/3;background:var(--bg2)}
+.pg-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.pg-item:hover img{transform:scale(1.06)}
+.pg-item:hover{border-color:var(--acc);box-shadow:0 6px 20px var(--shd)}
+.pg-item .pg-caption{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;font-size:9px;padding:10px 7px 5px;opacity:0;transition:opacity .25s}
+.pg-item:hover .pg-caption{opacity:1}
+.pg-folder-label{display:inline-flex;align-items:center;gap:5px;font-size:10px;background:var(--acc);color:var(--htxt);padding:3px 10px;border-radius:10px;margin-bottom:8px}
+.pg-count{font-size:10px;color:var(--fg2);margin-top:4px;opacity:.7}
+/* Photo-backed dcard */
+.dcard-photo .dcard-thumb{padding:0;overflow:hidden}
+.dcard-photo .dcard-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* Hover photo panel */
+.hover-panel{position:fixed;z-index:1500;background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:12px;box-shadow:0 8px 32px rgba(0,0,0,.3);display:none;width:296px;max-height:260px;overflow-y:auto;pointer-events:auto}
+.hover-panel.show{display:block}
+.hover-panel::-webkit-scrollbar{width:3px}.hover-panel::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:2px}
+.hp-title{font-size:11px;font-weight:700;color:var(--fg);margin-bottom:7px;padding-bottom:6px;border-bottom:1px solid var(--bdr);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.hp-item{border-radius:5px;overflow:hidden;cursor:pointer;aspect-ratio:4/3;border:1px solid var(--bdr);transition:all .2s}
+.hp-item:hover{border-color:var(--acc);transform:scale(1.06)}
+.hp-item img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* Lightbox */
+.lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:2000;align-items:center;justify-content:center;flex-direction:column}
+.lb.open{display:flex}
+.lb-img{max-width:90vw;max-height:82vh;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.6);object-fit:contain}
+.lb-close{position:absolute;top:16px;right:20px;color:#fff;font-size:28px;cursor:pointer;line-height:1;opacity:.8;transition:opacity .2s}
+.lb-close:hover{opacity:1}
+.lb-caption{color:#ddd;font-size:13px;margin-top:12px}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);color:#fff;font-size:36px;cursor:pointer;padding:0 16px;opacity:.7;transition:opacity .2s;user-select:none}
+.lb-nav:hover{opacity:1}
+.lb-prev{left:0}.lb-next{right:40px}
+.lb-count{color:#aaa;font-size:11px;margin-top:6px}
+
 /* Tips strip */
 .tips-strip{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px}
 .tip{background:var(--card);border-radius:12px;padding:14px 16px;border:1px solid var(--bdr);flex:1;min-width:160px;box-shadow:0 2px 10px var(--shd)}
@@ -256,58 +297,9 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:18px 28px;d
           <div class="region-map">
             <div class="region-map-em">🌸</div>
             <div class="region-map-name">北海道</div>
-            <div class="region-map-prefs">札幌市<br>函館市<br>旭川市<br>富良野市<br>釧路市<br>知床</div>
+            <div class="region-map-prefs">札幌<br>定山渓（札幌近郊）<br>十勝</div>
           </div>
-          <div class="region-cards">
-            <div class="dcard">
-              <div class="dcard-thumb">🌸<span class="dcard-badge">富良野</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">富良野・ラベンダー畑</div>
-                <div class="dcard-desc">一面紫の絨毯。夏の青空との対比が絶景。</div>
-                <div class="dcard-tags"><span class="dtag">花畑</span><span class="dtag">夏</span><span class="dtag">写真映え</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🏔️<span class="dcard-badge">大雪山</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">大雪山・紅葉トレッキング</div>
-                <div class="dcard-desc">日本で最も早い紅葉。雄大な山並みを歩く。</div>
-                <div class="dcard-tags"><span class="dtag">トレッキング</span><span class="dtag">紅葉</span><span class="dtag">秋</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🏙️<span class="dcard-badge">札幌</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">札幌・大通公園</div>
-                <div class="dcard-desc">雪まつりと夏のビアガーデン、年中楽しめる。</div>
-                <div class="dcard-tags"><span class="dtag">都市</span><span class="dtag">グルメ</span><span class="dtag">雪まつり</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🦅<span class="dcard-badge">知床</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">知床・世界遺産の自然</div>
-                <div class="dcard-desc">流氷とヒグマ。手つかずの大自然に圧倒される。</div>
-                <div class="dcard-tags"><span class="dtag">世界遺産</span><span class="dtag">自然</span><span class="dtag">流氷</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🦑<span class="dcard-badge">函館</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">函館・夜景と朝市</div>
-                <div class="dcard-desc">世界三大夜景のひとつ。朝市の海鮮が絶品。</div>
-                <div class="dcard-tags"><span class="dtag">夜景</span><span class="dtag">海鮮</span><span class="dtag">グルメ</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🐊<span class="dcard-badge">釧路</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">釧路湿原・自然観察</div>
-                <div class="dcard-desc">日本最大の湿原。タンチョウを間近で観察。</div>
-                <div class="dcard-tags"><span class="dtag">湿原</span><span class="dtag">野鳥</span><span class="dtag">自然</span></div>
-              </div>
-            </div>
-          </div>
+          <div class="region-cards"></div>
         </div>
       </div>
 
@@ -318,51 +310,12 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:18px 28px;d
           <div class="region-map">
             <div class="region-map-em">🍎</div>
             <div class="region-map-name">東北</div>
-            <div class="region-map-prefs">青森県<br>岩手県<br>宮城県<br>秋田県<br>山形県<br>福島県</div>
+            <div class="region-map-prefs">青森</div>
           </div>
-          <div class="region-cards">
-            <div class="dcard">
-              <div class="dcard-thumb">🌺<span class="dcard-badge">青森</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">弘前・桜まつり</div>
-                <div class="dcard-desc">弘前城と桜の組み合わせが格別の絶景。</div>
-                <div class="dcard-tags"><span class="dtag">桜</span><span class="dtag">春</span><span class="dtag">城</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🏯<span class="dcard-badge">岩手</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">平泉・中尊寺金色堂</div>
-                <div class="dcard-desc">黄金に輝く世界遺産。歴史の重みを感じる。</div>
-                <div class="dcard-tags"><span class="dtag">世界遺産</span><span class="dtag">寺院</span><span class="dtag">歴史</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🎆<span class="dcard-badge">宮城</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">仙台・七夕まつり</div>
-                <div class="dcard-desc">東北三大祭りのひとつ。色鮮やかな飾りが美しい。</div>
-                <div class="dcard-tags"><span class="dtag">祭り</span><span class="dtag">夏</span><span class="dtag">伝統</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🌊<span class="dcard-badge">秋田</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">田沢湖・日本最深の湖</div>
-                <div class="dcard-desc">エメラルドブルーの透明度が息をのむ美しさ。</div>
-                <div class="dcard-tags"><span class="dtag">湖</span><span class="dtag">自然</span><span class="dtag">絶景</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🍁<span class="dcard-badge">山形</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">山寺・立石寺の紅葉</div>
-                <div class="dcard-desc">松尾芭蕉が詠んだ名刹。紅葉シーズンは圧巻。</div>
-                <div class="dcard-tags"><span class="dtag">紅葉</span><span class="dtag">寺院</span><span class="dtag">俳句</span></div>
-              </div>
-            </div>
-          </div>
+          <div class="region-cards"></div>
         </div>
+
+
       </div>
 
       <!-- ③ 関東 -->
@@ -372,58 +325,9 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:18px 28px;d
           <div class="region-map">
             <div class="region-map-em">🗼</div>
             <div class="region-map-name">関東</div>
-            <div class="region-map-prefs">東京都<br>神奈川県<br>埼玉県<br>千葉県<br>茨城県<br>栃木県<br>群馬県</div>
+            <div class="region-map-prefs">東京・横浜</div>
           </div>
-          <div class="region-cards">
-            <div class="dcard">
-              <div class="dcard-thumb">🗼<span class="dcard-badge">東京</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">東京・浅草・下町散策</div>
-                <div class="dcard-desc">雷門から仲見世通り。昔ながらの下町風情。</div>
-                <div class="dcard-tags"><span class="dtag">下町</span><span class="dtag">寺院</span><span class="dtag">グルメ</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🗻<span class="dcard-badge">神奈川</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">箱根・温泉と富士山</div>
-                <div class="dcard-desc">芦ノ湖越しの富士山が絶景。温泉でリフレッシュ。</div>
-                <div class="dcard-tags"><span class="dtag">温泉</span><span class="dtag">富士山</span><span class="dtag">絶景</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">💫<span class="dcard-badge">栃木</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">日光東照宮</div>
-                <div class="dcard-desc">豪華絢爛な世界遺産。三猿と陽明門の彫刻に圧倒。</div>
-                <div class="dcard-tags"><span class="dtag">世界遺産</span><span class="dtag">神社</span><span class="dtag">歴史</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🌊<span class="dcard-badge">千葉</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">銚子・犬吠埼灯台</div>
-                <div class="dcard-desc">日本で最も早く初日の出が見える場所。</div>
-                <div class="dcard-tags"><span class="dtag">灯台</span><span class="dtag">初日の出</span><span class="dtag">海</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🌺<span class="dcard-badge">茨城</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">ひたち海浜公園</div>
-                <div class="dcard-desc">春のネモフィラと秋のコキア。季節ごとに絶景。</div>
-                <div class="dcard-tags"><span class="dtag">花畑</span><span class="dtag">春・秋</span><span class="dtag">写真映え</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">♨️<span class="dcard-badge">群馬</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">草津温泉・湯畑</div>
-                <div class="dcard-desc">日本三名泉のひとつ。湯畑の幻想的な風景が忘れられない。</div>
-                <div class="dcard-tags"><span class="dtag">温泉</span><span class="dtag">湯畑</span><span class="dtag">癒し</span></div>
-              </div>
-            </div>
-          </div>
+          <div class="region-cards"></div>
         </div>
       </div>
 
@@ -434,50 +338,9 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:18px 28px;d
           <div class="region-map">
             <div class="region-map-em">🗻</div>
             <div class="region-map-name">中部</div>
-            <div class="region-map-prefs">新潟県<br>富山県<br>石川県<br>長野県<br>岐阜県<br>静岡県<br>愛知県</div>
+            <div class="region-map-prefs">富士急（山梨）</div>
           </div>
-          <div class="region-cards">
-            <div class="dcard">
-              <div class="dcard-thumb">🗻<span class="dcard-badge">静岡</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">富士山・5合目</div>
-                <div class="dcard-desc">日本最高峰から望む雲海と絶景は一生の思い出。</div>
-                <div class="dcard-tags"><span class="dtag">富士山</span><span class="dtag">登山</span><span class="dtag">絶景</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🏘️<span class="dcard-badge">岐阜</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">白川郷・合掌造り</div>
-                <div class="dcard-desc">雪に覆われた合掌造りの集落が幻想的な世界遺産。</div>
-                <div class="dcard-tags"><span class="dtag">世界遺産</span><span class="dtag">冬</span><span class="dtag">雪景色</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">💎<span class="dcard-badge">石川</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">金沢・兼六園</div>
-                <div class="dcard-desc">日本三名園の一つ。四季を通じて美しい名園。</div>
-                <div class="dcard-tags"><span class="dtag">庭園</span><span class="dtag">伝統</span><span class="dtag">文化</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🏔️<span class="dcard-badge">長野</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">上高地・大正池</div>
-                <div class="dcard-desc">北アルプスの清流と立ち枯れの木。静寂の絶景。</div>
-                <div class="dcard-tags"><span class="dtag">高原</span><span class="dtag">自然</span><span class="dtag">絶景</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🌾<span class="dcard-badge">新潟</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">越後湯沢・スキーと温泉</div>
-                <div class="dcard-desc">豪雪地帯ならではのパウダースノーと温泉を満喫。</div>
-                <div class="dcard-tags"><span class="dtag">スキー</span><span class="dtag">温泉</span><span class="dtag">冬</span></div>
-              </div>
-            </div>
-          </div>
+          <div class="region-cards"></div>
         </div>
       </div>
 
@@ -488,58 +351,9 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:18px 28px;d
           <div class="region-map">
             <div class="region-map-em">⛩️</div>
             <div class="region-map-name">近畿</div>
-            <div class="region-map-prefs">京都府<br>大阪府<br>兵庫県<br>奈良県<br>滋賀県<br>和歌山県<br>三重県</div>
+            <div class="region-map-prefs">生駒山（奈良）<br>金沢・福井<br>やまぞえ（奈良）<br>京都<br>和歌山<br>彦根（滋賀）<br>上賀茂（京都）</div>
           </div>
-          <div class="region-cards">
-            <div class="dcard">
-              <div class="dcard-thumb">⛩️<span class="dcard-badge">京都</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">京都・嵐山・竹林</div>
-                <div class="dcard-desc">朝の竹林の道は幻想的。渡月橋と紅葉も絶品。</div>
-                <div class="dcard-tags"><span class="dtag">竹林</span><span class="dtag">紅葉</span><span class="dtag">秋</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🏯<span class="dcard-badge">大阪</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">大阪城・歴史と桜</div>
-                <div class="dcard-desc">大阪のシンボル。春の桜と天守閣の組み合わせが美しい。</div>
-                <div class="dcard-tags"><span class="dtag">城</span><span class="dtag">桜</span><span class="dtag">歴史</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🦌<span class="dcard-badge">奈良</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">奈良・東大寺と鹿</div>
-                <div class="dcard-desc">大仏と奈良の鹿。のんびり歩く鹿たちが愛らしい。</div>
-                <div class="dcard-tags"><span class="dtag">寺院</span><span class="dtag">鹿</span><span class="dtag">世界遺産</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🏯<span class="dcard-badge">兵庫</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">姫路城・白鷺城</div>
-                <div class="dcard-desc">日本最大の木造城郭。真っ白な外観が美しい世界遺産。</div>
-                <div class="dcard-tags"><span class="dtag">城</span><span class="dtag">世界遺産</span><span class="dtag">歴史</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">⛩️<span class="dcard-badge">三重</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">伊勢神宮・お参り</div>
-                <div class="dcard-desc">日本人の心のふるさと。おかげ横丁の食べ歩きも楽しい。</div>
-                <div class="dcard-tags"><span class="dtag">神社</span><span class="dtag">パワースポット</span><span class="dtag">食べ歩き</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🌊<span class="dcard-badge">和歌山</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">那智の滝・熊野古道</div>
-                <div class="dcard-desc">日本一の高さを誇る那智の滝。世界遺産の古道を歩く。</div>
-                <div class="dcard-tags"><span class="dtag">滝</span><span class="dtag">世界遺産</span><span class="dtag">古道</span></div>
-              </div>
-            </div>
-          </div>
+          <div class="region-cards"></div>
         </div>
       </div>
 
@@ -550,42 +364,9 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:18px 28px;d
           <div class="region-map">
             <div class="region-map-em">🦌</div>
             <div class="region-map-name">中国</div>
-            <div class="region-map-prefs">鳥取県<br>島根県<br>岡山県<br>広島県<br>山口県</div>
+            <div class="region-map-prefs">出雲（島根）</div>
           </div>
-          <div class="region-cards">
-            <div class="dcard">
-              <div class="dcard-thumb">⛩️<span class="dcard-badge">広島</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">宮島・厳島神社</div>
-                <div class="dcard-desc">海上に浮かぶ大鳥居。満潮時の幻想的な風景。</div>
-                <div class="dcard-tags"><span class="dtag">世界遺産</span><span class="dtag">海</span><span class="dtag">神社</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🏰<span class="dcard-badge">岡山</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">倉敷・美観地区</div>
-                <div class="dcard-desc">白壁の蔵が立ち並ぶ江戸時代の情緒ある街並み。</div>
-                <div class="dcard-tags"><span class="dtag">街並み</span><span class="dtag">歴史</span><span class="dtag">運河</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🏖️<span class="dcard-badge">鳥取</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">鳥取砂丘</div>
-                <div class="dcard-desc">日本最大の砂丘。砂漠のような壮大な景色が広がる。</div>
-                <div class="dcard-tags"><span class="dtag">砂丘</span><span class="dtag">自然</span><span class="dtag">絶景</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🏛️<span class="dcard-badge">島根</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">出雲大社・縁結び</div>
-                <div class="dcard-desc">縁結びの神様。大しめ縄と独特の神楽に感動。</div>
-                <div class="dcard-tags"><span class="dtag">神社</span><span class="dtag">縁結び</span><span class="dtag">パワースポット</span></div>
-              </div>
-            </div>
-          </div>
+          <div class="region-cards"></div>
         </div>
       </div>
 
@@ -596,42 +377,9 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:18px 28px;d
           <div class="region-map">
             <div class="region-map-em">🍊</div>
             <div class="region-map-name">四国</div>
-            <div class="region-map-prefs">徳島県<br>香川県<br>愛媛県<br>高知県</div>
+            <div class="region-map-prefs">松山（愛媛）<br>徳島</div>
           </div>
-          <div class="region-cards">
-            <div class="dcard">
-              <div class="dcard-thumb">🌀<span class="dcard-badge">徳島</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">大塚国際美術館</div>
-                <div class="dcard-desc">世界の名画を陶板で再現。一日では回れない圧倒的なスケール。</div>
-                <div class="dcard-tags"><span class="dtag">美術館</span><span class="dtag">文化</span><span class="dtag">芸術</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🍜<span class="dcard-badge">香川</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">讃岐うどん巡り</div>
-                <div class="dcard-desc">本場のうどんは格別の旨さ。早朝から行列の名店も。</div>
-                <div class="dcard-tags"><span class="dtag">グルメ</span><span class="dtag">うどん</span><span class="dtag">食べ歩き</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🏯<span class="dcard-badge">愛媛</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">松山城・道後温泉</div>
-                <div class="dcard-desc">現存天守と日本最古の温泉。歴史と癒しの旅。</div>
-                <div class="dcard-tags"><span class="dtag">城</span><span class="dtag">温泉</span><span class="dtag">歴史</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🌊<span class="dcard-badge">高知</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">四万十川・日本最後の清流</div>
-                <div class="dcard-desc">沈下橋と清流の組み合わせが美しい。カヌーも最高。</div>
-                <div class="dcard-tags"><span class="dtag">川</span><span class="dtag">自然</span><span class="dtag">カヌー</span></div>
-              </div>
-            </div>
-          </div>
+          <div class="region-cards"></div>
         </div>
       </div>
 
@@ -642,50 +390,9 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:18px 28px;d
           <div class="region-map">
             <div class="region-map-em">🌺</div>
             <div class="region-map-name">九州・沖縄</div>
-            <div class="region-map-prefs">福岡県<br>長崎県<br>熊本県<br>大分県<br>宮崎県<br>鹿児島県<br>沖縄県</div>
+            <div class="region-map-prefs">長崎<br>宮崎市<br>高千穂（宮崎）<br>熊本市</div>
           </div>
-          <div class="region-cards">
-            <div class="dcard">
-              <div class="dcard-thumb">🏖️<span class="dcard-badge">沖縄</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">沖縄・美ら海水族館</div>
-                <div class="dcard-desc">世界有数の大水槽。ジンベエザメが泳ぐ姿が圧倒的。</div>
-                <div class="dcard-tags"><span class="dtag">水族館</span><span class="dtag">海</span><span class="dtag">家族向け</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🌋<span class="dcard-badge">鹿児島</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">桜島・噴火の絶景</div>
-                <div class="dcard-desc">活火山と錦江湾の絶景。灰が降る独特の景観。</div>
-                <div class="dcard-tags"><span class="dtag">火山</span><span class="dtag">絶景</span><span class="dtag">自然</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">♨️<span class="dcard-badge">大分</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">別府・地獄めぐり</div>
-                <div class="dcard-desc">七色の温泉地獄。湯けむりの街・別府の名物観光。</div>
-                <div class="dcard-tags"><span class="dtag">温泉</span><span class="dtag">地獄めぐり</span><span class="dtag">観光</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🍜<span class="dcard-badge">福岡</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">博多・屋台ラーメン</div>
-                <div class="dcard-desc">中洲の屋台で味わう豚骨ラーメンは格別の美味しさ。</div>
-                <div class="dcard-tags"><span class="dtag">グルメ</span><span class="dtag">屋台</span><span class="dtag">ラーメン</span></div>
-              </div>
-            </div>
-            <div class="dcard">
-              <div class="dcard-thumb">🏙️<span class="dcard-badge">長崎</span></div>
-              <div class="dcard-body">
-                <div class="dcard-name">長崎・グラバー園と夜景</div>
-                <div class="dcard-desc">稲佐山からの夜景は日本三大夜景のひとつ。</div>
-                <div class="dcard-tags"><span class="dtag">夜景</span><span class="dtag">異文化</span><span class="dtag">歴史</span></div>
-              </div>
-            </div>
-          </div>
+          <div class="region-cards"></div>
         </div>
       </div>
 
@@ -714,6 +421,16 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:18px 28px;d
 
   </div><!-- /main -->
 </div><!-- /layout -->
+
+<!-- Lightbox -->
+<div class="lb" id="lb" onclick="closeLb(event)">
+  <span class="lb-close" onclick="closeLb()">✕</span>
+  <span class="lb-nav lb-prev" onclick="moveLb(-1,event)">‹</span>
+  <img class="lb-img" id="lb-img" src="" alt="">
+  <div class="lb-caption" id="lb-cap"></div>
+  <div class="lb-count" id="lb-cnt"></div>
+  <span class="lb-nav lb-next" onclick="moveLb(1,event)">›</span>
+</div>
 
 <script>
 /* ── Theme ── */
@@ -744,30 +461,217 @@ function setT(i){
 const s=localStorage.getItem('tt');
 if(s!==null)setT(+s);
 
+/* ── Photo Data ── */
+const PHOTO_DATA={
+  hokkaido:[
+    {label:'2020/02/09-10 札幌',path:'images/travel/hokkaido/20200209-10 札幌/',badge:'札幌',
+     files:['IMG_4137.jpg','IMG_4473.JPG','IMG_4480.JPG','IMG_4510.JPG','IMG_4513.JPG','IMG_4522.JPG','IMG_4525.JPG','IMG_4541.JPG','IMG_4559.JPG','IMG_4568.JPG','IMG_4584.JPG','IMG_4586.JPG','IMG_4601.JPG','IMG_4609.JPG']},
+    {label:'2025/05/25-26 定山渓',path:'images/travel/hokkaido/20250525-26 定山渓/',badge:'定山渓',
+     files:['IMG_0350.jpg','IMG_0404.jpg','IMG_0492.jpg','IMG_0500.jpg','IMG_0509.jpg','IMG_0531.jpg','IMG_0589.jpg','IMG_0625.jpg','IMG_0644.jpg','IMG_0684.jpg','IMG_0692.jpg','IMG_0759.jpg']},
+    {label:'2025/09/28-29 十勝',path:'images/travel/hokkaido/20250928-29 十勝/',badge:'十勝',
+     files:['IMG_5600.jpg','IMG_5637.jpg','IMG_5664.jpg','IMG_5670.jpg','IMG_5688.jpg','IMG_5710.jpg','IMG_5727.jpg','IMG_5743.jpg','IMG_5784.jpg','IMG_5790.jpg','IMG_5798.jpg','IMG_5837.jpg','IMG_5838.jpg','IMG_5840.jpg','IMG_5868.jpg','IMG_5928.jpg','IMG_5940.jpg']}
+  ],
+  tohoku:[
+    {label:'2025/07/15-16 青森',path:'images/travel/tohoku/20250715-6 青森/',badge:'青森',
+     files:['IMG_2180.JPEG','IMG_2223.JPEG']}
+  ],
+  kanto:[
+    {label:'2021/09/25 東京・横浜',path:'images/travel/kanto/20210925 東京・横浜/',badge:'東京',
+     files:['IMG_0674.JPEG','IMG_0682.JPEG','IMG_0698.JPEG','IMG_0707.JPEG','IMG_0710.JPEG','IMG_0714.JPEG','IMG_0722.JPEG','IMG_0733.JPEG','IMG_0748.JPEG','IMG_0754.JPEG','IMG_0755.JPEG','IMG_0769.JPEG','IMG_0776.JPEG','IMG_0801.JPEG','IMG_0810.JPEG','IMG_0812.JPEG','IMG_0813.JPEG','IMG_0841.JPEG','IMG_0855.JPEG','IMG_0865.JPEG','IMG_0871.JPEG','IMG_0876.JPEG','IMG_0886.JPEG','IMG_0890.JPEG','IMG_0924.JPEG','IMG_0940.JPEG','IMG_0943.JPEG','IMG_0956.JPEG']}
+  ],
+  chubu:[
+    {label:'2021/08/13-15 富士急',path:'images/travel/chubu/20210813-15 富士急/',badge:'山梨',
+     files:['5S9A3286.JPG','5S9A3312.JPG','5S9A3320.JPG','IMG_6994.JPEG','IMG_6995.JPG','IMG_6998.JPG','IMG_7004.JPEG','IMG_7008.JPEG','IMG_7017.JPEG','IMG_7022.PNG','IMG_7027.JPEG','IMG_7040.JPG','IMG_7046.JPEG','IMG_7055.JPEG','IMG_7059 のコピー.jpg','IMG_7064.JPEG','IMG_7187.JPEG','IMG_7191.JPEG','IMG_7196.JPEG','IMG_7198.JPEG','IMG_7210.JPEG','IMG_7216.JPG','IMG_7291.JPG','IMG_7445.JPEG','IMG_7464.JPEG','IMG_7483.JPEG','IMG_7694.JPEG','IMG_7700.JPG','IMG_7720.JPEG','IMG_7721 のコピー.jpg']}
+  ],
+  kinki:[
+    {label:'2018/11/11 生駒山',path:'images/travel/kinki/20181111 生駒山/',badge:'奈良',
+     files:['5S9A3517.JPG','5S9A3525.JPG','5S9A3528.JPG','5S9A3536.JPG','5S9A3537.JPG','5S9A3545.JPG','5S9A3551.JPG','5S9A3553.JPG','5S9A3561.JPG','5S9A3572.JPG','5S9A3581.JPG','5S9A3585.JPG','5S9A3587.JPG','5S9A3590.JPG','5S9A3595.JPG','5S9A3597.JPG','5S9A3601.JPG','5S9A3605.JPG','5S9A3608.JPG','5S9A3615.JPG','D00A1679.JPG','D00A1681.JPG','D00A1684.JPG','D00A1689.JPG','D00A1698.JPG','D00A1699.JPG','D00A1708.JPG','D00A1742.JPG','D00A1797.JPG']},
+    {label:'2018/11/18 生駒山',path:'images/travel/kinki/20181118 生駒山/',badge:'奈良',
+     files:['2018_11_181003078.JPG','2018_11_181003082.JPG','2018_11_181003085.JPG','2018_11_181003094.JPG','2018_11_181003101.JPG','2018_11_181003102.JPG','2018_11_181003103.JPG','2018_11_181003113.JPG','2018_11_181003117.JPG','2018_11_181003118.JPG','2018_11_181003119.JPG','2018_11_181003131.JPG','2018_11_181003139.JPG','2018_11_181003147.JPG','2018_11_181003166.JPG','2018_11_181003173.JPG']},
+    {label:'2019/01/11-12 金沢・福井',path:'images/travel/kinki/20190111ｰ2 金沢・福井/',badge:'石川',
+     files:['5S9A9380.JPG','5S9A9392.JPG','5S9A9396.JPG','5S9A9423.JPG','5S9A9426.JPG','5S9A9438.JPG','5S9A9452.JPG','5S9A9470.JPG','5S9A9489.JPG','5S9A9492.JPG','5S9A9494.JPG','5S9A9497.JPG','5S9A9521.JPG','5S9A9526.JPG','5S9A9567.JPG','5S9A9592.JPG','5S9A9621.JPG','5S9A9649.JPG','5S9A9675.JPG','D00A2046.JPG','D00A2103.JPG','D00A2166.JPG','D00A2168.JPG','D00A2298.JPG']},
+    {label:'2019/07/15 冒険の森 やまぞえ',path:'images/travel/kinki/20190715 冒険の森 in やまぞえ/',badge:'奈良',
+     files:['IMG_4183.jpg','IMG_4186.jpg','IMG_4188.jpg','IMG_4202.jpg','IMG_4207.jpg','IMG_4213.jpg','IMG_4215.jpg','IMG_4226.jpg','IMG_4230.jpg','IMG_4235.jpg','IMG_4258.jpg','IMG_4264.jpg','IMG_4276.jpg','IMG_4279.jpg','IMG_4281.jpg']},
+    {label:'2019/11/23 京都',path:'images/travel/kinki/20191123 京都/',badge:'京都',
+     files:['5S9A0636.JPG','5S9A0652.JPG','5S9A0663.JPG','5S9A0684.JPG','5S9A0733.JPG','5S9A0741.JPG','5S9A0746.JPG','5S9A0764.JPG','5S9A0772.JPG','D00A6209.JPG','D00A6221.JPG','D00A6230.JPG','D00A6244.JPG','D00A6257.JPG','D00A6260.JPG','D00A6295.JPG']},
+    {label:'2019/12/08 和歌山',path:'images/travel/kinki/20191208 和歌山/',badge:'和歌山',
+     files:['5S9A7334.JPG','5S9A7340.JPG','5S9A7342.JPG','5S9A7345.JPG','5S9A7348.JPG','5S9A7358.JPG','5S9A7393.JPG','5S9A7397.JPG','5S9A7449.JPG','5S9A7485.JPG','5S9A7486.JPG','5S9A7488.JPG','5S9A7493.JPG','5S9A7533.JPG','D00A1766.JPG','D00A1769.JPG','D00A1849.JPG']},
+    {label:'2025/01/11-12 彦根',path:'images/travel/kinki/20250111-2 彦根/',badge:'滋賀',
+     files:['IMG_7161.jpg','IMG_7173.jpg','IMG_7252.jpg','IMG_7292.jpg','IMG_7305.jpg','IMG_7309.jpg','IMG_7347.jpg','IMG_7351.jpg']},
+    {label:'2025/10/11-12 MK上賀茂',path:'images/travel/kinki/20251011-12 MK上賀茂/',badge:'京都',
+     files:['IMG_6803.jpg','IMG_6820.jpg','IMG_6884.jpg','IMG_6885.jpg','IMG_6901.jpg','IMG_6907.jpg','IMG_6909.jpg','IMG_6916.jpg','IMG_6918.jpg','IMG_6924.jpg','IMG_6928.jpg','IMG_6991.jpg','IMG_6992.jpg','IMG_6994.jpg']}
+  ],
+  chugoku:[
+    {label:'2018/07/22-23 出雲大社',path:'images/travel/chugoku/20180722-3 出雲大社/',badge:'島根',
+     files:['2018_07_221023896.JPG','2018_07_221023903.JPG','2018_07_221023918.JPG','2018_07_221023920.JPG','2018_07_221040839.JPG','2018_07_221040852.JPG','2018_07_221040854.JPG','2018_07_221040885.JPG','2018_07_221040920.JPG','2018_07_221040926.JPG','2018_07_221040980.JPG','2018_07_221040983.JPG','2018_07_221041007.JPG','2018_07_221041026.JPG','2018_07_221041098.JPG','2018_07_221041106.JPG','2018_07_231023983.JPG','2018_07_231023987.JPG','2018_07_231024010.JPG','2018_07_231024019.JPG','2018_07_231041215.JPG','2018_07_231041306.JPG','2018_07_231041332.JPG','2018_07_231041361.JPG','2018_07_231041365.JPG','2018_07_231041373.JPG','2018_07_231041383.JPG','2018_07_231041390.JPG','2018_07_231041391.JPG']}
+  ],
+  shikoku:[
+    {label:'2008/03/23 松山',path:'images/travel/shikoku/20080323 松山/',badge:'愛媛',
+     files:['CIMG0003.JPG','CIMG0005.JPG','CIMG0017.JPG','CIMG0035.JPG','CIMG0040.JPG','CIMG0060.JPG','CIMG0075.JPG','CIMG0080.JPG','CIMG0081.JPG','CIMG0085.JPG','CIMG0099.JPG','CIMG0103.JPG','CIMG0117.JPG','CIMG0122.JPG','CIMG0125.JPG','CIMG0128.JPG','CIMG0129.JPG','CIMG0131.JPG','CIMG0132.JPG','CIMG0133.JPG','CIMG0154.JPG','CIMG0167.JPG','CIMG0168.JPG','CIMG0184.JPG','CIMG0187.JPG','CIMG0209.JPG','CIMG0223.JPG']},
+    {label:'2025/10/19 徳島運動会',path:'images/travel/shikoku/20251019 徳島運動会/',badge:'徳島',
+     files:['IMG_7339.jpg','IMG_7350.jpg','IMG_7353.jpg','IMG_7361.jpg','IMG_7362.jpg','IMG_7365.jpg','IMG_7373.jpg','IMG_7402.jpg','IMG_7405.jpg','IMG_7413.jpg']},
+    {label:'2025/12/08 徳島',path:'images/travel/shikoku/20251208 徳島/',badge:'徳島',
+     files:['IMG_0626.jpg','IMG_0638.jpg','IMG_0645.jpg','IMG_0648.jpg','IMG_0653.jpg']}
+  ],
+  kyushu:[
+    {label:'2018/12/14-15 長崎',path:'images/travel/kyushu/20181214-5 長崎/',badge:'長崎',
+     files:['IMG_3181.JPG','IMG_3182.JPG','IMG_3194.JPG','IMG_3208.JPG','IMG_3224.JPG','IMG_3226.JPG','IMG_3231.JPG','IMG_3244.JPG','IMG_3251.JPG','IMG_3256.JPG','IMG_3262.JPG','IMG_3277.JPG','IMG_3298.JPG','IMG_3302.JPG','IMG_3307.JPG','IMG_3318.JPG']},
+    {label:'2024/11/24-25 宮崎',path:'images/travel/kyushu/20241124-5 宮崎/',badge:'宮崎',
+     files:['IMG_3154.jpg','IMG_3206.jpg','IMG_3244.jpg','IMG_3260.jpg','IMG_3265.jpg','IMG_3288.jpg','IMG_3309.jpg','IMG_3360.jpg','IMG_3382.jpg','IMG_3409.jpg','IMG_3430.jpg','IMG_3514.jpg','IMG_3550.jpg','IMG_3582.jpg','IMG_3602.jpg','IMG_3605.jpg','IMG_3635.jpg','IMG_3695.jpg','IMG_3713.jpg']},
+    {label:'2025/03/09 高千穂',path:'images/travel/kyushu/20250309 高千穂/',badge:'宮崎',
+     files:['IMG_8434.jpg','IMG_8450.jpg','IMG_8459.jpg','IMG_8465.jpg','IMG_8474.jpg','IMG_8505.jpg','IMG_8515.jpg','IMG_8543.jpg','IMG_8576.jpg','IMG_8594.jpg','IMG_8663.jpg','IMG_8676.jpg','IMG_8698.jpg','IMG_8710.jpg','IMG_8725.jpg','IMG_8819.jpg','IMG_8830.jpg','IMG_8841.jpg','IMG_8846.jpg','IMG_8848.jpg','IMG_8866.jpg','IMG_8885.jpg']},
+    {label:'2025/12/21-22 熊本',path:'images/travel/kyushu/20251221-2 熊本/',badge:'熊本',
+     files:['IMG_1807.jpg','IMG_1824.jpg','IMG_1837.jpg','IMG_1856.jpg','IMG_1999.jpg','IMG_2027.jpg']}
+  ]
+};
+
+/* ── Lightbox (per-album) ── */
+let lbAlbum=[];
+let lbIdx=0;
+
+function openAlbumLb(albumKey,photoIdx){
+  lbAlbum=window._albumMap[albumKey]||[];
+  lbIdx=photoIdx;
+  _showLb();
+  document.getElementById('lb').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function _showLb(){
+  const it=lbAlbum[lbIdx];
+  if(!it)return;
+  document.getElementById('lb-img').src=it.src;
+  document.getElementById('lb-cap').textContent=it.cap;
+  document.getElementById('lb-cnt').textContent=(lbIdx+1)+' / '+lbAlbum.length;
+}
+function closeLb(e){
+  if(e&&e.target!==document.getElementById('lb')&&!e.target.classList.contains('lb-close'))return;
+  document.getElementById('lb').classList.remove('open');
+  document.body.style.overflow='';
+}
+function moveLb(dir,e){
+  if(e)e.stopPropagation();
+  lbIdx=(lbIdx+dir+lbAlbum.length)%lbAlbum.length;
+  _showLb();
+}
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('lb').classList.contains('open'))return;
+  if(e.key==='ArrowRight')moveLb(1);
+  else if(e.key==='ArrowLeft')moveLb(-1);
+  else if(e.key==='Escape'){document.getElementById('lb').classList.remove('open');document.body.style.overflow='';}
+});
+
+/* ── Hover panel ── */
+window._albumMap={};
+window._albumData={};
+
+const hpEl=document.createElement('div');
+hpEl.className='hover-panel';
+hpEl.id='hoverPanel';
+document.body.appendChild(hpEl);
+
+let _hpTimer=null;
+
+function showHoverPanel(albumKey,cardEl){
+  clearTimeout(_hpTimer);
+  const album=window._albumData[albumKey];
+  if(!album)return;
+  const items=album.files.map((f,fi)=>`
+    <div class="hp-item" onclick="openAlbumLb('${albumKey}',${fi});hideHoverPanel(true)">
+      <img src="${album.path+f}" loading="lazy" alt="">
+    </div>`).join('');
+  hpEl.innerHTML=`<div class="hp-title">📷 ${album.label}（${album.files.length}枚）</div><div class="hp-grid">${items}</div>`;
+
+  const rect=cardEl.getBoundingClientRect();
+  const pw=296, ph=260;
+  let left=rect.left;
+  let top=rect.bottom+6;
+  if(left+pw>window.innerWidth-8) left=window.innerWidth-pw-8;
+  if(top+ph>window.innerHeight-8) top=rect.top-ph-6;
+  hpEl.style.left=left+'px';
+  hpEl.style.top=top+'px';
+  hpEl.classList.add('show');
+}
+
+function hideHoverPanel(immediate){
+  if(immediate){hpEl.classList.remove('show');return;}
+  _hpTimer=setTimeout(()=>hpEl.classList.remove('show'),180);
+}
+
+hpEl.addEventListener('mouseenter',()=>clearTimeout(_hpTimer));
+hpEl.addEventListener('mouseleave',()=>hideHoverPanel());
+
+/* ── Build photo dcards ── */
+function buildRegionContent(){
+  Object.keys(PHOTO_DATA).forEach(region=>{
+    const sec=document.getElementById('r-'+region);
+    if(!sec)return;
+    const albums=PHOTO_DATA[region];
+    const cardsEl=sec.querySelector('.region-cards');
+
+    albums.forEach((album,ai)=>{
+      const albumKey=region+'-'+ai;
+      window._albumMap[albumKey]=album.files.map(f=>({src:album.path+f,cap:album.label+' — '+f}));
+      window._albumData[albumKey]=album;
+
+      const thumbSrc=album.path+album.files[0];
+      const dcard=document.createElement('div');
+      dcard.className='dcard dcard-photo';
+      dcard.onclick=()=>openAlbumLb(albumKey,0);
+      dcard.innerHTML=`
+        <div class="dcard-thumb">
+          <img src="${thumbSrc}" alt="${album.label}" loading="lazy">
+          <span class="dcard-badge">${album.badge}</span>
+        </div>
+        <div class="dcard-body">
+          <div class="dcard-name">${album.label}</div>
+          <div class="dcard-desc">${album.files.length}枚の写真</div>
+          <div class="dcard-tags"><span class="dtag">${album.badge}</span><span class="dtag">📷フォト</span></div>
+        </div>`;
+      dcard.addEventListener('mouseenter',()=>showHoverPanel(albumKey,dcard));
+      dcard.addEventListener('mouseleave',()=>hideHoverPanel());
+      if(cardsEl)cardsEl.prepend(dcard);
+    });
+  });
+}
+
+buildRegionContent();
+
+/* ── Update tab count badges from PHOTO_DATA ── */
+function updateTabCounts(){
+  // Count albums per region
+  const counts={};
+  let total=0;
+  Object.keys(PHOTO_DATA).forEach(region=>{
+    counts[region]=PHOTO_DATA[region].length;
+    total+=PHOTO_DATA[region].length;
+  });
+  // Update each .rtab .cnt
+  document.querySelectorAll('.rtab').forEach(tab=>{
+    const region=tab.dataset.region;
+    const cntEl=tab.querySelector('.cnt');
+    if(!cntEl)return;
+    if(region==='all'){
+      cntEl.textContent=total;
+    } else {
+      cntEl.textContent=counts[region]||0;
+    }
+  });
+}
+updateTabCounts();
+
 /* ── Region filter ── */
 const REGIONS=['hokkaido','tohoku','kanto','chubu','kinki','chugoku','shikoku','kyushu'];
 
 function switchRegion(region, el){
-  // Update tabs (top tabs + sidebar links)
   document.querySelectorAll('.rtab').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.region-link').forEach(b=>b.classList.remove('active'));
   if(el) el.classList.add('active');
-
-  // Sync both tab bars
   document.querySelectorAll('[data-region="'+region+'"]').forEach(b=>b.classList.add('active'));
-
-  // Show/hide sections
   REGIONS.forEach(r=>{
     const sec=document.getElementById('r-'+r);
     if(!sec)return;
-    if(region==='all'||region===r){
-      sec.classList.add('show');
-    } else {
-      sec.classList.remove('show');
-    }
+    sec.classList.toggle('show', region==='all'||region===r);
   });
-
-  // Scroll to top of content
   document.querySelector('.content').scrollIntoView({behavior:'smooth',block:'start'});
 }
 </script>
