@@ -10,66 +10,119 @@
   --acc:#b8860b;--card:#fdfaf0;--nav:rgba(235,225,200,.95);
   --hero:linear-gradient(135deg,#4a3200,#8b6914,#c8950c);
   --htxt:#fdf8e0;--bdr:#d8c888;--shd:rgba(61,43,10,.15);
+  --sidebar:200px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Hiragino Kaku Gothic Pro','メイリオ',sans-serif;background:var(--bg);color:var(--fg);transition:background .5s,color .5s}
+html{scroll-behavior:smooth}
+body{font-family:'Hiragino Kaku Gothic Pro','メイリオ',sans-serif;background:var(--bg);color:var(--fg);min-height:100vh}
+
+/* ── Theme Panel ── */
 .tp{position:fixed;top:50%;right:0;transform:translateY(-50%);background:var(--nav);border:1px solid var(--bdr);border-radius:12px 0 0 12px;padding:10px 6px;z-index:999;backdrop-filter:blur(8px);box-shadow:-2px 0 15px var(--shd)}
 .tp h5{font-size:9px;text-align:center;color:var(--fg2);margin-bottom:6px}
 .tb{display:block;width:30px;height:30px;border-radius:50%;border:2px solid transparent;cursor:pointer;margin:3px auto;transition:transform .2s;position:relative}
 .tb:hover,.tb.on{transform:scale(1.25)}.tb.on{border-color:var(--fg)}
 .tb::after{content:attr(data-n);position:absolute;right:38px;top:50%;transform:translateY(-50%);background:var(--fg);color:var(--bg);padding:3px 8px;border-radius:5px;font-size:10px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
 .tb:hover::after{opacity:1}
-nav{position:fixed;top:0;width:100%;background:var(--nav);backdrop-filter:blur(10px);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;z-index:100;box-shadow:0 2px 20px var(--shd);border-bottom:1px solid var(--bdr)}
-.logo{font-size:18px;font-weight:900;color:var(--acc);text-decoration:none}
-.nl{display:flex;gap:24px;list-style:none}
-.nl a{text-decoration:none;color:var(--fg);font-size:14px;padding:5px 12px;border-radius:8px;transition:all .3s}
-.nl a:hover,.nl a.cur{background:var(--acc);color:var(--htxt)}
-.hero{min-height:100vh;background:var(--hero);display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M30 10 L50 50 L10 50 Z'/%3E%3C/g%3E%3C/svg%3E")}
-.hc{max-width:760px;color:var(--htxt);position:relative;z-index:1}
-.he{font-size:80px;margin-bottom:20px;display:block;animation:fl 3s ease-in-out infinite}
-@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.hero h1{font-size:clamp(32px,6vw,64px);font-weight:900;margin-bottom:14px;text-shadow:0 2px 20px rgba(0,0,0,.3);line-height:1.2}
-.hero p{font-size:clamp(15px,2vw,20px);opacity:.9;margin-bottom:36px;line-height:1.9}
-.btn{display:inline-block;padding:12px 30px;border-radius:50px;text-decoration:none;font-size:15px;font-weight:700;transition:all .3s;border:2px solid var(--htxt);color:var(--htxt)}
-.btn:hover{background:var(--htxt);color:var(--acc);transform:translateY(-2px)}
-.sec{padding:70px 24px;background:var(--bg)}
-.sec2{padding:70px 24px;background:var(--bg2)}
-.st{font-size:clamp(24px,4vw,38px);font-weight:900;color:var(--fg);margin-bottom:10px;text-align:center}
-.ss{font-size:15px;color:var(--fg2);margin-bottom:48px;line-height:1.9;text-align:center}
-/* Destination cards */
-.dg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;max-width:1080px;margin:0 auto}
-.dc{background:var(--card);border-radius:16px;overflow:hidden;border:1px solid var(--bdr);box-shadow:0 4px 20px var(--shd);transition:all .3s;cursor:pointer}
-.dc:hover{transform:translateY(-6px);box-shadow:0 12px 40px var(--shd);border-color:var(--acc)}
-.di{height:140px;display:flex;align-items:center;justify-content:center;font-size:60px;background:var(--hero);position:relative}
-.di::after{content:attr(data-loc);position:absolute;bottom:8px;right:10px;background:rgba(0,0,0,.5);color:#fff;font-size:11px;padding:2px 8px;border-radius:10px}
-.dd{padding:16px}
-.dn{font-size:17px;font-weight:700;color:var(--acc);margin-bottom:6px}
-.dt{font-size:13px;color:var(--fg2);line-height:1.8}
-/* Timeline */
-.tl{max-width:720px;margin:0 auto;position:relative}
-.tl::before{content:'';position:absolute;left:24px;top:0;bottom:0;width:2px;background:var(--acc);opacity:.3}
-.te{display:flex;gap:20px;margin-bottom:36px;position:relative}
-.tdt{width:48px;height:48px;border-radius:50%;background:var(--acc);color:var(--htxt);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;z-index:1}
-.tc{background:var(--card);border-radius:12px;padding:18px 20px;flex:1;border:1px solid var(--bdr);box-shadow:0 3px 14px var(--shd)}
-.tctit{font-size:16px;font-weight:700;color:var(--acc);margin-bottom:4px}
-.tcdt{font-size:12px;color:var(--fg2);margin-bottom:6px;opacity:.8}
-.tcdesc{font-size:14px;color:var(--fg2);line-height:1.8}
-/* Tips */
-.tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;max-width:1080px;margin:0 auto}
-.tip{background:var(--card);border-radius:14px;padding:24px 20px;border:1px solid var(--bdr);box-shadow:0 3px 14px var(--shd);text-align:center}
-.tie{font-size:36px;margin-bottom:12px}
-.tit{font-size:15px;font-weight:700;color:var(--acc);margin-bottom:6px}
-.tid{font-size:13px;color:var(--fg2);line-height:1.8}
-/* Map grid */
-.map{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;max-width:1080px;margin:0 auto}
-.mc{background:var(--card);border-radius:10px;padding:14px 10px;text-align:center;border:1px solid var(--bdr);transition:all .3s;cursor:pointer}
-.mc:hover{background:var(--acc);color:var(--htxt);transform:scale(1.05)}
-.mc .me{font-size:28px;margin-bottom:4px}
-.mc .mn{font-size:12px;font-weight:700;color:inherit}
-footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:36px;text-align:center;color:var(--fg2);font-size:13px}
+
+/* ── Top Bar ── */
+.topbar{position:fixed;top:0;left:0;right:0;height:48px;background:var(--nav);backdrop-filter:blur(10px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 20px;z-index:200;box-shadow:0 2px 16px var(--shd)}
+.topbar-logo{font-size:17px;font-weight:900;color:var(--acc);text-decoration:none}
+.topbar-nav{margin-left:auto;display:flex;gap:4px}
+.topbar-nav a{text-decoration:none;color:var(--fg);font-size:13px;padding:5px 12px;border-radius:8px;transition:all .2s;font-weight:600}
+.topbar-nav a:hover,.topbar-nav a.cur{background:var(--acc);color:var(--htxt)}
+
+/* ── Layout ── */
+.layout{display:flex;padding-top:48px;min-height:100vh}
+
+/* ── Sidebar ── */
+.sidebar{width:var(--sidebar);flex-shrink:0;position:fixed;top:48px;left:0;bottom:0;background:var(--bg2);border-right:1px solid var(--bdr);overflow-y:auto;display:flex;flex-direction:column;z-index:100}
+.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:2px}
+
+.sb-profile{padding:20px 14px 16px;text-align:center;border-bottom:1px solid var(--bdr)}
+.sb-avatar{width:60px;height:60px;border-radius:50%;background:var(--hero);margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 4px 12px var(--shd)}
+.sb-name{font-size:13px;font-weight:900;color:var(--fg);margin-bottom:3px}
+.sb-bio{font-size:10px;color:var(--fg2);line-height:1.5}
+
+.sb-nav{padding:10px 0;border-bottom:1px solid var(--bdr)}
+.sb-nav-label{font-size:9px;font-weight:700;color:var(--fg2);letter-spacing:1px;padding:0 14px;margin-bottom:6px;opacity:.7}
+.sb-link{display:flex;align-items:center;gap:8px;padding:9px 14px;font-size:12px;font-weight:600;color:var(--fg);text-decoration:none;transition:all .2s;border-left:3px solid transparent}
+.sb-link:hover,.sb-link.cur{background:var(--card);color:var(--acc);border-left-color:var(--acc)}
+.sb-link .icon{font-size:14px;width:18px;text-align:center}
+
+/* Region quick-links in sidebar */
+.sb-regions{padding:10px 0}
+.sb-regions .sb-nav-label{margin-bottom:8px}
+.region-link{display:flex;align-items:center;gap:8px;padding:7px 14px;font-size:11px;color:var(--fg2);text-decoration:none;transition:all .2s;cursor:pointer;border-left:3px solid transparent}
+.region-link:hover,.region-link.active{background:var(--card);color:var(--acc);border-left-color:var(--acc)}
+.region-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* ── Main ── */
+.main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:calc(100vh - 48px)}
+
+/* Hero compact */
+.hero{background:var(--hero);padding:36px 32px;display:flex;align-items:center;gap:28px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='2' fill='%23fff' fill-opacity='0.04'/%3E%3C/svg%3E")}
+.hero-emoji{font-size:56px;animation:fl 3s ease-in-out infinite;position:relative;z-index:1;flex-shrink:0}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.hero-text{color:var(--htxt);position:relative;z-index:1}
+.hero-text h1{font-size:clamp(18px,2.5vw,28px);font-weight:900;margin-bottom:8px;line-height:1.3;text-shadow:0 2px 14px rgba(0,0,0,.25)}
+.hero-text p{font-size:13px;opacity:.9;line-height:1.8}
+
+/* Content */
+.content{padding:28px 28px 0;flex:1}
+
+/* Region tabs */
+.region-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:28px;padding:16px;background:var(--card);border-radius:14px;border:1px solid var(--bdr);box-shadow:0 2px 12px var(--shd)}
+.rtab{padding:7px 14px;border-radius:50px;font-size:12px;font-weight:700;cursor:pointer;border:2px solid var(--bdr);background:var(--bg2);color:var(--fg2);transition:all .25s;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.rtab:hover{border-color:var(--acc);color:var(--acc)}
+.rtab.active{background:var(--acc);color:var(--htxt);border-color:var(--acc)}
+.rtab .cnt{font-size:10px;background:rgba(255,255,255,.3);padding:1px 6px;border-radius:10px;font-weight:900}
+.rtab:not(.active) .cnt{background:var(--bdr);color:var(--fg2)}
+
+/* Section header */
+.sec-hd{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.sec-hd h2{font-size:17px;font-weight:900;color:var(--fg);white-space:nowrap}
+.sec-hd::after{content:'';flex:1;height:1px;background:var(--bdr)}
+
+/* Region section */
+.region-section{margin-bottom:36px;display:none}
+.region-section.show{display:block}
+
+/* Map + cards layout */
+.region-body{display:flex;gap:16px}
+.region-map{width:140px;flex-shrink:0;background:var(--card);border-radius:14px;padding:16px 12px;border:1px solid var(--bdr);text-align:center;box-shadow:0 2px 10px var(--shd)}
+.region-map-em{font-size:48px;margin-bottom:8px}
+.region-map-name{font-size:13px;font-weight:900;color:var(--acc);margin-bottom:4px}
+.region-map-prefs{font-size:10px;color:var(--fg2);line-height:1.8}
+.region-cards{flex:1;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+
+/* Destination card */
+.dcard{background:var(--card);border-radius:12px;overflow:hidden;border:1px solid var(--bdr);box-shadow:0 3px 14px var(--shd);transition:all .3s;cursor:pointer}
+.dcard:hover{transform:translateY(-5px);box-shadow:0 10px 30px var(--shd);border-color:var(--acc)}
+.dcard-thumb{height:90px;background:var(--hero);display:flex;align-items:center;justify-content:center;font-size:40px;position:relative}
+.dcard-badge{position:absolute;bottom:6px;right:8px;font-size:9px;background:rgba(0,0,0,.55);color:#fff;padding:2px 8px;border-radius:10px}
+.dcard-body{padding:12px}
+.dcard-name{font-size:13px;font-weight:700;color:var(--acc);margin-bottom:4px}
+.dcard-desc{font-size:11px;color:var(--fg2);line-height:1.7}
+.dcard-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.dtag{font-size:9px;background:var(--bg2);color:var(--fg2);padding:2px 8px;border-radius:10px;border:1px solid var(--bdr)}
+
+/* Tips strip */
+.tips-strip{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px}
+.tip{background:var(--card);border-radius:12px;padding:14px 16px;border:1px solid var(--bdr);flex:1;min-width:160px;box-shadow:0 2px 10px var(--shd)}
+.tip-em{font-size:22px;margin-bottom:6px}
+.tip-t{font-size:12px;font-weight:700;color:var(--acc);margin-bottom:3px}
+.tip-d{font-size:11px;color:var(--fg2);line-height:1.7}
+
+footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:18px 28px;display:flex;align-items:center;justify-content:space-between;color:var(--fg2);font-size:12px}
+.footer-logo{font-size:15px;font-weight:900;color:var(--acc)}
+.footer-links{display:flex;gap:14px}
+.footer-links a{color:var(--fg2);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--acc)}
+
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:var(--acc);border-radius:3px}
-@media(max-width:768px){nav{padding:0 16px}.nl{gap:10px}.tp{display:none}}
+@media(max-width:900px){:root{--sidebar:160px}.region-body{flex-direction:column}.region-map{width:100%}}
+@media(max-width:640px){.sidebar{display:none}.main{margin-left:0}.tp{display:none}.hero{flex-direction:column;padding:24px 16px}.content{padding:16px 14px}}
 </style>
 </head>
 <body>
@@ -89,125 +142,581 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:36px;text-a
   <button class="tb" onclick="setT(9)" data-n="⑩砂漠の旅" style="background:linear-gradient(135deg,#bf360c,#f57f17)"></button>
 </div>
 
-<!-- Nav -->
-<nav>
-  <a href="index.html" class="logo">✈️ 旅行</a>
-  <ul class="nl">
-    <li><a href="index.html">ホーム</a></li>
-    <li><a href="travel.html" class="cur">✈️ 旅行</a></li>
-    <li><a href="bowling.html">🎳 ボウリング</a></li>
-    <li><a href="drone.html">🚁 ドローン</a></li>
-  </ul>
-</nav>
+<!-- Top Bar -->
+<header class="topbar">
+  <a href="index.html" class="topbar-logo">✈️ 旅行ページ</a>
+  <nav class="topbar-nav">
+    <a href="index.html">🏠 ホーム</a>
+    <a href="travel.html" class="cur">✈️ 旅行</a>
+    <a href="bowling.html">🎳 ボウリング</a>
+    <a href="drone.html">🚁 ドローン</a>
+  </nav>
+</header>
 
-<!-- Hero -->
-<section class="hero">
-  <div class="hc">
-    <span class="he">✈️</span>
-    <h1>旅の記憶と<br>次の冒険へ</h1>
-    <p>国内外の旅先で出会った風景・人・料理<br>大切な旅の記録をここに</p>
-    <a href="#destinations" class="btn">旅先を見る</a>
-  </div>
-</section>
+<div class="layout">
 
-<!-- Destinations -->
-<section class="sec" id="destinations">
-  <h2 class="st">訪れた旅先</h2>
-  <p class="ss">印象に残っている旅先を紹介します</p>
-  <div class="dg">
-    <div class="dc">
-      <div class="di" data-loc="北海道">🌸</div>
-      <div class="dd"><div class="dn">北海道</div><div class="dt">広大な大地と新鮮な海の幸。花畑と夕焼けが忘れられない旅。</div></div>
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sb-profile">
+      <div class="sb-avatar">✈️</div>
+      <div class="sb-name">旅行記録</div>
+      <div class="sb-bio">日本各地の旅先を<br>エリア別に紹介</div>
     </div>
-    <div class="dc">
-      <div class="di" data-loc="京都">⛩️</div>
-      <div class="dd"><div class="dn">京都</div><div class="dt">古都の静けさと美しい社寺。四季折々の表情が魅力的な場所。</div></div>
-    </div>
-    <div class="dc">
-      <div class="di" data-loc="沖縄">🏖️</div>
-      <div class="dd"><div class="dn">沖縄</div><div class="dt">エメラルドグリーンの海と、独自の文化。南国の風を満喫。</div></div>
-    </div>
-    <div class="dc">
-      <div class="di" data-loc="東京">🗼</div>
-      <div class="dd"><div class="dn">東京</div><div class="dt">何度訪れても新しい発見がある大都市。グルメと観光を満喫。</div></div>
-    </div>
-    <div class="dc">
-      <div class="di" data-loc="ハワイ">🌺</div>
-      <div class="dd"><div class="dn">ハワイ</div><div class="dt">青い空と海、フラの踊り。リゾートの雰囲気に癒やされた旅。</div></div>
-    </div>
-    <div class="dc">
-      <div class="di" data-loc="ヨーロッパ">🏰</div>
-      <div class="dd"><div class="dn">ヨーロッパ</div><div class="dt">歴史ある街並みと美食の旅。石畳の路地を歩く喜び。</div></div>
-    </div>
-  </div>
-</section>
 
-<!-- Timeline -->
-<section class="sec2">
-  <h2 class="st">旅の記録</h2>
-  <p class="ss">最近の旅の思い出を時系列で振り返ります</p>
-  <div class="tl">
-    <div class="te">
-      <div class="tdt">🌸</div>
-      <div class="tc"><div class="tctit">北海道・富良野の花畑</div><div class="tcdt">2025年7月</div><div class="tcdesc">ラベンダー畑が一面に広がり、紫の絨毯のような絶景。爽やかな風と香りに包まれた忘れられない時間。</div></div>
-    </div>
-    <div class="te">
-      <div class="tdt">⛩️</div>
-      <div class="tc"><div class="tctit">京都・秋の紅葉巡り</div><div class="tcdt">2025年11月</div><div class="tcdesc">嵐山から清水寺まで、燃えるような紅葉の中を歩いた秋の京都。お抹茶と和菓子も格別でした。</div></div>
-    </div>
-    <div class="te">
-      <div class="tdt">🏖️</div>
-      <div class="tc"><div class="tctit">沖縄・離島シュノーケリング</div><div class="tcdt">2025年8月</div><div class="tcdesc">透き通った海の中に色とりどりの魚たち。サンゴ礁の美しさに圧倒された南の島の旅。</div></div>
-    </div>
-    <div class="te">
-      <div class="tdt">🗼</div>
-      <div class="tc"><div class="tctit">東京・下町散策</div><div class="tcdt">2024年3月</div><div class="tcdesc">浅草から谷中まで、昔ながらの雰囲気が残る下町を歩き回った。懐かしい気持ちになれる旅。</div></div>
-    </div>
-  </div>
-</section>
+    <nav class="sb-nav">
+      <div class="sb-nav-label">MENU</div>
+      <a href="index.html" class="sb-link"><span class="icon">🏠</span>ホーム</a>
+      <a href="travel.html" class="sb-link cur"><span class="icon">✈️</span>旅行</a>
+      <a href="bowling.html" class="sb-link"><span class="icon">🎳</span>ボウリング</a>
+      <a href="drone.html" class="sb-link"><span class="icon">🚁</span>ドローン</a>
+    </nav>
 
-<!-- Tips -->
-<section class="sec">
-  <h2 class="st">旅のコツ・持ち物</h2>
-  <p class="ss">長年の旅行で学んだ便利な知恵を共有</p>
-  <div class="tips">
-    <div class="tip"><div class="tie">🎒</div><div class="tit">荷物は軽く</div><div class="tid">旅行はできるだけ身軽に。必要最小限の荷物で行動の自由度がぐっと上がります。</div></div>
-    <div class="tip"><div class="tie">📱</div><div class="tit">地図アプリ活用</div><div class="tid">オフラインでも使える地図アプリをダウンロードしておくと道に迷いません。</div></div>
-    <div class="tip"><div class="tie">📷</div><div class="tit">写真の記録</div><div class="tid">その瞬間の感動を写真に残して。後から見返すと旅の思い出が鮮やかによみがえります。</div></div>
-    <div class="tip"><div class="tie">🍜</div><div class="tit">地元グルメを楽しむ</div><div class="tid">チェーン店は避けて、その土地ならではの食堂や市場で本物の味を体験しましょう。</div></div>
-    <div class="tip"><div class="tie">🕐</div><div class="tit">余裕を持ったスケジュール</div><div class="tid">予定を詰め込みすぎず、偶然の出会いや発見を楽しめる時間的余裕を大切に。</div></div>
-    <div class="tip"><div class="tie">💬</div><div class="tit">地元の人と話す</div><div class="tid">観光本には載っていない穴場スポットや美味しいお店は、地元の人に聞くのが一番。</div></div>
-  </div>
-</section>
+    <!-- Region quick links -->
+    <div class="sb-regions">
+      <div class="sb-nav-label">エリア</div>
+      <a class="region-link active" onclick="switchRegion('all',this)">
+        <span class="region-dot" style="background:#888"></span>すべて
+      </a>
+      <a class="region-link" onclick="switchRegion('hokkaido',this)">
+        <span class="region-dot" style="background:#0077b6"></span>北海道
+      </a>
+      <a class="region-link" onclick="switchRegion('tohoku',this)">
+        <span class="region-dot" style="background:#2e7d32"></span>東北
+      </a>
+      <a class="region-link" onclick="switchRegion('kanto',this)">
+        <span class="region-dot" style="background:#e53935"></span>関東
+      </a>
+      <a class="region-link" onclick="switchRegion('chubu',this)">
+        <span class="region-dot" style="background:#fb8c00"></span>中部
+      </a>
+      <a class="region-link" onclick="switchRegion('kinki',this)">
+        <span class="region-dot" style="background:#8e24aa"></span>近畿
+      </a>
+      <a class="region-link" onclick="switchRegion('chugoku',this)">
+        <span class="region-dot" style="background:#00838f"></span>中国
+      </a>
+      <a class="region-link" onclick="switchRegion('shikoku',this)">
+        <span class="region-dot" style="background:#c0ca33"></span>四国
+      </a>
+      <a class="region-link" onclick="switchRegion('kyushu',this)">
+        <span class="region-dot" style="background:#d81b60"></span>九州・沖縄
+      </a>
+    </div>
+  </aside>
 
-<!-- World Map -->
-<section class="sec2">
-  <h2 class="st">世界の旅先マップ</h2>
-  <p class="ss">訪れた・訪れたい国や地域</p>
-  <div class="map">
-    <div class="mc"><div class="me">🇯🇵</div><div class="mn">日本</div></div>
-    <div class="mc"><div class="me">🇺🇸</div><div class="mn">アメリカ</div></div>
-    <div class="mc"><div class="me">🇫🇷</div><div class="mn">フランス</div></div>
-    <div class="mc"><div class="me">🇮🇹</div><div class="mn">イタリア</div></div>
-    <div class="mc"><div class="me">🇬🇧</div><div class="mn">イギリス</div></div>
-    <div class="mc"><div class="me">🇩🇪</div><div class="mn">ドイツ</div></div>
-    <div class="mc"><div class="me">🇹🇭</div><div class="mn">タイ</div></div>
-    <div class="mc"><div class="me">🇦🇺</div><div class="mn">オーストラリア</div></div>
-    <div class="mc"><div class="me">🇳🇿</div><div class="mn">ニュージーランド</div></div>
-    <div class="mc"><div class="me">🇨🇦</div><div class="mn">カナダ</div></div>
-    <div class="mc"><div class="me">🇧🇷</div><div class="mn">ブラジル</div></div>
-    <div class="mc"><div class="me">🇿🇦</div><div class="mn">南アフリカ</div></div>
-  </div>
-</section>
+  <!-- ── Main ── -->
+  <div class="main">
 
-<footer>
-  <p style="font-size:22px;margin-bottom:10px">✈️ 旅行ページ</p>
-  <p>旅行 ✈️ ｜ ボウリング 🎳 ｜ ドローン 🚁</p>
-  <p style="margin-top:10px"><a href="index.html" style="color:var(--acc);text-decoration:none">← ホームへ戻る</a></p>
-  <p style="margin-top:10px;opacity:.6">© 2026 My Hobby Page. All rights reserved.</p>
-</footer>
+    <!-- Hero -->
+    <section class="hero">
+      <span class="hero-emoji" id="he">✈️</span>
+      <div class="hero-text">
+        <h1>日本の旅 — エリア別記録</h1>
+        <p>北海道から沖縄まで、各地で出会った風景・グルメ・思い出<br>エリアのタブで絞り込んでご覧ください</p>
+      </div>
+    </section>
+
+    <div class="content">
+
+      <!-- Region Tabs -->
+      <div class="region-tabs">
+        <div class="rtab active" onclick="switchRegion('all',this)" data-region="all">
+          🗾 すべて<span class="cnt">47</span>
+        </div>
+        <div class="rtab" onclick="switchRegion('hokkaido',this)" data-region="hokkaido">
+          🌸 北海道<span class="cnt">6</span>
+        </div>
+        <div class="rtab" onclick="switchRegion('tohoku',this)" data-region="tohoku">
+          🍎 東北<span class="cnt">5</span>
+        </div>
+        <div class="rtab" onclick="switchRegion('kanto',this)" data-region="kanto">
+          🗼 関東<span class="cnt">8</span>
+        </div>
+        <div class="rtab" onclick="switchRegion('chubu',this)" data-region="chubu">
+          🗻 中部<span class="cnt">6</span>
+        </div>
+        <div class="rtab" onclick="switchRegion('kinki',this)" data-region="kinki">
+          ⛩️ 近畿<span class="cnt">8</span>
+        </div>
+        <div class="rtab" onclick="switchRegion('chugoku',this)" data-region="chugoku">
+          🦌 中国<span class="cnt">4</span>
+        </div>
+        <div class="rtab" onclick="switchRegion('shikoku',this)" data-region="shikoku">
+          🍊 四国<span class="cnt">4</span>
+        </div>
+        <div class="rtab" onclick="switchRegion('kyushu',this)" data-region="kyushu">
+          🌺 九州・沖縄<span class="cnt">6</span>
+        </div>
+      </div>
+
+      <!-- ① 北海道 -->
+      <div class="region-section show" id="r-hokkaido">
+        <div class="sec-hd"><h2>🌸 北海道</h2></div>
+        <div class="region-body">
+          <div class="region-map">
+            <div class="region-map-em">🌸</div>
+            <div class="region-map-name">北海道</div>
+            <div class="region-map-prefs">札幌市<br>函館市<br>旭川市<br>富良野市<br>釧路市<br>知床</div>
+          </div>
+          <div class="region-cards">
+            <div class="dcard">
+              <div class="dcard-thumb">🌸<span class="dcard-badge">富良野</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">富良野・ラベンダー畑</div>
+                <div class="dcard-desc">一面紫の絨毯。夏の青空との対比が絶景。</div>
+                <div class="dcard-tags"><span class="dtag">花畑</span><span class="dtag">夏</span><span class="dtag">写真映え</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🏔️<span class="dcard-badge">大雪山</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">大雪山・紅葉トレッキング</div>
+                <div class="dcard-desc">日本で最も早い紅葉。雄大な山並みを歩く。</div>
+                <div class="dcard-tags"><span class="dtag">トレッキング</span><span class="dtag">紅葉</span><span class="dtag">秋</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🏙️<span class="dcard-badge">札幌</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">札幌・大通公園</div>
+                <div class="dcard-desc">雪まつりと夏のビアガーデン、年中楽しめる。</div>
+                <div class="dcard-tags"><span class="dtag">都市</span><span class="dtag">グルメ</span><span class="dtag">雪まつり</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🦅<span class="dcard-badge">知床</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">知床・世界遺産の自然</div>
+                <div class="dcard-desc">流氷とヒグマ。手つかずの大自然に圧倒される。</div>
+                <div class="dcard-tags"><span class="dtag">世界遺産</span><span class="dtag">自然</span><span class="dtag">流氷</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🦑<span class="dcard-badge">函館</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">函館・夜景と朝市</div>
+                <div class="dcard-desc">世界三大夜景のひとつ。朝市の海鮮が絶品。</div>
+                <div class="dcard-tags"><span class="dtag">夜景</span><span class="dtag">海鮮</span><span class="dtag">グルメ</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🐊<span class="dcard-badge">釧路</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">釧路湿原・自然観察</div>
+                <div class="dcard-desc">日本最大の湿原。タンチョウを間近で観察。</div>
+                <div class="dcard-tags"><span class="dtag">湿原</span><span class="dtag">野鳥</span><span class="dtag">自然</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ② 東北 -->
+      <div class="region-section show" id="r-tohoku">
+        <div class="sec-hd"><h2>🍎 東北</h2></div>
+        <div class="region-body">
+          <div class="region-map">
+            <div class="region-map-em">🍎</div>
+            <div class="region-map-name">東北</div>
+            <div class="region-map-prefs">青森県<br>岩手県<br>宮城県<br>秋田県<br>山形県<br>福島県</div>
+          </div>
+          <div class="region-cards">
+            <div class="dcard">
+              <div class="dcard-thumb">🌺<span class="dcard-badge">青森</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">弘前・桜まつり</div>
+                <div class="dcard-desc">弘前城と桜の組み合わせが格別の絶景。</div>
+                <div class="dcard-tags"><span class="dtag">桜</span><span class="dtag">春</span><span class="dtag">城</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🏯<span class="dcard-badge">岩手</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">平泉・中尊寺金色堂</div>
+                <div class="dcard-desc">黄金に輝く世界遺産。歴史の重みを感じる。</div>
+                <div class="dcard-tags"><span class="dtag">世界遺産</span><span class="dtag">寺院</span><span class="dtag">歴史</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🎆<span class="dcard-badge">宮城</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">仙台・七夕まつり</div>
+                <div class="dcard-desc">東北三大祭りのひとつ。色鮮やかな飾りが美しい。</div>
+                <div class="dcard-tags"><span class="dtag">祭り</span><span class="dtag">夏</span><span class="dtag">伝統</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🌊<span class="dcard-badge">秋田</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">田沢湖・日本最深の湖</div>
+                <div class="dcard-desc">エメラルドブルーの透明度が息をのむ美しさ。</div>
+                <div class="dcard-tags"><span class="dtag">湖</span><span class="dtag">自然</span><span class="dtag">絶景</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🍁<span class="dcard-badge">山形</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">山寺・立石寺の紅葉</div>
+                <div class="dcard-desc">松尾芭蕉が詠んだ名刹。紅葉シーズンは圧巻。</div>
+                <div class="dcard-tags"><span class="dtag">紅葉</span><span class="dtag">寺院</span><span class="dtag">俳句</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ③ 関東 -->
+      <div class="region-section show" id="r-kanto">
+        <div class="sec-hd"><h2>🗼 関東</h2></div>
+        <div class="region-body">
+          <div class="region-map">
+            <div class="region-map-em">🗼</div>
+            <div class="region-map-name">関東</div>
+            <div class="region-map-prefs">東京都<br>神奈川県<br>埼玉県<br>千葉県<br>茨城県<br>栃木県<br>群馬県</div>
+          </div>
+          <div class="region-cards">
+            <div class="dcard">
+              <div class="dcard-thumb">🗼<span class="dcard-badge">東京</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">東京・浅草・下町散策</div>
+                <div class="dcard-desc">雷門から仲見世通り。昔ながらの下町風情。</div>
+                <div class="dcard-tags"><span class="dtag">下町</span><span class="dtag">寺院</span><span class="dtag">グルメ</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🗻<span class="dcard-badge">神奈川</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">箱根・温泉と富士山</div>
+                <div class="dcard-desc">芦ノ湖越しの富士山が絶景。温泉でリフレッシュ。</div>
+                <div class="dcard-tags"><span class="dtag">温泉</span><span class="dtag">富士山</span><span class="dtag">絶景</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">💫<span class="dcard-badge">栃木</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">日光東照宮</div>
+                <div class="dcard-desc">豪華絢爛な世界遺産。三猿と陽明門の彫刻に圧倒。</div>
+                <div class="dcard-tags"><span class="dtag">世界遺産</span><span class="dtag">神社</span><span class="dtag">歴史</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🌊<span class="dcard-badge">千葉</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">銚子・犬吠埼灯台</div>
+                <div class="dcard-desc">日本で最も早く初日の出が見える場所。</div>
+                <div class="dcard-tags"><span class="dtag">灯台</span><span class="dtag">初日の出</span><span class="dtag">海</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🌺<span class="dcard-badge">茨城</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">ひたち海浜公園</div>
+                <div class="dcard-desc">春のネモフィラと秋のコキア。季節ごとに絶景。</div>
+                <div class="dcard-tags"><span class="dtag">花畑</span><span class="dtag">春・秋</span><span class="dtag">写真映え</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">♨️<span class="dcard-badge">群馬</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">草津温泉・湯畑</div>
+                <div class="dcard-desc">日本三名泉のひとつ。湯畑の幻想的な風景が忘れられない。</div>
+                <div class="dcard-tags"><span class="dtag">温泉</span><span class="dtag">湯畑</span><span class="dtag">癒し</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ④ 中部 -->
+      <div class="region-section show" id="r-chubu">
+        <div class="sec-hd"><h2>🗻 中部</h2></div>
+        <div class="region-body">
+          <div class="region-map">
+            <div class="region-map-em">🗻</div>
+            <div class="region-map-name">中部</div>
+            <div class="region-map-prefs">新潟県<br>富山県<br>石川県<br>長野県<br>岐阜県<br>静岡県<br>愛知県</div>
+          </div>
+          <div class="region-cards">
+            <div class="dcard">
+              <div class="dcard-thumb">🗻<span class="dcard-badge">静岡</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">富士山・5合目</div>
+                <div class="dcard-desc">日本最高峰から望む雲海と絶景は一生の思い出。</div>
+                <div class="dcard-tags"><span class="dtag">富士山</span><span class="dtag">登山</span><span class="dtag">絶景</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🏘️<span class="dcard-badge">岐阜</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">白川郷・合掌造り</div>
+                <div class="dcard-desc">雪に覆われた合掌造りの集落が幻想的な世界遺産。</div>
+                <div class="dcard-tags"><span class="dtag">世界遺産</span><span class="dtag">冬</span><span class="dtag">雪景色</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">💎<span class="dcard-badge">石川</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">金沢・兼六園</div>
+                <div class="dcard-desc">日本三名園の一つ。四季を通じて美しい名園。</div>
+                <div class="dcard-tags"><span class="dtag">庭園</span><span class="dtag">伝統</span><span class="dtag">文化</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🏔️<span class="dcard-badge">長野</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">上高地・大正池</div>
+                <div class="dcard-desc">北アルプスの清流と立ち枯れの木。静寂の絶景。</div>
+                <div class="dcard-tags"><span class="dtag">高原</span><span class="dtag">自然</span><span class="dtag">絶景</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🌾<span class="dcard-badge">新潟</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">越後湯沢・スキーと温泉</div>
+                <div class="dcard-desc">豪雪地帯ならではのパウダースノーと温泉を満喫。</div>
+                <div class="dcard-tags"><span class="dtag">スキー</span><span class="dtag">温泉</span><span class="dtag">冬</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑤ 近畿 -->
+      <div class="region-section show" id="r-kinki">
+        <div class="sec-hd"><h2>⛩️ 近畿</h2></div>
+        <div class="region-body">
+          <div class="region-map">
+            <div class="region-map-em">⛩️</div>
+            <div class="region-map-name">近畿</div>
+            <div class="region-map-prefs">京都府<br>大阪府<br>兵庫県<br>奈良県<br>滋賀県<br>和歌山県<br>三重県</div>
+          </div>
+          <div class="region-cards">
+            <div class="dcard">
+              <div class="dcard-thumb">⛩️<span class="dcard-badge">京都</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">京都・嵐山・竹林</div>
+                <div class="dcard-desc">朝の竹林の道は幻想的。渡月橋と紅葉も絶品。</div>
+                <div class="dcard-tags"><span class="dtag">竹林</span><span class="dtag">紅葉</span><span class="dtag">秋</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🏯<span class="dcard-badge">大阪</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">大阪城・歴史と桜</div>
+                <div class="dcard-desc">大阪のシンボル。春の桜と天守閣の組み合わせが美しい。</div>
+                <div class="dcard-tags"><span class="dtag">城</span><span class="dtag">桜</span><span class="dtag">歴史</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🦌<span class="dcard-badge">奈良</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">奈良・東大寺と鹿</div>
+                <div class="dcard-desc">大仏と奈良の鹿。のんびり歩く鹿たちが愛らしい。</div>
+                <div class="dcard-tags"><span class="dtag">寺院</span><span class="dtag">鹿</span><span class="dtag">世界遺産</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🏯<span class="dcard-badge">兵庫</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">姫路城・白鷺城</div>
+                <div class="dcard-desc">日本最大の木造城郭。真っ白な外観が美しい世界遺産。</div>
+                <div class="dcard-tags"><span class="dtag">城</span><span class="dtag">世界遺産</span><span class="dtag">歴史</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">⛩️<span class="dcard-badge">三重</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">伊勢神宮・お参り</div>
+                <div class="dcard-desc">日本人の心のふるさと。おかげ横丁の食べ歩きも楽しい。</div>
+                <div class="dcard-tags"><span class="dtag">神社</span><span class="dtag">パワースポット</span><span class="dtag">食べ歩き</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🌊<span class="dcard-badge">和歌山</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">那智の滝・熊野古道</div>
+                <div class="dcard-desc">日本一の高さを誇る那智の滝。世界遺産の古道を歩く。</div>
+                <div class="dcard-tags"><span class="dtag">滝</span><span class="dtag">世界遺産</span><span class="dtag">古道</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑥ 中国 -->
+      <div class="region-section show" id="r-chugoku">
+        <div class="sec-hd"><h2>🦌 中国</h2></div>
+        <div class="region-body">
+          <div class="region-map">
+            <div class="region-map-em">🦌</div>
+            <div class="region-map-name">中国</div>
+            <div class="region-map-prefs">鳥取県<br>島根県<br>岡山県<br>広島県<br>山口県</div>
+          </div>
+          <div class="region-cards">
+            <div class="dcard">
+              <div class="dcard-thumb">⛩️<span class="dcard-badge">広島</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">宮島・厳島神社</div>
+                <div class="dcard-desc">海上に浮かぶ大鳥居。満潮時の幻想的な風景。</div>
+                <div class="dcard-tags"><span class="dtag">世界遺産</span><span class="dtag">海</span><span class="dtag">神社</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🏰<span class="dcard-badge">岡山</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">倉敷・美観地区</div>
+                <div class="dcard-desc">白壁の蔵が立ち並ぶ江戸時代の情緒ある街並み。</div>
+                <div class="dcard-tags"><span class="dtag">街並み</span><span class="dtag">歴史</span><span class="dtag">運河</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🏖️<span class="dcard-badge">鳥取</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">鳥取砂丘</div>
+                <div class="dcard-desc">日本最大の砂丘。砂漠のような壮大な景色が広がる。</div>
+                <div class="dcard-tags"><span class="dtag">砂丘</span><span class="dtag">自然</span><span class="dtag">絶景</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🏛️<span class="dcard-badge">島根</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">出雲大社・縁結び</div>
+                <div class="dcard-desc">縁結びの神様。大しめ縄と独特の神楽に感動。</div>
+                <div class="dcard-tags"><span class="dtag">神社</span><span class="dtag">縁結び</span><span class="dtag">パワースポット</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑦ 四国 -->
+      <div class="region-section show" id="r-shikoku">
+        <div class="sec-hd"><h2>🍊 四国</h2></div>
+        <div class="region-body">
+          <div class="region-map">
+            <div class="region-map-em">🍊</div>
+            <div class="region-map-name">四国</div>
+            <div class="region-map-prefs">徳島県<br>香川県<br>愛媛県<br>高知県</div>
+          </div>
+          <div class="region-cards">
+            <div class="dcard">
+              <div class="dcard-thumb">🌀<span class="dcard-badge">徳島</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">大塚国際美術館</div>
+                <div class="dcard-desc">世界の名画を陶板で再現。一日では回れない圧倒的なスケール。</div>
+                <div class="dcard-tags"><span class="dtag">美術館</span><span class="dtag">文化</span><span class="dtag">芸術</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🍜<span class="dcard-badge">香川</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">讃岐うどん巡り</div>
+                <div class="dcard-desc">本場のうどんは格別の旨さ。早朝から行列の名店も。</div>
+                <div class="dcard-tags"><span class="dtag">グルメ</span><span class="dtag">うどん</span><span class="dtag">食べ歩き</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🏯<span class="dcard-badge">愛媛</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">松山城・道後温泉</div>
+                <div class="dcard-desc">現存天守と日本最古の温泉。歴史と癒しの旅。</div>
+                <div class="dcard-tags"><span class="dtag">城</span><span class="dtag">温泉</span><span class="dtag">歴史</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🌊<span class="dcard-badge">高知</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">四万十川・日本最後の清流</div>
+                <div class="dcard-desc">沈下橋と清流の組み合わせが美しい。カヌーも最高。</div>
+                <div class="dcard-tags"><span class="dtag">川</span><span class="dtag">自然</span><span class="dtag">カヌー</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑧ 九州・沖縄 -->
+      <div class="region-section show" id="r-kyushu">
+        <div class="sec-hd"><h2>🌺 九州・沖縄</h2></div>
+        <div class="region-body">
+          <div class="region-map">
+            <div class="region-map-em">🌺</div>
+            <div class="region-map-name">九州・沖縄</div>
+            <div class="region-map-prefs">福岡県<br>長崎県<br>熊本県<br>大分県<br>宮崎県<br>鹿児島県<br>沖縄県</div>
+          </div>
+          <div class="region-cards">
+            <div class="dcard">
+              <div class="dcard-thumb">🏖️<span class="dcard-badge">沖縄</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">沖縄・美ら海水族館</div>
+                <div class="dcard-desc">世界有数の大水槽。ジンベエザメが泳ぐ姿が圧倒的。</div>
+                <div class="dcard-tags"><span class="dtag">水族館</span><span class="dtag">海</span><span class="dtag">家族向け</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🌋<span class="dcard-badge">鹿児島</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">桜島・噴火の絶景</div>
+                <div class="dcard-desc">活火山と錦江湾の絶景。灰が降る独特の景観。</div>
+                <div class="dcard-tags"><span class="dtag">火山</span><span class="dtag">絶景</span><span class="dtag">自然</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">♨️<span class="dcard-badge">大分</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">別府・地獄めぐり</div>
+                <div class="dcard-desc">七色の温泉地獄。湯けむりの街・別府の名物観光。</div>
+                <div class="dcard-tags"><span class="dtag">温泉</span><span class="dtag">地獄めぐり</span><span class="dtag">観光</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🍜<span class="dcard-badge">福岡</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">博多・屋台ラーメン</div>
+                <div class="dcard-desc">中洲の屋台で味わう豚骨ラーメンは格別の美味しさ。</div>
+                <div class="dcard-tags"><span class="dtag">グルメ</span><span class="dtag">屋台</span><span class="dtag">ラーメン</span></div>
+              </div>
+            </div>
+            <div class="dcard">
+              <div class="dcard-thumb">🏙️<span class="dcard-badge">長崎</span></div>
+              <div class="dcard-body">
+                <div class="dcard-name">長崎・グラバー園と夜景</div>
+                <div class="dcard-desc">稲佐山からの夜景は日本三大夜景のひとつ。</div>
+                <div class="dcard-tags"><span class="dtag">夜景</span><span class="dtag">異文化</span><span class="dtag">歴史</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Travel Tips -->
+      <div style="margin-bottom:28px">
+        <div class="sec-hd"><h2>旅のコツ</h2></div>
+        <div class="tips-strip">
+          <div class="tip"><div class="tip-em">🎒</div><div class="tip-t">荷物は軽く</div><div class="tip-d">必要最小限で行動の自由度を上げましょう</div></div>
+          <div class="tip"><div class="tip-em">📱</div><div class="tip-t">地図アプリ活用</div><div class="tip-d">オフライン地図を事前ダウンロードして安心</div></div>
+          <div class="tip"><div class="tip-em">🍜</div><div class="tip-t">地元グルメ</div><div class="tip-d">チェーン店より地元食堂で本物の味を体験</div></div>
+          <div class="tip"><div class="tip-em">💬</div><div class="tip-t">地元の人に聞く</div><div class="tip-d">観光本にない穴場は地元の人だけが知っている</div></div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+
+    <footer>
+      <span class="footer-logo">✈️ 旅行ページ</span>
+      <div class="footer-links">
+        <a href="index.html">🏠 ホーム</a>
+        <a href="bowling.html">🎳 ボウリング</a>
+        <a href="drone.html">🚁 ドローン</a>
+      </div>
+      <span style="opacity:.6">© 2026</span>
+    </footer>
+
+  </div><!-- /main -->
+</div><!-- /layout -->
 
 <script>
+/* ── Theme ── */
 const T=[
   {bg:'#f5f0e0',bg2:'#ebe3cc',fg:'#3d2b0a',fg2:'#6b5020',acc:'#b8860b',card:'#fdfaf0',nav:'rgba(235,225,200,.95)',hero:'linear-gradient(135deg,#4a3200,#8b6914,#c8950c)',htxt:'#fdf8e0',bdr:'#d8c888',shd:'rgba(61,43,10,.15)',em:'🗺️'},
   {bg:'#f2ebe2',bg2:'#e5dcd0',fg:'#2c1a0e',fg2:'#5c4033',acc:'#8b5e3c',card:'#faf6f2',nav:'rgba(228,218,204,.95)',hero:'linear-gradient(135deg,#3e2612,#6b4c30,#8b6355)',htxt:'#f5efe8',bdr:'#d0b898',shd:'rgba(44,26,14,.15)',em:'🧭'},
@@ -228,12 +737,39 @@ function setT(i){
   r.setProperty('--nav',t.nav);r.setProperty('--hero',t.hero);
   r.setProperty('--htxt',t.htxt);r.setProperty('--bdr',t.bdr);
   r.setProperty('--shd',t.shd);
-  document.querySelector('.he').textContent=t.em;
+  document.getElementById('he').textContent=t.em;
   document.querySelectorAll('.tb').forEach((b,j)=>b.classList.toggle('on',j===i));
   localStorage.setItem('tt',i);
 }
 const s=localStorage.getItem('tt');
 if(s!==null)setT(+s);
+
+/* ── Region filter ── */
+const REGIONS=['hokkaido','tohoku','kanto','chubu','kinki','chugoku','shikoku','kyushu'];
+
+function switchRegion(region, el){
+  // Update tabs (top tabs + sidebar links)
+  document.querySelectorAll('.rtab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.region-link').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+
+  // Sync both tab bars
+  document.querySelectorAll('[data-region="'+region+'"]').forEach(b=>b.classList.add('active'));
+
+  // Show/hide sections
+  REGIONS.forEach(r=>{
+    const sec=document.getElementById('r-'+r);
+    if(!sec)return;
+    if(region==='all'||region===r){
+      sec.classList.add('show');
+    } else {
+      sec.classList.remove('show');
+    }
+  });
+
+  // Scroll to top of content
+  document.querySelector('.content').scrollIntoView({behavior:'smooth',block:'start'});
+}
 </script>
 </body>
 </html>
