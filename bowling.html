@@ -48,7 +48,8 @@ nav{position:fixed;top:0;width:100%;background:var(--nav);backdrop-filter:blur(1
 .sb td.total{background:color-mix(in srgb,var(--acc) 15%,transparent);font-weight:900;font-size:15px;color:var(--acc)}
 .sb tr:last-child td{border-bottom:none}
 .sb tr:hover td{background:color-mix(in srgb,var(--acc) 8%,transparent)}
-.score-hi{color:var(--acc);font-weight:900;font-size:16px}
+.sb td.score-hi{color:var(--acc)!important;font-weight:900!important;background:color-mix(in srgb,var(--acc) 10%,transparent)!important}
+.sb td.total-m{background:color-mix(in srgb,#e8a020 25%,transparent)!important;color:#b36800!important;font-weight:900!important;font-size:15px!important;border-left:3px solid #e8a020!important}
 /* Add form */
 .score-form{max-width:100%;margin:0 auto 24px;background:var(--card);border-radius:16px;padding:22px 24px;border:1px solid var(--bdr);box-shadow:0 4px 20px var(--shd)}
 .score-form h3{font-size:14px;font-weight:700;color:var(--acc);margin-bottom:16px}
@@ -498,7 +499,7 @@ function renderTable(){
         <td class="${gc(d.g[0])}">${fmt(d.g[0])}</td><td class="${gc(d.g[1])}">${fmt(d.g[1])}</td><td class="${gc(d.g[2])}">${fmt(d.g[2])}</td><td class="sub${sc(d.s1)}">${fmt(d.s1)}</td>
         <td class="${gc(d.g[3])}">${fmt(d.g[3])}</td><td ${blank} colspan="2">—</td><td class="sub">${fmt(d.g[3])}</td>
         <td ${blank} colspan="8">—</td>
-        <td class="total">${fmt(d.total)}</td>
+        <td class="total-m">🏅 ${fmt(d.total)}</td>
         <td class="sub">${avg(d.g,d.total)??'—'}</td>
         <td>${btns}</td>
       </tr>`;
