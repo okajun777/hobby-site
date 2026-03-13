@@ -338,6 +338,21 @@ function avg(games,total){
   return (total/cnt).toFixed(1);
 }
 
+// ハンデを各ゲームに加算した表示用レコードを返す（元データは変更しない）
+function withHandi(r){
+  const h=r.handi||0;
+  if(!h)return r;
+  const g=r.g.map(x=>x!==null?x+h:null);
+  const c=[r.g.slice(0,3),r.g.slice(3,6),r.g.slice(6,9),r.g.slice(9,12)].map(gr=>gr.filter(x=>x!==null).length);
+  const s1=r.s1!==null?r.s1+h*c[0]:null;
+  const s2=r.s2!==null?r.s2+h*c[1]:null;
+  const s3=r.s3!==null?r.s3+h*c[2]:null;
+  const s4=r.s4!==null?r.s4+h*c[3]:null;
+  const tc=r.g.filter(x=>x!==null).length;
+  const total=r.total!==null?r.total+h*tc:null;
+  return{...r,g,s1,s2,s3,s4,total};
+}
+
 function buildRecord(){
   const date=document.getElementById('f-date').value;
   const name=document.getElementById('f-name').value.trim();
@@ -458,18 +473,19 @@ function renderTable(){
   const sorted=[...filtered].sort((a,b)=>b.date.localeCompare(a.date));
   tbody.innerHTML=sorted.map(r=>{
     const i=records.indexOf(r);
+    const d=withHandi(r); // ハンデ込み表示用
     return`<tr>
       <td>${r.date}</td>
       <td>${r.name||'—'}</td>
       <td>${r.place||'—'}</td>
       <td>${r.player||'—'}</td>
       <td>${fmt(r.handi)}</td>
-      <td>${fmt(r.g[0])}</td><td>${fmt(r.g[1])}</td><td>${fmt(r.g[2])}</td><td class="sub">${fmt(r.s1)}</td>
-      <td>${fmt(r.g[3])}</td><td>${fmt(r.g[4])}</td><td>${fmt(r.g[5])}</td><td class="sub">${fmt(r.s2)}</td>
-      <td>${fmt(r.g[6])}</td><td>${fmt(r.g[7])}</td><td>${fmt(r.g[8])}</td><td class="sub">${fmt(r.s3)}</td>
-      <td>${fmt(r.g[9])}</td><td>${fmt(r.g[10])}</td><td>${fmt(r.g[11])}</td><td class="sub">${fmt(r.s4)}</td>
-      <td class="total">${fmt(r.total)}</td>
-      <td class="sub">${avg(r.g,r.total)??'—'}</td>
+      <td>${fmt(d.g[0])}</td><td>${fmt(d.g[1])}</td><td>${fmt(d.g[2])}</td><td class="sub">${fmt(d.s1)}</td>
+      <td>${fmt(d.g[3])}</td><td>${fmt(d.g[4])}</td><td>${fmt(d.g[5])}</td><td class="sub">${fmt(d.s2)}</td>
+      <td>${fmt(d.g[6])}</td><td>${fmt(d.g[7])}</td><td>${fmt(d.g[8])}</td><td class="sub">${fmt(d.s3)}</td>
+      <td>${fmt(d.g[9])}</td><td>${fmt(d.g[10])}</td><td>${fmt(d.g[11])}</td><td class="sub">${fmt(d.s4)}</td>
+      <td class="total">${fmt(d.total)}</td>
+      <td class="sub">${avg(d.g,d.total)??'—'}</td>
       <td><button class="btn-del" onclick="editRecord(${i})" style="margin-right:4px">編集</button><button class="btn-del" onclick="deleteRecord(${i})">削除</button></td>
     </tr>`;
   }).join('');
@@ -483,8 +499,9 @@ function renderStats(){
     grid.innerHTML='<div class="ac"><div class="ae">📝</div><div class="at">記録なし</div><div class="ad">スコアを入力してください</div></div>';
     return;
   }
-  const allG=filtered.flatMap(r=>r.g.filter(x=>x!==null));
-  const allSubs=filtered.flatMap(r=>[r.s1,r.s2,r.s3,r.s4].filter(x=>x!==null));
+  const adjFiltered=filtered.map(withHandi); // ハンデ込み
+  const allG=adjFiltered.flatMap(r=>r.g.filter(x=>x!==null));
+  const allSubs=adjFiltered.flatMap(r=>[r.s1,r.s2,r.s3,r.s4].filter(x=>x!==null));
   const hiGame=allG.length?Math.max(...allG):null;
   const hiSeries=allSubs.length?Math.max(...allSubs):null;
   const totalGames=allG.length;
@@ -498,7 +515,7 @@ function renderStats(){
   // 名前別カード（全表示時のみ）
   if(filterPlayer===null){
     getPlayers().forEach(p=>{
-      const pr=records.filter(r=>(r.player||'')===p);
+      const pr=records.filter(r=>(r.player||'')===p).map(withHandi);
       const pg=pr.flatMap(r=>r.g.filter(x=>x!==null));
       const phi=pg.length?Math.max(...pg):'—';
       const pavg=pg.length?(pg.reduce((a,b)=>a+b,0)/pg.length).toFixed(1):'—';
@@ -516,8 +533,9 @@ function getFY(dateStr){
 }
 
 function calcStats(recs){
-  const games=recs.flatMap(r=>r.g.filter(x=>x!==null));
-  const subs=recs.flatMap(r=>[r.s1,r.s2,r.s3,r.s4].filter(x=>x!==null));
+  const adj=recs.map(withHandi); // ハンデ込みで集計
+  const games=adj.flatMap(r=>r.g.filter(x=>x!==null));
+  const subs=adj.flatMap(r=>[r.s1,r.s2,r.s3,r.s4].filter(x=>x!==null));
   return{
     sessions:recs.length,
     games:games.length,
