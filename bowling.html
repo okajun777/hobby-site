@@ -190,6 +190,7 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:36px;text-a
           <th colspan="4" class="grp">7〜9G</th>
           <th colspan="4" class="grp">10〜12G</th>
           <th rowspan="2">合計</th>
+          <th rowspan="2">アベレージ</th>
           <th rowspan="2"></th>
         </tr>
         <tr>
@@ -347,7 +348,7 @@ function clearForm(){
 function renderTable(){
   const tbody=document.getElementById('score-body');
   if(!records.length){
-    tbody.innerHTML='<tr><td colspan="23" style="padding:24px;color:var(--fg2);opacity:.6">記録がありません</td></tr>';
+    tbody.innerHTML='<tr><td colspan="24" style="padding:24px;color:var(--fg2);opacity:.6">記録がありません</td></tr>';
     return;
   }
   tbody.innerHTML=records.map((r,i)=>`
