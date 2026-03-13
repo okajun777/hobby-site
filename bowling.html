@@ -69,6 +69,18 @@ nav{position:fixed;top:0;width:100%;background:var(--nav);backdrop-filter:blur(1
 .pin{width:44px;height:44px;border-radius:50%;border:3px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:all .3s;background:var(--card);font-weight:900;color:var(--fg2)}
 .pin.down{background:var(--acc);color:var(--htxt);border-color:var(--acc);transform:scale(.9)}
 .pin-label{text-align:center;font-size:12px;color:var(--fg2);margin-top:8px}
+/* Fiscal year summary */
+.fy-wrap{background:var(--card);border-radius:14px;padding:18px 20px;border:1px solid var(--bdr);box-shadow:0 4px 20px var(--shd);overflow-x:auto}
+.fy-title{font-size:13px;font-weight:700;color:var(--acc);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.fy-table{border-collapse:collapse;width:100%;white-space:nowrap;font-size:12px}
+.fy-table th{background:var(--acc);color:var(--htxt);padding:7px 12px;text-align:center;font-size:11px}
+.fy-table th:first-child{border-radius:6px 0 0 0;text-align:left}
+.fy-table th:last-child{border-radius:0 6px 0 0}
+.fy-table td{padding:8px 12px;border-bottom:1px solid var(--bdr);color:var(--fg2);text-align:center}
+.fy-table td:first-child{text-align:left;font-weight:700;color:var(--fg)}
+.fy-table td.hi{color:var(--acc);font-weight:900}
+.fy-table tr:last-child td{border-bottom:none}
+.fy-table tr:hover td{background:color-mix(in srgb,var(--acc) 6%,transparent)}
 /* Filter bar */
 .filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
 .filter-bar-label{font-size:11px;color:var(--fg2);font-weight:700;margin-right:4px}
@@ -142,8 +154,13 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:36px;text-a
   <h2 class="st">スコア記録</h2>
   <p class="ss">大会・練習のスコアを記録します</p>
 
+  <!-- Add form toggle -->
+  <div style="margin-bottom:12px">
+    <button class="btn-add" onclick="toggleForm()" id="form-toggle-btn">➕ 新しい記録を追加</button>
+  </div>
+
   <!-- Add form -->
-  <div class="score-form">
+  <div class="score-form" id="add-form" style="display:none">
     <h3>➕ 新しい記録を追加</h3>
     <div class="form-grid">
       <label>日付<input type="date" id="f-date"></label>
@@ -180,6 +197,9 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:36px;text-a
       <button class="btn-add" onclick="addRecord()">記録を追加</button>
     </div>
   </div>
+
+  <!-- Fiscal year summary -->
+  <div id="fiscal-summary" style="margin-bottom:20px"></div>
 
   <!-- Filter bar -->
   <div id="filter-bar" class="filter-bar"></div>
@@ -361,7 +381,10 @@ function editRecord(i){
     document.getElementById('f-g'+(gi+1)).value=val===null?'':val;
   });
   document.querySelector('.btn-add').textContent='更新';
-  document.querySelector('.score-form').scrollIntoView({behavior:'smooth',block:'start'});
+  const form=document.getElementById('add-form');
+  form.style.display='block';
+  document.getElementById('form-toggle-btn').textContent='✕ 閉じる';
+  form.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 function deleteRecord(i){
@@ -374,6 +397,7 @@ function deleteRecord(i){
 function save(){
   localStorage.setItem('bowling_scores',JSON.stringify(records));
   renderFilterBar();
+  renderFiscalSummary();
   renderTable();
   renderStats();
 }
@@ -381,6 +405,18 @@ function save(){
 function clearForm(){
   ['f-date','f-name','f-place','f-player','f-handi','f-g1','f-g2','f-g3','f-g4','f-g5','f-g6','f-g7','f-g8','f-g9','f-g10','f-g11','f-g12']
     .forEach(id=>document.getElementById(id).value='');
+  // フォームを閉じてボタンテキストをリセット
+  document.getElementById('add-form').style.display='none';
+  document.getElementById('form-toggle-btn').textContent='➕ 新しい記録を追加';
+}
+
+function toggleForm(){
+  const form=document.getElementById('add-form');
+  const btn=document.getElementById('form-toggle-btn');
+  const open=form.style.display==='none';
+  form.style.display=open?'block':'none';
+  btn.textContent=open?'✕ 閉じる':'➕ 新しい記録を追加';
+  if(open) form.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 /* ── Filter ── */
@@ -447,14 +483,14 @@ function renderStats(){
     return;
   }
   const allG=filtered.flatMap(r=>r.g.filter(x=>x!==null));
-  const allT=filtered.map(r=>r.total).filter(x=>x!==null);
+  const allSubs=filtered.flatMap(r=>[r.s1,r.s2,r.s3,r.s4].filter(x=>x!==null));
   const hiGame=allG.length?Math.max(...allG):null;
-  const hiSeries=allT.length?Math.max(...allT):null;
+  const hiSeries=allSubs.length?Math.max(...allSubs):null;
   const totalGames=allG.length;
   const avgG=totalGames?(allG.reduce((a,b)=>a+b,0)/totalGames).toFixed(1):null;
   const cards=[];
   cards.push(`<div class="ac"><div class="ae">🏆</div><div class="at">ハイゲーム</div><div class="ad">1ゲーム最高スコア<br><strong style="font-size:22px;color:var(--acc)">${hiGame??'—'}点</strong></div></div>`);
-  cards.push(`<div class="ac"><div class="ae">🎳</div><div class="at">ハイシリーズ</div><div class="ad">1セッション最高合計<br><strong style="font-size:22px;color:var(--acc)">${hiSeries??'—'}点</strong></div></div>`);
+  cards.push(`<div class="ac"><div class="ae">🎳</div><div class="at">ハイシリーズ</div><div class="ad">3ゲーム最高合計<br><strong style="font-size:22px;color:var(--acc)">${hiSeries??'—'}点</strong></div></div>`);
   cards.push(`<div class="ac"><div class="ae">📊</div><div class="at">アベレージ</div><div class="ad">全ゲーム平均<br><strong style="font-size:22px;color:var(--acc)">${avgG??'—'}点</strong></div></div>`);
   cards.push(`<div class="ac"><div class="ae">🎯</div><div class="at">総ゲーム数</div><div class="ad">累計プレイ数<br><strong style="font-size:22px;color:var(--acc)">${totalGames}ゲーム</strong></div></div>`);
   cards.push(`<div class="ac"><div class="ae">📅</div><div class="at">セッション数</div><div class="ad">記録した回数<br><strong style="font-size:22px;color:var(--acc)">${filtered.length}回</strong></div></div>`);
@@ -471,7 +507,72 @@ function renderStats(){
   grid.innerHTML=cards.join('');
 }
 
+/* ── Fiscal Year Summary ── */
+function getFY(dateStr){
+  const d=new Date(dateStr);
+  const m=d.getMonth()+1; // 1-12
+  return m>=4?d.getFullYear():d.getFullYear()-1;
+}
+
+function calcStats(recs){
+  const games=recs.flatMap(r=>r.g.filter(x=>x!==null));
+  const subs=recs.flatMap(r=>[r.s1,r.s2,r.s3,r.s4].filter(x=>x!==null));
+  return{
+    sessions:recs.length,
+    games:games.length,
+    avg:games.length?(games.reduce((a,b)=>a+b,0)/games.length).toFixed(1):'—',
+    hiGame:games.length?Math.max(...games):'—',
+    hiSeries:subs.length?Math.max(...subs):'—'
+  };
+}
+
+function renderFiscalSummary(){
+  const el=document.getElementById('fiscal-summary');
+  const filtered=getFiltered();
+  if(!filtered.length){el.innerHTML='';return;}
+
+  // 年度×名前 でグループ化
+  const map={};
+  filtered.forEach(r=>{
+    const fy=r.date?getFY(r.date):'?';
+    const player=r.player||'（未入力）';
+    const key=fy+'__'+player;
+    if(!map[key])map[key]={fy,player,recs:[]};
+    map[key].recs.push(r);
+  });
+
+  // 年度降順・名前昇順でソート
+  const rows=Object.values(map).sort((a,b)=>b.fy-a.fy||a.player.localeCompare(b.player));
+
+  const showPlayer=getPlayers().length>1&&filterPlayer===null;
+
+  const thead=`<tr>
+    <th>年度</th>
+    ${showPlayer?'<th>名前</th>':''}
+    <th>セッション</th><th>ゲーム数</th><th>アベレージ</th><th>ハイゲーム</th><th>ハイシリーズ</th>
+  </tr>`;
+
+  const tbody=rows.map(({fy,player,recs})=>{
+    const s=calcStats(recs);
+    return`<tr>
+      <td>${fy}年度</td>
+      ${showPlayer?`<td>${player}</td>`:''}
+      <td>${s.sessions}回</td>
+      <td>${s.games}G</td>
+      <td class="hi">${s.avg}点</td>
+      <td class="hi">${s.hiGame}点</td>
+      <td class="hi">${s.hiSeries}点</td>
+    </tr>`;
+  }).join('');
+
+  el.innerHTML=`<div class="fy-wrap">
+    <div class="fy-title">📅 年度別集計</div>
+    <table class="fy-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table>
+  </div>`;
+}
+
 renderFilterBar();
+renderFiscalSummary();
 renderTable();
 renderStats();
 </script>
