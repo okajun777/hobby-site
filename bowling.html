@@ -38,15 +38,31 @@ nav{position:fixed;top:0;width:100%;background:var(--nav);backdrop-filter:blur(1
 .st{font-size:clamp(24px,4vw,38px);font-weight:900;color:var(--fg);margin-bottom:10px;text-align:center}
 .ss{font-size:15px;color:var(--fg2);margin-bottom:48px;line-height:1.9;text-align:center}
 /* Score board */
-.sb{max-width:900px;margin:0 auto;background:var(--card);border-radius:18px;padding:28px;border:1px solid var(--bdr);box-shadow:0 6px 30px var(--shd);overflow-x:auto}
-.sb table{width:100%;border-collapse:collapse;min-width:600px}
-.sb th{background:var(--acc);color:var(--htxt);padding:12px 10px;font-size:13px;text-align:center;border-radius:0}
-.sb th:first-child{border-radius:8px 0 0 0}.sb th:last-child{border-radius:0 8px 0 0}
-.sb td{padding:11px 10px;text-align:center;border-bottom:1px solid var(--bdr);font-size:14px;color:var(--fg2)}
+.sb{max-width:100%;margin:0 auto;background:var(--card);border-radius:18px;padding:28px;border:1px solid var(--bdr);box-shadow:0 6px 30px var(--shd);overflow-x:auto}
+.sb table{border-collapse:collapse;white-space:nowrap}
+.sb th{background:var(--acc);color:var(--htxt);padding:9px 10px;font-size:12px;text-align:center}
+.sb th.grp{background:color-mix(in srgb,var(--acc) 70%,#000 30%);font-size:11px;letter-spacing:.5px}
+.sb th:first-child{border-radius:8px 0 0 0}
+.sb td{padding:9px 10px;text-align:center;border-bottom:1px solid var(--bdr);font-size:13px;color:var(--fg2)}
+.sb td.sub{background:var(--bg2);font-weight:700;color:var(--fg)}
+.sb td.total{background:color-mix(in srgb,var(--acc) 15%,transparent);font-weight:900;font-size:15px;color:var(--acc)}
 .sb tr:last-child td{border-bottom:none}
-.sb tr:hover td{background:var(--bg2)}
-.score-hi{color:var(--acc);font-weight:900;font-size:18px}
-.strike{background:var(--acc)!important;color:var(--htxt)!important;font-weight:900;border-radius:4px}
+.sb tr:hover td{background:color-mix(in srgb,var(--acc) 8%,transparent)}
+.score-hi{color:var(--acc);font-weight:900;font-size:16px}
+/* Add form */
+.score-form{max-width:100%;margin:0 auto 24px;background:var(--card);border-radius:16px;padding:22px 24px;border:1px solid var(--bdr);box-shadow:0 4px 20px var(--shd)}
+.score-form h3{font-size:14px;font-weight:700;color:var(--acc);margin-bottom:16px}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:14px}
+.form-grid label{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--fg2);font-weight:600}
+.form-grid input{padding:7px 10px;border-radius:8px;border:1px solid var(--bdr);background:var(--bg);color:var(--fg);font-size:13px;width:100%}
+.form-grid input:focus{outline:none;border-color:var(--acc)}
+.form-actions{display:flex;gap:10px;justify-content:flex-end}
+.btn-add{padding:9px 22px;background:var(--acc);color:var(--htxt);border:none;border-radius:50px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-add:hover{opacity:.85;transform:translateY(-1px)}
+.btn-del{background:none;border:1px solid var(--bdr);color:var(--fg2);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer;transition:all .2s}
+.btn-del:hover{border-color:#e53935;color:#e53935}
+.form-sep{display:flex;gap:8px;align-items:center;margin-bottom:10px;font-size:11px;color:var(--fg2);font-weight:700;letter-spacing:.5px}
+.form-sep::after{content:'';flex:1;height:1px;background:var(--bdr)}
 /* Pin diagram */
 .pins{display:flex;justify-content:center;margin:40px auto;max-width:280px;flex-wrap:wrap}
 .pin-row{display:flex;justify-content:center;gap:12px;width:100%;margin-bottom:10px}
@@ -118,17 +134,68 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:36px;text-a
 <!-- Score Board -->
 <section class="sec" id="scores">
   <h2 class="st">スコア記録</h2>
-  <p class="ss">最近のゲームのスコアを記録しています</p>
+  <p class="ss">大会・練習のスコアを記録します</p>
+
+  <!-- Add form -->
+  <div class="score-form">
+    <h3>➕ 新しい記録を追加</h3>
+    <div class="form-grid">
+      <label>日付<input type="date" id="f-date"></label>
+      <label>大会名<input type="text" id="f-name" placeholder="例：月例大会"></label>
+      <label>場所<input type="text" id="f-place" placeholder="例：ラウンド1"></label>
+    </div>
+    <div class="form-sep">1〜3G</div>
+    <div class="form-grid">
+      <label>1G<input type="number" id="f-g1" min="0" max="300" placeholder="—"></label>
+      <label>2G<input type="number" id="f-g2" min="0" max="300" placeholder="—"></label>
+      <label>3G<input type="number" id="f-g3" min="0" max="300" placeholder="—"></label>
+    </div>
+    <div class="form-sep">4〜6G</div>
+    <div class="form-grid">
+      <label>4G<input type="number" id="f-g4" min="0" max="300" placeholder="—"></label>
+      <label>5G<input type="number" id="f-g5" min="0" max="300" placeholder="—"></label>
+      <label>6G<input type="number" id="f-g6" min="0" max="300" placeholder="—"></label>
+    </div>
+    <div class="form-sep">7〜9G</div>
+    <div class="form-grid">
+      <label>7G<input type="number" id="f-g7" min="0" max="300" placeholder="—"></label>
+      <label>8G<input type="number" id="f-g8" min="0" max="300" placeholder="—"></label>
+      <label>9G<input type="number" id="f-g9" min="0" max="300" placeholder="—"></label>
+    </div>
+    <div class="form-sep">10〜12G</div>
+    <div class="form-grid">
+      <label>10G<input type="number" id="f-g10" min="0" max="300" placeholder="—"></label>
+      <label>11G<input type="number" id="f-g11" min="0" max="300" placeholder="—"></label>
+      <label>12G<input type="number" id="f-g12" min="0" max="300" placeholder="—"></label>
+    </div>
+    <div class="form-actions">
+      <button class="btn-add" onclick="addRecord()">記録を追加</button>
+    </div>
+  </div>
+
+  <!-- Table -->
   <div class="sb">
-    <table>
-      <tr>
-        <th>日付</th><th>レーン</th><th>1G</th><th>2G</th><th>3G</th><th>合計</th><th>ハイスコア</th>
-      </tr>
-      <tr><td>2026/03/08</td><td>ラウンド1</td><td>158</td><td>172</td><td>165</td><td>495</td><td class="score-hi">172</td></tr>
-      <tr><td>2026/02/28</td><td>スポルティ</td><td>185</td><td>192</td><td>178</td><td>555</td><td class="score-hi">192</td></tr>
-      <tr><td>2026/02/15</td><td>ラウンド1</td><td>163</td><td>171</td><td>188</td><td>522</td><td class="score-hi">188</td></tr>
-      <tr><td>2026/01/25</td><td>バウリング</td><td>145</td><td>167</td><td>160</td><td>472</td><td class="score-hi">167</td></tr>
-      <tr><td>2026/01/10</td><td>スポルティ</td><td>201</td><td>188</td><td>195</td><td>584</td><td class="score-hi">201</td></tr>
+    <table id="score-table">
+      <thead>
+        <tr>
+          <th rowspan="2">日付</th>
+          <th rowspan="2">大会名</th>
+          <th rowspan="2">場所</th>
+          <th colspan="4" class="grp">1〜3G</th>
+          <th colspan="4" class="grp">4〜6G</th>
+          <th colspan="4" class="grp">7〜9G</th>
+          <th colspan="4" class="grp">10〜12G</th>
+          <th rowspan="2">合計</th>
+          <th rowspan="2"></th>
+        </tr>
+        <tr>
+          <th>1G</th><th>2G</th><th>3G</th><th>小計</th>
+          <th>4G</th><th>5G</th><th>6G</th><th>小計</th>
+          <th>7G</th><th>8G</th><th>9G</th><th>小計</th>
+          <th>10G</th><th>11G</th><th>12G</th><th>小計</th>
+        </tr>
+      </thead>
+      <tbody id="score-body"></tbody>
     </table>
   </div>
 </section>
@@ -224,6 +291,74 @@ function setT(i){
 }
 const s=localStorage.getItem('bt');
 if(s!==null)setT(+s);
+
+/* ── Score Records ── */
+let records=JSON.parse(localStorage.getItem('bowling_scores')||'[]');
+
+function v(id){
+  const val=document.getElementById(id).value;
+  return val===''?null:Number(val);
+}
+function sub(a,b,c){
+  const vals=[a,b,c].filter(x=>x!==null);
+  return vals.length?vals.reduce((s,x)=>s+x,0):null;
+}
+function fmt(n){return n===null?'—':n}
+
+function addRecord(){
+  const date=document.getElementById('f-date').value;
+  const name=document.getElementById('f-name').value.trim();
+  const place=document.getElementById('f-place').value.trim();
+  if(!date){alert('日付を入力してください');return;}
+  const g=[null,v('f-g1'),v('f-g2'),v('f-g3'),v('f-g4'),v('f-g5'),v('f-g6'),v('f-g7'),v('f-g8'),v('f-g9'),v('f-g10'),v('f-g11'),v('f-g12')];
+  const s1=sub(g[1],g[2],g[3]);
+  const s2=sub(g[4],g[5],g[6]);
+  const s3=sub(g[7],g[8],g[9]);
+  const s4=sub(g[10],g[11],g[12]);
+  const subs=[s1,s2,s3,s4].filter(x=>x!==null);
+  const total=subs.length?subs.reduce((a,b)=>a+b,0):null;
+  records.unshift({date,name,place,g:g.slice(1),s1,s2,s3,s4,total});
+  save();
+  clearForm();
+}
+
+function deleteRecord(i){
+  if(!confirm('この記録を削除しますか？'))return;
+  records.splice(i,1);
+  save();
+}
+
+function save(){
+  localStorage.setItem('bowling_scores',JSON.stringify(records));
+  renderTable();
+}
+
+function clearForm(){
+  ['f-date','f-name','f-place','f-g1','f-g2','f-g3','f-g4','f-g5','f-g6','f-g7','f-g8','f-g9','f-g10','f-g11','f-g12']
+    .forEach(id=>document.getElementById(id).value='');
+}
+
+function renderTable(){
+  const tbody=document.getElementById('score-body');
+  if(!records.length){
+    tbody.innerHTML='<tr><td colspan="21" style="padding:24px;color:var(--fg2);opacity:.6">記録がありません</td></tr>';
+    return;
+  }
+  tbody.innerHTML=records.map((r,i)=>`
+    <tr>
+      <td>${r.date}</td>
+      <td>${r.name||'—'}</td>
+      <td>${r.place||'—'}</td>
+      <td>${fmt(r.g[0])}</td><td>${fmt(r.g[1])}</td><td>${fmt(r.g[2])}</td><td class="sub">${fmt(r.s1)}</td>
+      <td>${fmt(r.g[3])}</td><td>${fmt(r.g[4])}</td><td>${fmt(r.g[5])}</td><td class="sub">${fmt(r.s2)}</td>
+      <td>${fmt(r.g[6])}</td><td>${fmt(r.g[7])}</td><td>${fmt(r.g[8])}</td><td class="sub">${fmt(r.s3)}</td>
+      <td>${fmt(r.g[9])}</td><td>${fmt(r.g[10])}</td><td>${fmt(r.g[11])}</td><td class="sub">${fmt(r.s4)}</td>
+      <td class="total">${fmt(r.total)}</td>
+      <td><button class="btn-del" onclick="deleteRecord(${i})">削除</button></td>
+    </tr>`).join('');
+}
+
+renderTable();
 </script>
 </body>
 </html>
