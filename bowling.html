@@ -299,6 +299,7 @@ if(s!==null)setT(+s);
 
 /* ── Score Records ── */
 let records=JSON.parse(localStorage.getItem('bowling_scores')||'[]');
+let editIdx=-1;
 
 function v(id){
   const val=document.getElementById(id).value;
@@ -309,12 +310,17 @@ function sub(a,b,c){
   return vals.length?vals.reduce((s,x)=>s+x,0):null;
 }
 function fmt(n){return n===null?'—':n}
+function avg(games,total){
+  const cnt=games.filter(x=>x!==null).length;
+  if(!cnt||total===null)return null;
+  return (total/cnt).toFixed(1);
+}
 
-function addRecord(){
+function buildRecord(){
   const date=document.getElementById('f-date').value;
   const name=document.getElementById('f-name').value.trim();
   const place=document.getElementById('f-place').value.trim();
-  if(!date){alert('日付を入力してください');return;}
+  if(!date){alert('日付を入力してください');return null;}
   const player=document.getElementById('f-player').value.trim();
   const handi=v('f-handi');
   const g=[null,v('f-g1'),v('f-g2'),v('f-g3'),v('f-g4'),v('f-g5'),v('f-g6'),v('f-g7'),v('f-g8'),v('f-g9'),v('f-g10'),v('f-g11'),v('f-g12')];
@@ -324,14 +330,42 @@ function addRecord(){
   const s4=sub(g[10],g[11],g[12]);
   const subs=[s1,s2,s3,s4].filter(x=>x!==null);
   const total=subs.length?subs.reduce((a,b)=>a+b,0):null;
-  records.unshift({date,name,place,player,handi,g:g.slice(1),s1,s2,s3,s4,total});
+  return {date,name,place,player,handi,g:g.slice(1),s1,s2,s3,s4,total};
+}
+
+function addRecord(){
+  const rec=buildRecord();
+  if(!rec)return;
+  if(editIdx>=0){
+    records[editIdx]=rec;
+    editIdx=-1;
+    document.querySelector('.btn-add').textContent='記録を追加';
+  } else {
+    records.unshift(rec);
+  }
   save();
   clearForm();
+}
+
+function editRecord(i){
+  const r=records[i];
+  editIdx=i;
+  document.getElementById('f-date').value=r.date;
+  document.getElementById('f-name').value=r.name||'';
+  document.getElementById('f-place').value=r.place||'';
+  document.getElementById('f-player').value=r.player||'';
+  document.getElementById('f-handi').value=r.handi===null?'':r.handi;
+  r.g.forEach((val,gi)=>{
+    document.getElementById('f-g'+(gi+1)).value=val===null?'':val;
+  });
+  document.querySelector('.btn-add').textContent='更新';
+  document.querySelector('.score-form').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 function deleteRecord(i){
   if(!confirm('この記録を削除しますか？'))return;
   records.splice(i,1);
+  if(editIdx===i){editIdx=-1;clearForm();document.querySelector('.btn-add').textContent='記録を追加';}
   save();
 }
 
@@ -363,7 +397,8 @@ function renderTable(){
       <td>${fmt(r.g[6])}</td><td>${fmt(r.g[7])}</td><td>${fmt(r.g[8])}</td><td class="sub">${fmt(r.s3)}</td>
       <td>${fmt(r.g[9])}</td><td>${fmt(r.g[10])}</td><td>${fmt(r.g[11])}</td><td class="sub">${fmt(r.s4)}</td>
       <td class="total">${fmt(r.total)}</td>
-      <td><button class="btn-del" onclick="deleteRecord(${i})">削除</button></td>
+      <td class="sub">${avg(r.g,r.total)??'—'}</td>
+      <td><button class="btn-del" onclick="editRecord(${i})" style="margin-right:4px">編集</button><button class="btn-del" onclick="deleteRecord(${i})">削除</button></td>
     </tr>`).join('');
 }
 
