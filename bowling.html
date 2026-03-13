@@ -499,7 +499,7 @@ function renderTable(){
         <td class="${gc(d.g[0])}">${fmt(d.g[0])}</td><td class="${gc(d.g[1])}">${fmt(d.g[1])}</td><td class="${gc(d.g[2])}">${fmt(d.g[2])}</td><td class="sub${sc(d.s1)}">${fmt(d.s1)}</td>
         <td class="${gc(d.g[3])}">${fmt(d.g[3])}</td><td ${blank} colspan="2">—</td><td class="sub">${fmt(d.g[3])}</td>
         <td ${blank} colspan="8">—</td>
-        <td class="total-m">🏅 ${fmt(d.total)}</td>
+        <td class="total-m">${fmt(d.total)}</td>
         <td class="sub">${avg(d.g,d.total)??'—'}</td>
         <td>${btns}</td>
       </tr>`;
