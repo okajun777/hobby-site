@@ -69,6 +69,12 @@ nav{position:fixed;top:0;width:100%;background:var(--nav);backdrop-filter:blur(1
 .pin{width:44px;height:44px;border-radius:50%;border:3px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:all .3s;background:var(--card);font-weight:900;color:var(--fg2)}
 .pin.down{background:var(--acc);color:var(--htxt);border-color:var(--acc);transform:scale(.9)}
 .pin-label{text-align:center;font-size:12px;color:var(--fg2);margin-top:8px}
+/* Filter bar */
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.filter-bar-label{font-size:11px;color:var(--fg2);font-weight:700;margin-right:4px}
+.fbtn{padding:6px 16px;border-radius:50px;font-size:12px;font-weight:700;cursor:pointer;border:2px solid var(--bdr);background:var(--bg2);color:var(--fg2);transition:all .2s}
+.fbtn:hover{border-color:var(--acc);color:var(--acc)}
+.fbtn.active{background:var(--acc);color:var(--htxt);border-color:var(--acc)}
 /* Achievement cards */
 .ag{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;max-width:1080px;margin:0 auto}
 .ac{background:var(--card);border-radius:14px;padding:22px 18px;border:1px solid var(--bdr);box-shadow:0 3px 14px var(--shd);text-align:center;transition:all .3s}
@@ -175,6 +181,9 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:36px;text-a
     </div>
   </div>
 
+  <!-- Filter bar -->
+  <div id="filter-bar" class="filter-bar"></div>
+
   <!-- Table -->
   <div class="sb">
     <table id="score-table">
@@ -225,14 +234,7 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:36px;text-a
 <section class="sec">
   <h2 class="st">実績・記録</h2>
   <p class="ss">これまでの頑張りの記録</p>
-  <div class="ag">
-    <div class="ac"><div class="ae">🏆</div><div class="at">ハイスコア</div><div class="ad">自己最高スコア<br><strong style="font-size:22px;color:var(--acc)">238点</strong></div></div>
-    <div class="ac"><div class="ae">🎯</div><div class="at">ストライク連続</div><div class="ad">最高連続ストライク<br><strong style="font-size:22px;color:var(--acc)">5回</strong></div></div>
-    <div class="ac"><div class="ae">📊</div><div class="at">平均スコア</div><div class="ad">直近10ゲーム平均<br><strong style="font-size:22px;color:var(--acc)">175点</strong></div></div>
-    <div class="ac"><div class="ae">🎳</div><div class="at">総ゲーム数</div><div class="ad">累計プレイ回数<br><strong style="font-size:22px;color:var(--acc)">243回</strong></div></div>
-    <div class="ac"><div class="ae">⚡</div><div class="at">ストライク率</div><div class="ad">全投球中ストライク<br><strong style="font-size:22px;color:var(--acc)">34%</strong></div></div>
-    <div class="ac"><div class="ae">🎖️</div><div class="at">スペア率</div><div class="ad">スペア達成率<br><strong style="font-size:22px;color:var(--acc)">68%</strong></div></div>
-  </div>
+  <div id="achievement-grid" class="ag"></div>
 </section>
 
 <!-- Progress -->
@@ -371,7 +373,9 @@ function deleteRecord(i){
 
 function save(){
   localStorage.setItem('bowling_scores',JSON.stringify(records));
+  renderFilterBar();
   renderTable();
+  renderStats();
 }
 
 function clearForm(){
@@ -379,14 +383,45 @@ function clearForm(){
     .forEach(id=>document.getElementById(id).value='');
 }
 
+/* ── Filter ── */
+let filterPlayer=null;
+
+function getPlayers(){
+  return[...new Set(records.map(r=>r.player||'').filter(p=>p))];
+}
+function getFiltered(){
+  if(filterPlayer===null)return records;
+  return records.filter(r=>(r.player||'')===filterPlayer);
+}
+function setFilter(p){
+  filterPlayer=p;
+  renderFilterBar();
+  renderTable();
+  renderStats();
+}
+function renderFilterBar(){
+  const bar=document.getElementById('filter-bar');
+  const players=getPlayers();
+  if(players.length<2){bar.innerHTML='';return;}
+  const btns=['すべて',...players].map(p=>{
+    const active=(p==='すべて'&&filterPlayer===null)||p===filterPlayer;
+    const arg=p==='すべて'?'null':`'${p}'`;
+    return`<button class="fbtn${active?' active':''}" onclick="setFilter(${arg})">${p}</button>`;
+  }).join('');
+  bar.innerHTML=`<span class="filter-bar-label">👤 名前で絞込：</span>${btns}`;
+}
+
 function renderTable(){
   const tbody=document.getElementById('score-body');
-  if(!records.length){
-    tbody.innerHTML='<tr><td colspan="24" style="padding:24px;color:var(--fg2);opacity:.6">記録がありません</td></tr>';
+  const filtered=getFiltered();
+  if(!filtered.length){
+    const msg=records.length?'該当する記録がありません':'記録がありません';
+    tbody.innerHTML=`<tr><td colspan="24" style="padding:24px;color:var(--fg2);opacity:.6">${msg}</td></tr>`;
     return;
   }
-  tbody.innerHTML=records.map((r,i)=>`
-    <tr>
+  tbody.innerHTML=filtered.map(r=>{
+    const i=records.indexOf(r);
+    return`<tr>
       <td>${r.date}</td>
       <td>${r.name||'—'}</td>
       <td>${r.place||'—'}</td>
@@ -399,10 +434,46 @@ function renderTable(){
       <td class="total">${fmt(r.total)}</td>
       <td class="sub">${avg(r.g,r.total)??'—'}</td>
       <td><button class="btn-del" onclick="editRecord(${i})" style="margin-right:4px">編集</button><button class="btn-del" onclick="deleteRecord(${i})">削除</button></td>
-    </tr>`).join('');
+    </tr>`;
+  }).join('');
 }
 
+/* ── Stats / Achievement ── */
+function renderStats(){
+  const grid=document.getElementById('achievement-grid');
+  const filtered=getFiltered();
+  if(!filtered.length){
+    grid.innerHTML='<div class="ac"><div class="ae">📝</div><div class="at">記録なし</div><div class="ad">スコアを入力してください</div></div>';
+    return;
+  }
+  const allG=filtered.flatMap(r=>r.g.filter(x=>x!==null));
+  const allT=filtered.map(r=>r.total).filter(x=>x!==null);
+  const hiGame=allG.length?Math.max(...allG):null;
+  const hiSeries=allT.length?Math.max(...allT):null;
+  const totalGames=allG.length;
+  const avgG=totalGames?(allG.reduce((a,b)=>a+b,0)/totalGames).toFixed(1):null;
+  const cards=[];
+  cards.push(`<div class="ac"><div class="ae">🏆</div><div class="at">ハイゲーム</div><div class="ad">1ゲーム最高スコア<br><strong style="font-size:22px;color:var(--acc)">${hiGame??'—'}点</strong></div></div>`);
+  cards.push(`<div class="ac"><div class="ae">🎳</div><div class="at">ハイシリーズ</div><div class="ad">1セッション最高合計<br><strong style="font-size:22px;color:var(--acc)">${hiSeries??'—'}点</strong></div></div>`);
+  cards.push(`<div class="ac"><div class="ae">📊</div><div class="at">アベレージ</div><div class="ad">全ゲーム平均<br><strong style="font-size:22px;color:var(--acc)">${avgG??'—'}点</strong></div></div>`);
+  cards.push(`<div class="ac"><div class="ae">🎯</div><div class="at">総ゲーム数</div><div class="ad">累計プレイ数<br><strong style="font-size:22px;color:var(--acc)">${totalGames}ゲーム</strong></div></div>`);
+  cards.push(`<div class="ac"><div class="ae">📅</div><div class="at">セッション数</div><div class="ad">記録した回数<br><strong style="font-size:22px;color:var(--acc)">${filtered.length}回</strong></div></div>`);
+  // 名前別カード（全表示時のみ）
+  if(filterPlayer===null){
+    getPlayers().forEach(p=>{
+      const pr=records.filter(r=>(r.player||'')===p);
+      const pg=pr.flatMap(r=>r.g.filter(x=>x!==null));
+      const phi=pg.length?Math.max(...pg):'—';
+      const pavg=pg.length?(pg.reduce((a,b)=>a+b,0)/pg.length).toFixed(1):'—';
+      cards.push(`<div class="ac"><div class="ae">👤</div><div class="at">${p}</div><div class="ad">ハイ: <strong>${phi}点</strong> / アベ: <strong>${pavg}点</strong><br>${pg.length}ゲーム・${pr.length}回</div></div>`);
+    });
+  }
+  grid.innerHTML=cards.join('');
+}
+
+renderFilterBar();
 renderTable();
+renderStats();
 </script>
 </body>
 </html>
