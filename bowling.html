@@ -143,6 +143,8 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:36px;text-a
       <label>日付<input type="date" id="f-date"></label>
       <label>大会名<input type="text" id="f-name" placeholder="例：月例大会"></label>
       <label>場所<input type="text" id="f-place" placeholder="例：ラウンド1"></label>
+      <label>名前<input type="text" id="f-player" placeholder="例：自分"></label>
+      <label>ハンデ<input type="number" id="f-handi" min="0" max="300" placeholder="0"></label>
     </div>
     <div class="form-sep">1〜3G</div>
     <div class="form-grid">
@@ -181,6 +183,8 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:36px;text-a
           <th rowspan="2">日付</th>
           <th rowspan="2">大会名</th>
           <th rowspan="2">場所</th>
+          <th rowspan="2">名前</th>
+          <th rowspan="2">ハンデ</th>
           <th colspan="4" class="grp">1〜3G</th>
           <th colspan="4" class="grp">4〜6G</th>
           <th colspan="4" class="grp">7〜9G</th>
@@ -310,6 +314,8 @@ function addRecord(){
   const name=document.getElementById('f-name').value.trim();
   const place=document.getElementById('f-place').value.trim();
   if(!date){alert('日付を入力してください');return;}
+  const player=document.getElementById('f-player').value.trim();
+  const handi=v('f-handi');
   const g=[null,v('f-g1'),v('f-g2'),v('f-g3'),v('f-g4'),v('f-g5'),v('f-g6'),v('f-g7'),v('f-g8'),v('f-g9'),v('f-g10'),v('f-g11'),v('f-g12')];
   const s1=sub(g[1],g[2],g[3]);
   const s2=sub(g[4],g[5],g[6]);
@@ -317,7 +323,7 @@ function addRecord(){
   const s4=sub(g[10],g[11],g[12]);
   const subs=[s1,s2,s3,s4].filter(x=>x!==null);
   const total=subs.length?subs.reduce((a,b)=>a+b,0):null;
-  records.unshift({date,name,place,g:g.slice(1),s1,s2,s3,s4,total});
+  records.unshift({date,name,place,player,handi,g:g.slice(1),s1,s2,s3,s4,total});
   save();
   clearForm();
 }
@@ -334,14 +340,14 @@ function save(){
 }
 
 function clearForm(){
-  ['f-date','f-name','f-place','f-g1','f-g2','f-g3','f-g4','f-g5','f-g6','f-g7','f-g8','f-g9','f-g10','f-g11','f-g12']
+  ['f-date','f-name','f-place','f-player','f-handi','f-g1','f-g2','f-g3','f-g4','f-g5','f-g6','f-g7','f-g8','f-g9','f-g10','f-g11','f-g12']
     .forEach(id=>document.getElementById(id).value='');
 }
 
 function renderTable(){
   const tbody=document.getElementById('score-body');
   if(!records.length){
-    tbody.innerHTML='<tr><td colspan="21" style="padding:24px;color:var(--fg2);opacity:.6">記録がありません</td></tr>';
+    tbody.innerHTML='<tr><td colspan="23" style="padding:24px;color:var(--fg2);opacity:.6">記録がありません</td></tr>';
     return;
   }
   tbody.innerHTML=records.map((r,i)=>`
@@ -349,6 +355,8 @@ function renderTable(){
       <td>${r.date}</td>
       <td>${r.name||'—'}</td>
       <td>${r.place||'—'}</td>
+      <td>${r.player||'—'}</td>
+      <td>${fmt(r.handi)}</td>
       <td>${fmt(r.g[0])}</td><td>${fmt(r.g[1])}</td><td>${fmt(r.g[2])}</td><td class="sub">${fmt(r.s1)}</td>
       <td>${fmt(r.g[3])}</td><td>${fmt(r.g[4])}</td><td>${fmt(r.g[5])}</td><td class="sub">${fmt(r.s2)}</td>
       <td>${fmt(r.g[6])}</td><td>${fmt(r.g[7])}</td><td>${fmt(r.g[8])}</td><td class="sub">${fmt(r.s3)}</td>
