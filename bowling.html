@@ -24,13 +24,13 @@ nav{position:fixed;top:0;width:100%;background:var(--nav);backdrop-filter:blur(1
 .nl{display:flex;gap:24px;list-style:none}
 .nl a{text-decoration:none;color:var(--fg);font-size:14px;padding:5px 12px;border-radius:8px;transition:all .3s}
 .nl a:hover,.nl a.cur{background:var(--acc);color:var(--htxt)}
-.hero{min-height:100vh;background:var(--hero);display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;position:relative;overflow:hidden}
+.hero{background:var(--hero);display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 24px 40px;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='20' fill='none' stroke='%23fff' stroke-width='.5' stroke-opacity='.08'/%3E%3Ccircle cx='30' cy='30' r='10' fill='none' stroke='%23fff' stroke-width='.5' stroke-opacity='.08'/%3E%3C/svg%3E")}
 .hc{max-width:760px;color:var(--htxt);position:relative;z-index:1}
-.he{font-size:80px;margin-bottom:20px;display:block;animation:sp 1.5s ease-in-out infinite alternate}
+.he{font-size:56px;margin-bottom:14px;display:block;animation:sp 1.5s ease-in-out infinite alternate}
 @keyframes sp{0%{transform:rotate(-5deg) scale(1)}100%{transform:rotate(5deg) scale(1.05)}}
-.hero h1{font-size:clamp(32px,6vw,64px);font-weight:900;margin-bottom:14px;text-shadow:0 2px 20px rgba(0,0,0,.3);line-height:1.2}
-.hero p{font-size:clamp(15px,2vw,20px);opacity:.9;margin-bottom:36px;line-height:1.9}
+.hero h1{font-size:clamp(22px,4vw,40px);font-weight:900;margin-bottom:10px;text-shadow:0 2px 20px rgba(0,0,0,.3);line-height:1.2}
+.hero p{font-size:clamp(13px,1.5vw,16px);opacity:.9;margin-bottom:24px;line-height:1.8}
 .btn{display:inline-block;padding:12px 30px;border-radius:50px;text-decoration:none;font-size:15px;font-weight:700;transition:all .3s;border:2px solid var(--htxt);color:var(--htxt)}
 .btn:hover{background:var(--htxt);color:var(--acc);transform:translateY(-2px)}
 .sec{padding:70px 24px;background:var(--bg)}
