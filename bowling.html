@@ -605,11 +605,12 @@ function renderFiscalSummary(){
   // 年度降順・名前昇順でソート
   const rows=Object.values(map).sort((a,b)=>b.fy-a.fy||a.player.localeCompare(b.player));
 
-  const showPlayer=getPlayers().length>1&&filterPlayer===null;
+  // 名前列は常に表示
+  const showPlayer=true;
 
   const thead=`<tr>
     <th>年度</th>
-    ${showPlayer?'<th>名前</th>':''}
+    <th>名前</th>
     <th>セッション</th><th>ゲーム数</th><th>アベレージ</th><th>ハイゲーム</th><th>ハイシリーズ</th>
   </tr>`;
 
@@ -617,7 +618,7 @@ function renderFiscalSummary(){
     const s=calcStats(recs);
     return`<tr>
       <td>${fy}年度</td>
-      ${showPlayer?`<td>${player}</td>`:''}
+      <td>${player}</td>
       <td>${s.sessions}回</td>
       <td>${s.games}G</td>
       <td class="hi">${s.avg}点</td>
