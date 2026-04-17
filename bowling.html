@@ -50,6 +50,7 @@ nav{position:fixed;top:0;width:100%;background:var(--nav);backdrop-filter:blur(1
 .sb tr:hover td{background:color-mix(in srgb,var(--acc) 8%,transparent)}
 .sb td.score-hi{color:var(--acc)!important;font-weight:900!important;background:color-mix(in srgb,var(--acc) 10%,transparent)!important}
 .sb td.total-m{background:color-mix(in srgb,#e8a020 25%,transparent)!important;color:#b36800!important;font-weight:900!important;font-size:15px!important;border-left:3px solid #e8a020!important}
+.sb td.total-m-hi{background:color-mix(in srgb,#e8a020 45%,transparent)!important;color:#7a4400!important;font-weight:900!important;font-size:15px!important;border-left:3px solid #e8a020!important;outline:2px solid #e8a020!important}
 /* Add form */
 .score-form{max-width:100%;margin:0 auto 24px;background:var(--card);border-radius:16px;padding:22px 24px;border:1px solid var(--bdr);box-shadow:0 4px 20px var(--shd)}
 .score-form h3{font-size:14px;font-weight:700;color:var(--acc);margin-bottom:16px}
@@ -339,7 +340,6 @@ function avg(games,total){
   return (total/cnt).toFixed(1);
 }
 
-// ハンデを各ゲームに加算した表示用レコードを返す（元データは変更しない）
 function withHandi(r){
   const h=r.handi||0;
   if(!h)return r;
@@ -421,7 +421,6 @@ function save(){
 function clearForm(){
   ['f-date','f-name','f-place','f-player','f-handi','f-g1','f-g2','f-g3','f-g4','f-g5','f-g6','f-g7','f-g8','f-g9','f-g10','f-g11','f-g12']
     .forEach(id=>document.getElementById(id).value='');
-  // フォームを閉じてボタンテキストをリセット
   document.getElementById('add-form').style.display='none';
   document.getElementById('form-toggle-btn').textContent='➕ 新しい記録を追加';
 }
@@ -435,7 +434,6 @@ function toggleForm(){
   if(open) form.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// 月例会判定（大会名に「月例」を含む）
 function isMonthly(r){ return (r.name||'').includes('月例'); }
 
 /* ── Filter ── */
@@ -476,44 +474,52 @@ function renderTable(){
   }
   const sorted=[...filtered].sort((a,b)=>b.date.localeCompare(a.date));
   const adjSorted=sorted.map(withHandi);
-  // ハイゲーム・ハイシリーズの最高値を求める（強調表示用）
-  const allG=adjSorted.flatMap(r=>r.g.filter(x=>x!==null));
-  const allS=adjSorted.flatMap(r=>[r.s1,r.s2,r.s3,r.s4].filter(x=>x!==null));
-  const hiGame=allG.length?Math.max(...allG):null;
-  const hiSeries=allS.length?Math.max(...allS):null;
-  const gc=v=>v!==null&&v===hiGame?' score-hi':'';
-  const sc=v=>v!==null&&v===hiSeries?' score-hi':'';
+
+  // 月例会：全行のtotalの最高値（ハイライト対象）
+  const monthlyTotals=adjSorted.filter((_,i)=>isMonthly(sorted[i])).map(d=>d.total).filter(x=>x!==null);
+  const hiMonthlyTotal=monthlyTotals.length?Math.max(...monthlyTotals):null;
+
+  // 通常行：各行内の1〜3G（g[0]〜g[2]）の最高値は行ごとに計算するため定数不要
+
   tbody.innerHTML=sorted.map((r,idx)=>{
     const i=records.indexOf(r);
-    const d=adjSorted[idx]; // ハンデ込み表示用
+    const d=adjSorted[idx];
     const btns=`<button class="btn-del" onclick="editRecord(${i})" style="margin-right:4px">編集</button><button class="btn-del" onclick="deleteRecord(${i})">削除</button>`;
     const blank=`style="background:var(--bg2);opacity:.35;font-size:10px;color:var(--fg2);text-align:center"`;
+
     if(isMonthly(r)){
-      // 月例会：4G表示（g1〜g4 + 4Gトータル）
+      // 月例会：4Gトータルがハイスコアならハイライト
+      const totalClass=d.total!==null&&d.total===hiMonthlyTotal?'total-m-hi':'total-m';
       return`<tr>
         <td>${r.date}</td>
         <td>${r.name||'—'}</td>
         <td>${r.place||'—'}</td>
         <td>${r.player||'—'}</td>
         <td>${fmt(r.handi)}</td>
-        <td class="${gc(d.g[0])}">${fmt(d.g[0])}</td><td class="${gc(d.g[1])}">${fmt(d.g[1])}</td><td class="${gc(d.g[2])}">${fmt(d.g[2])}</td><td class="sub${sc(d.s1)}">${fmt(d.s1)}</td>
-        <td class="${gc(d.g[3])}">${fmt(d.g[3])}</td><td ${blank} colspan="2">—</td><td class="sub">${fmt(d.g[3])}</td>
+        <td>${fmt(d.g[0])}</td><td>${fmt(d.g[1])}</td><td>${fmt(d.g[2])}</td><td class="sub">${fmt(d.s1)}</td>
+        <td>${fmt(d.g[3])}</td><td ${blank} colspan="2">—</td><td class="sub">${fmt(d.g[3])}</td>
         <td ${blank} colspan="8">—</td>
-        <td class="total-m">${fmt(d.total)}</td>
+        <td class="${totalClass}">${fmt(d.total)}</td>
         <td class="sub">${avg(d.g,d.total)??'—'}</td>
         <td>${btns}</td>
       </tr>`;
     }
+
+    // 通常行：この行の1〜3G内の最高スコアのみハイライト
+    const g3=[d.g[0],d.g[1],d.g[2]].filter(x=>x!==null);
+    const hiG3=g3.length?Math.max(...g3):null;
+    const gc=val=>val!==null&&val===hiG3?' score-hi':'';
+
     return`<tr>
       <td>${r.date}</td>
       <td>${r.name||'—'}</td>
       <td>${r.place||'—'}</td>
       <td>${r.player||'—'}</td>
       <td>${fmt(r.handi)}</td>
-      <td class="${gc(d.g[0])}">${fmt(d.g[0])}</td><td class="${gc(d.g[1])}">${fmt(d.g[1])}</td><td class="${gc(d.g[2])}">${fmt(d.g[2])}</td><td class="sub${sc(d.s1)}">${fmt(d.s1)}</td>
-      <td class="${gc(d.g[3])}">${fmt(d.g[3])}</td><td class="${gc(d.g[4])}">${fmt(d.g[4])}</td><td class="${gc(d.g[5])}">${fmt(d.g[5])}</td><td class="sub${sc(d.s2)}">${fmt(d.s2)}</td>
-      <td class="${gc(d.g[6])}">${fmt(d.g[6])}</td><td class="${gc(d.g[7])}">${fmt(d.g[7])}</td><td class="${gc(d.g[8])}">${fmt(d.g[8])}</td><td class="sub${sc(d.s3)}">${fmt(d.s3)}</td>
-      <td class="${gc(d.g[9])}">${fmt(d.g[9])}</td><td class="${gc(d.g[10])}">${fmt(d.g[10])}</td><td class="${gc(d.g[11])}">${fmt(d.g[11])}</td><td class="sub${sc(d.s4)}">${fmt(d.s4)}</td>
+      <td class="${gc(d.g[0])}">${fmt(d.g[0])}</td><td class="${gc(d.g[1])}">${fmt(d.g[1])}</td><td class="${gc(d.g[2])}">${fmt(d.g[2])}</td><td class="sub">${fmt(d.s1)}</td>
+      <td>${fmt(d.g[3])}</td><td>${fmt(d.g[4])}</td><td>${fmt(d.g[5])}</td><td class="sub">${fmt(d.s2)}</td>
+      <td>${fmt(d.g[6])}</td><td>${fmt(d.g[7])}</td><td>${fmt(d.g[8])}</td><td class="sub">${fmt(d.s3)}</td>
+      <td>${fmt(d.g[9])}</td><td>${fmt(d.g[10])}</td><td>${fmt(d.g[11])}</td><td class="sub">${fmt(d.s4)}</td>
       <td class="total">${fmt(d.total)}</td>
       <td class="sub">${avg(d.g,d.total)??'—'}</td>
       <td>${btns}</td>
@@ -529,7 +535,7 @@ function renderStats(){
     grid.innerHTML='<div class="ac"><div class="ae">📝</div><div class="at">記録なし</div><div class="ad">スコアを入力してください</div></div>';
     return;
   }
-  const adjFiltered=filtered.map(withHandi); // ハンデ込み
+  const adjFiltered=filtered.map(withHandi);
   const allG=adjFiltered.flatMap(r=>r.g.filter(x=>x!==null));
   const allSubs=adjFiltered.flatMap(r=>[r.s1,r.s2,r.s3,r.s4].filter(x=>x!==null));
   const hiGame=allG.length?Math.max(...allG):null;
@@ -542,7 +548,6 @@ function renderStats(){
   cards.push(`<div class="ac"><div class="ae">📊</div><div class="at">アベレージ</div><div class="ad">全ゲーム平均<br><strong style="font-size:22px;color:var(--acc)">${avgG??'—'}点</strong></div></div>`);
   cards.push(`<div class="ac"><div class="ae">🎯</div><div class="at">総ゲーム数</div><div class="ad">累計プレイ数<br><strong style="font-size:22px;color:var(--acc)">${totalGames}ゲーム</strong></div></div>`);
   cards.push(`<div class="ac"><div class="ae">📅</div><div class="at">セッション数</div><div class="ad">記録した回数<br><strong style="font-size:22px;color:var(--acc)">${filtered.length}回</strong></div></div>`);
-  // 月例会専用カード
   const monthlyRecs=filtered.filter(isMonthly).map(withHandi);
   if(monthlyRecs.length){
     const mG=monthlyRecs.flatMap(r=>r.g.filter(x=>x!==null));
@@ -554,7 +559,6 @@ function renderStats(){
     cards.push(`<div class="ac"><div class="ae">📋</div><div class="at">月例会 ハイトータル</div><div class="ad">4ゲーム最高合計<br><strong style="font-size:22px;color:var(--acc)">${mHiTotal??'—'}点</strong></div></div>`);
     cards.push(`<div class="ac"><div class="ae">📈</div><div class="at">月例会 アベレージ</div><div class="ad">月例会ゲーム平均<br><strong style="font-size:22px;color:var(--acc)">${mAvg??'—'}点</strong></div></div>`);
   }
-  // 名前別カード（全表示時のみ）
   if(filterPlayer===null){
     getPlayers().forEach(p=>{
       const pr=records.filter(r=>(r.player||'')===p).map(withHandi);
@@ -570,12 +574,12 @@ function renderStats(){
 /* ── Fiscal Year Summary ── */
 function getFY(dateStr){
   const d=new Date(dateStr);
-  const m=d.getMonth()+1; // 1-12
+  const m=d.getMonth()+1;
   return m>=4?d.getFullYear():d.getFullYear()-1;
 }
 
 function calcStats(recs){
-  const adj=recs.map(withHandi); // ハンデ込みで集計
+  const adj=recs.map(withHandi);
   const games=adj.flatMap(r=>r.g.filter(x=>x!==null));
   const subs=adj.flatMap(r=>[r.s1,r.s2,r.s3,r.s4].filter(x=>x!==null));
   return{
@@ -592,7 +596,6 @@ function renderFiscalSummary(){
   const filtered=getFiltered();
   if(!filtered.length){el.innerHTML='';return;}
 
-  // 年度×名前 でグループ化
   const map={};
   filtered.forEach(r=>{
     const fy=r.date?getFY(r.date):'?';
@@ -602,11 +605,7 @@ function renderFiscalSummary(){
     map[key].recs.push(r);
   });
 
-  // 年度降順・名前昇順でソート
   const rows=Object.values(map).sort((a,b)=>b.fy-a.fy||a.player.localeCompare(b.player));
-
-  // 名前列は常に表示
-  const showPlayer=true;
 
   const thead=`<tr>
     <th>年度</th>
