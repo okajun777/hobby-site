@@ -49,6 +49,7 @@ nav{position:fixed;top:0;width:100%;background:var(--nav);backdrop-filter:blur(1
 .sb tr:last-child td{border-bottom:none}
 .sb tr:hover td{background:color-mix(in srgb,var(--acc) 8%,transparent)}
 .sb td.score-hi{color:var(--acc)!important;font-weight:900!important;background:color-mix(in srgb,var(--acc) 10%,transparent)!important}
+.sb td.series-hi{color:var(--acc)!important;font-weight:900!important;background:color-mix(in srgb,var(--acc) 10%,transparent)!important}
 .sb td.total-m-hi{background:color-mix(in srgb,#e8a020 45%,transparent)!important;color:#7a4400!important;font-weight:900!important;font-size:15px!important;border-left:3px solid #e8a020!important;outline:2px solid #e8a020!important}
 /* Add form */
 .score-form{max-width:100%;margin:0 auto 24px;background:var(--card);border-radius:16px;padding:22px 24px;border:1px solid var(--bdr);box-shadow:0 4px 20px var(--shd)}
@@ -474,9 +475,16 @@ function renderTable(){
   const sorted=[...filtered].sort((a,b)=>b.date.localeCompare(a.date));
   const adjSorted=sorted.map(withHandi);
 
-  // 月例会：全行のtotalの最高値（ハイライト対象）
+  // 月例会：全月例会行のtotal最高値
   const monthlyTotals=adjSorted.filter((_,i)=>isMonthly(sorted[i])).map(d=>d.total).filter(x=>x!==null);
   const hiMonthlyTotal=monthlyTotals.length?Math.max(...monthlyTotals):null;
+
+  // 通常行：全通常行を横断したハイゲーム（1ゲーム最高）とハイシリーズ（3G小計最高）
+  const normalAdj=adjSorted.filter((_,i)=>!isMonthly(sorted[i]));
+  const normalAllG=normalAdj.flatMap(d=>d.g.slice(0,3).filter(x=>x!==null));
+  const normalAllS1=normalAdj.map(d=>d.s1).filter(x=>x!==null);
+  const hiGame=normalAllG.length?Math.max(...normalAllG):null;
+  const hiSeries=normalAllS1.length?Math.max(...normalAllS1):null;
 
   tbody.innerHTML=sorted.map((r,idx)=>{
     const i=records.indexOf(r);
@@ -502,10 +510,9 @@ function renderTable(){
       </tr>`;
     }
 
-    // 通常行：この行の1〜3G内の最高スコアのみハイライト
-    const g3=[d.g[0],d.g[1],d.g[2]].filter(x=>x!==null);
-    const hiG3=g3.length?Math.max(...g3):null;
-    const gc=val=>val!==null&&val===hiG3?' score-hi':'';
+    // 通常行：全通常行横断のハイゲームはscore-hi、ハイシリーズ（s1）はseries-hi
+    const gc=val=>val!==null&&val===hiGame?' score-hi':'';
+    const sc=val=>val!==null&&val===hiSeries?' series-hi':'';
 
     return`<tr>
       <td>${r.date}</td>
@@ -513,7 +520,7 @@ function renderTable(){
       <td>${r.place||'—'}</td>
       <td>${r.player||'—'}</td>
       <td>${fmt(r.handi)}</td>
-      <td class="${gc(d.g[0])}">${fmt(d.g[0])}</td><td class="${gc(d.g[1])}">${fmt(d.g[1])}</td><td class="${gc(d.g[2])}">${fmt(d.g[2])}</td><td class="sub">${fmt(d.s1)}</td>
+      <td class="${gc(d.g[0])}">${fmt(d.g[0])}</td><td class="${gc(d.g[1])}">${fmt(d.g[1])}</td><td class="${gc(d.g[2])}">${fmt(d.g[2])}</td><td class="sub${sc(d.s1)}">${fmt(d.s1)}</td>
       <td>${fmt(d.g[3])}</td><td>${fmt(d.g[4])}</td><td>${fmt(d.g[5])}</td><td class="sub">${fmt(d.s2)}</td>
       <td>${fmt(d.g[6])}</td><td>${fmt(d.g[7])}</td><td>${fmt(d.g[8])}</td><td class="sub">${fmt(d.s3)}</td>
       <td>${fmt(d.g[9])}</td><td>${fmt(d.g[10])}</td><td>${fmt(d.g[11])}</td><td class="sub">${fmt(d.s4)}</td>
