@@ -49,7 +49,6 @@ nav{position:fixed;top:0;width:100%;background:var(--nav);backdrop-filter:blur(1
 .sb tr:last-child td{border-bottom:none}
 .sb tr:hover td{background:color-mix(in srgb,var(--acc) 8%,transparent)}
 .sb td.score-hi{color:var(--acc)!important;font-weight:900!important;background:color-mix(in srgb,var(--acc) 10%,transparent)!important}
-.sb td.total-m{background:color-mix(in srgb,#e8a020 25%,transparent)!important;color:#b36800!important;font-weight:900!important;font-size:15px!important;border-left:3px solid #e8a020!important}
 .sb td.total-m-hi{background:color-mix(in srgb,#e8a020 45%,transparent)!important;color:#7a4400!important;font-weight:900!important;font-size:15px!important;border-left:3px solid #e8a020!important;outline:2px solid #e8a020!important}
 /* Add form */
 .score-form{max-width:100%;margin:0 auto 24px;background:var(--card);border-radius:16px;padding:22px 24px;border:1px solid var(--bdr);box-shadow:0 4px 20px var(--shd)}
@@ -479,8 +478,6 @@ function renderTable(){
   const monthlyTotals=adjSorted.filter((_,i)=>isMonthly(sorted[i])).map(d=>d.total).filter(x=>x!==null);
   const hiMonthlyTotal=monthlyTotals.length?Math.max(...monthlyTotals):null;
 
-  // 通常行：各行内の1〜3G（g[0]〜g[2]）の最高値は行ごとに計算するため定数不要
-
   tbody.innerHTML=sorted.map((r,idx)=>{
     const i=records.indexOf(r);
     const d=adjSorted[idx];
@@ -488,8 +485,8 @@ function renderTable(){
     const blank=`style="background:var(--bg2);opacity:.35;font-size:10px;color:var(--fg2);text-align:center"`;
 
     if(isMonthly(r)){
-      // 月例会：4Gトータルがハイスコアならハイライト
-      const totalClass=d.total!==null&&d.total===hiMonthlyTotal?'total-m-hi':'total-m';
+      // 月例会：ハイトータルのみ total-m-hi、それ以外は通常の total
+      const totalClass=d.total!==null&&d.total===hiMonthlyTotal?'total-m-hi':'total';
       return`<tr>
         <td>${r.date}</td>
         <td>${r.name||'—'}</td>
