@@ -479,12 +479,12 @@ function renderTable(){
   const monthlyTotals=adjSorted.filter((_,i)=>isMonthly(sorted[i])).map(d=>d.total).filter(x=>x!==null);
   const hiMonthlyTotal=monthlyTotals.length?Math.max(...monthlyTotals):null;
 
-  // 通常行：全通常行を横断したハイゲーム（1ゲーム最高）とハイシリーズ（3G小計最高）
+  // 通常行：全通常行を横断したハイゲーム（1〜12G内の最高1ゲーム）とハイシリーズ（s1〜s4の最高小計）
   const normalAdj=adjSorted.filter((_,i)=>!isMonthly(sorted[i]));
-  const normalAllG=normalAdj.flatMap(d=>d.g.slice(0,3).filter(x=>x!==null));
-  const normalAllS1=normalAdj.map(d=>d.s1).filter(x=>x!==null);
+  const normalAllG=normalAdj.flatMap(d=>d.g.filter(x=>x!==null));
+  const normalAllSubs=normalAdj.flatMap(d=>[d.s1,d.s2,d.s3,d.s4].filter(x=>x!==null));
   const hiGame=normalAllG.length?Math.max(...normalAllG):null;
-  const hiSeries=normalAllS1.length?Math.max(...normalAllS1):null;
+  const hiSeries=normalAllSubs.length?Math.max(...normalAllSubs):null;
 
   tbody.innerHTML=sorted.map((r,idx)=>{
     const i=records.indexOf(r);
@@ -510,7 +510,7 @@ function renderTable(){
       </tr>`;
     }
 
-    // 通常行：全通常行横断のハイゲームはscore-hi、ハイシリーズ（s1）はseries-hi
+    // 通常行：ハイゲームはscore-hi、ハイシリーズ（s1〜s4）はseries-hi
     const gc=val=>val!==null&&val===hiGame?' score-hi':'';
     const sc=val=>val!==null&&val===hiSeries?' series-hi':'';
 
@@ -521,9 +521,9 @@ function renderTable(){
       <td>${r.player||'—'}</td>
       <td>${fmt(r.handi)}</td>
       <td class="${gc(d.g[0])}">${fmt(d.g[0])}</td><td class="${gc(d.g[1])}">${fmt(d.g[1])}</td><td class="${gc(d.g[2])}">${fmt(d.g[2])}</td><td class="sub${sc(d.s1)}">${fmt(d.s1)}</td>
-      <td>${fmt(d.g[3])}</td><td>${fmt(d.g[4])}</td><td>${fmt(d.g[5])}</td><td class="sub">${fmt(d.s2)}</td>
-      <td>${fmt(d.g[6])}</td><td>${fmt(d.g[7])}</td><td>${fmt(d.g[8])}</td><td class="sub">${fmt(d.s3)}</td>
-      <td>${fmt(d.g[9])}</td><td>${fmt(d.g[10])}</td><td>${fmt(d.g[11])}</td><td class="sub">${fmt(d.s4)}</td>
+      <td class="${gc(d.g[3])}">${fmt(d.g[3])}</td><td class="${gc(d.g[4])}">${fmt(d.g[4])}</td><td class="${gc(d.g[5])}">${fmt(d.g[5])}</td><td class="sub${sc(d.s2)}">${fmt(d.s2)}</td>
+      <td class="${gc(d.g[6])}">${fmt(d.g[6])}</td><td class="${gc(d.g[7])}">${fmt(d.g[7])}</td><td class="${gc(d.g[8])}">${fmt(d.g[8])}</td><td class="sub${sc(d.s3)}">${fmt(d.s3)}</td>
+      <td class="${gc(d.g[9])}">${fmt(d.g[9])}</td><td class="${gc(d.g[10])}">${fmt(d.g[10])}</td><td class="${gc(d.g[11])}">${fmt(d.g[11])}</td><td class="sub${sc(d.s4)}">${fmt(d.s4)}</td>
       <td class="total">${fmt(d.total)}</td>
       <td class="sub">${avg(d.g,d.total)??'—'}</td>
       <td>${btns}</td>
