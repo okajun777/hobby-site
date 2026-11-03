@@ -138,18 +138,19 @@ body{font-family:'Hiragino Kaku Gothic Pro','メイリオ',sans-serif;background
 .hp-item:hover{border-color:var(--acc);transform:scale(1.06)}
 .hp-item img{width:100%;height:100%;object-fit:cover;display:block}
 
-/* Lightbox */
-.lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:2000;align-items:center;justify-content:center;flex-direction:column}
+/* Lightbox (fullscreen) */
+.lb{display:none;position:fixed;inset:0;width:100vw;height:100vh;background:#000;z-index:2000;align-items:center;justify-content:center}
 .lb.open{display:flex}
-.lb-img{max-width:90vw;max-height:82vh;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.6);object-fit:contain}
-.lb-close{position:absolute;top:16px;right:20px;color:#fff;font-size:28px;cursor:pointer;line-height:1;opacity:.8;transition:opacity .2s}
+.lb:fullscreen,.lb:-webkit-full-screen{width:100%;height:100%;background:#000}
+.lb-img{width:100vw;height:100vh;max-width:100%;max-height:100%;object-fit:contain;border-radius:0;box-shadow:none;background:#000}
+.lb-close{position:absolute;top:14px;right:18px;color:#fff;font-size:30px;cursor:pointer;line-height:1;opacity:.85;transition:opacity .2s;z-index:3;text-shadow:0 1px 4px #000}
 .lb-close:hover{opacity:1}
-.lb-caption{color:#ddd;font-size:13px;margin-top:12px}
-.lb-nav{position:absolute;top:50%;transform:translateY(-50%);color:#fff;font-size:36px;cursor:pointer;padding:0 16px;opacity:.7;transition:opacity .2s;user-select:none}
+.lb-caption{position:absolute;left:50%;bottom:58px;transform:translateX(-50%);color:#eee;font-size:13px;z-index:3;max-width:90vw;text-align:center;text-shadow:0 1px 4px #000;pointer-events:none}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);color:#fff;font-size:48px;cursor:pointer;padding:12px 18px;opacity:.75;transition:opacity .2s;user-select:none;z-index:3;text-shadow:0 1px 4px #000}
 .lb-nav:hover{opacity:1}
-.lb-prev{left:0}.lb-next{right:40px}
-.lb-count{color:#aaa;font-size:11px;margin-top:6px}
-.lb-controls{display:flex;align-items:center;gap:10px;margin-top:14px}
+.lb-prev{left:0}.lb-next{right:0}
+.lb-count{position:absolute;left:50%;bottom:36px;transform:translateX(-50%);color:#ccc;font-size:12px;z-index:3;text-shadow:0 1px 4px #000;pointer-events:none}
+.lb-controls{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);display:flex;align-items:center;gap:10px;z-index:3}
 .lb-btn{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);color:#fff;border-radius:999px;padding:8px 16px;font-size:13px;cursor:pointer;line-height:1;transition:background .2s,border-color .2s}
 .lb-btn:hover{background:rgba(255,255,255,.24);border-color:rgba(255,255,255,.45)}
 .lb-btn.on{background:rgba(255,255,255,.28);border-color:#fff}
@@ -585,6 +586,22 @@ function onSlideshowSpeedChange(){
   if(lbPlaying) startSlideshow();
 }
 
+function enterLbFullscreen(){
+  const el=document.getElementById('lb');
+  if(!el)return;
+  const req=el.requestFullscreen||el.webkitRequestFullscreen||el.msRequestFullscreen;
+  if(req){
+    try{const p=req.call(el); if(p&&p.catch) p.catch(()=>{});}catch(_){}
+  }
+}
+function exitLbFullscreen(){
+  const done=document.fullscreenElement||document.webkitFullscreenElement;
+  if(!done)return;
+  const exit=document.exitFullscreen||document.webkitExitFullscreen||document.msExitFullscreen;
+  if(exit){
+    try{const p=exit.call(document); if(p&&p.catch) p.catch(()=>{});}catch(_){}
+  }
+}
 function openAlbumLb(albumKey,photoIdx){
   stopSlideshow();
   lbAlbum=window._albumMap[albumKey]||[];
@@ -592,6 +609,7 @@ function openAlbumLb(albumKey,photoIdx){
   _showLb();
   document.getElementById('lb').classList.add('open');
   document.body.style.overflow='hidden';
+  enterLbFullscreen();
   startSlideshow();
 }
 function _showLb(){
@@ -604,9 +622,18 @@ function _showLb(){
 function closeLb(e){
   if(e&&e.target!==document.getElementById('lb')&&!e.target.classList.contains('lb-close'))return;
   stopSlideshow();
+  exitLbFullscreen();
   document.getElementById('lb').classList.remove('open');
   document.body.style.overflow='';
 }
+document.addEventListener('fullscreenchange',()=>{
+  if(!document.fullscreenElement && document.getElementById('lb').classList.contains('open')){
+    // OSのESCでフルスクリーン解除された場合も閉じる
+    stopSlideshow();
+    document.getElementById('lb').classList.remove('open');
+    document.body.style.overflow='';
+  }
+});
 function moveLb(dir,e){
   if(e)e.stopPropagation();
   if(!lbAlbum.length)return;
