@@ -259,6 +259,9 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:18px 28px;d
       <a class="region-link" onclick="switchRegion('kyushu',this)">
         <span class="region-dot" style="background:#d81b60"></span>九州・沖縄
       </a>
+      <a class="region-link" onclick="switchRegion('kaigai',this)">
+        <span class="region-dot" style="background:#3949ab"></span>海外
+      </a>
     </div>
   </aside>
 
@@ -304,6 +307,9 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:18px 28px;d
         </div>
         <div class="rtab" onclick="switchRegion('kyushu',this)" data-region="kyushu">
           🌺 九州・沖縄<span class="cnt">6</span>
+        </div>
+        <div class="rtab" onclick="switchRegion('kaigai',this)" data-region="kaigai">
+          🌍 海外<span class="cnt">0</span>
         </div>
       </div>
 
@@ -408,6 +414,19 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:18px 28px;d
             <div class="region-map-em">🌺</div>
             <div class="region-map-name">九州・沖縄</div>
             <div class="region-map-prefs">長崎<br>宮崎市<br>高千穂（宮崎）<br>熊本市</div>
+          </div>
+          <div class="region-cards"></div>
+        </div>
+      </div>
+
+      <!-- ⑨ 海外 -->
+      <div class="region-section show" id="r-kaigai">
+        <div class="sec-hd"><h2>🌍 海外</h2></div>
+        <div class="region-body">
+          <div class="region-map">
+            <div class="region-map-em">🌍</div>
+            <div class="region-map-name">海外</div>
+            <div class="region-map-prefs">カナダ</div>
           </div>
           <div class="region-cards"></div>
         </div>
@@ -810,7 +829,7 @@ function updateTabCounts(){
   });
 }
 /* ── Region filter ── */
-const REGIONS=['hokkaido','tohoku','kanto','chubu','kinki','chugoku','shikoku','kyushu'];
+const REGIONS=['hokkaido','tohoku','kanto','chubu','kinki','chugoku','shikoku','kyushu','kaigai'];
 
 function switchRegion(region, el){
   document.querySelectorAll('.rtab').forEach(b=>b.classList.remove('active'));

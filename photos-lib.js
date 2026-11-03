@@ -4,7 +4,7 @@ const path = require('path');
 const ROOT = __dirname;
 const TRAVEL_DIR = path.join(ROOT, 'images', 'travel');
 const PHOTOS_JSON = path.join(ROOT, 'photos.json');
-const REGIONS = ['hokkaido', 'tohoku', 'kanto', 'chubu', 'kinki', 'chugoku', 'shikoku', 'kyushu'];
+const REGIONS = ['hokkaido', 'tohoku', 'kanto', 'chubu', 'kinki', 'chugoku', 'shikoku', 'kyushu', 'kaigai'];
 const IMG_RE = /\.(jpe?g|png|gif|webp)$/i;
 
 function formatEndDay(startDay, rangeToken) {
@@ -22,16 +22,30 @@ function formatEndDay(startDay, rangeToken) {
 
 function formatLabel(folderName) {
   const m = folderName.match(/^(\d{4})(\d{2})(\d{2})([ｰ\-]\d+)?\s*(.*)$/);
-  if (!m) return folderName;
-  const startDay = parseInt(m[3], 10);
-  const range = formatEndDay(startDay, m[4] || '');
-  const place = (m[5] || '').trim();
-  const date = `${m[1]}/${m[2]}/${m[3]}${range}`;
-  return place ? `${date} ${place}` : date;
+  if (m) {
+    const year = parseInt(m[1], 10);
+    const month = parseInt(m[2], 10);
+    const startDay = parseInt(m[3], 10);
+    const place = (m[5] || '').trim();
+    // 不正な日付フォルダ名は地名（または元の名前）を優先
+    if (!(month < 1 || month > 12 || startDay < 1 || startDay > 31 || year < 1990 || year > 2100)) {
+      const range = formatEndDay(startDay, m[4] || '');
+      const date = `${m[1]}/${m[2]}/${m[3]}${range}`;
+      return place ? `${date} ${place}` : date;
+    }
+    if (place) return place;
+  }
+  // 桁落ちした日付など: 「2001809-17 カナダ ケローナ」→「カナダ ケローナ」
+  const loose = folderName.match(/^\d+(?:[ｰ\-]\d+)?\s+(.+)$/);
+  if (loose) return loose[1].trim();
+  return folderName;
 }
 
 function badgeFromFolder(folderName) {
-  const place = folderName.replace(/^\d{4}\d{2}\d{2}([ｰ\-]\d+)?\s*/, '').trim();
+  const place = folderName
+    .replace(/^\d{4}\d{2}\d{2}([ｰ\-]\d+)?\s*/, '')
+    .replace(/^\d+(?:[ｰ\-]\d+)?\s+/, '')
+    .trim();
   if (!place) return folderName;
   const parts = place.split(/\s+/);
   return parts[parts.length - 1];
