@@ -30,6 +30,8 @@ body{font-family:'Hiragino Kaku Gothic Pro','メイリオ',sans-serif;background
 .topbar-nav{margin-left:auto;display:flex;gap:4px}
 .topbar-nav a{text-decoration:none;color:var(--fg);font-size:13px;padding:5px 12px;border-radius:8px;transition:all .2s;font-weight:600}
 .topbar-nav a:hover,.topbar-nav a.cur{background:var(--acc);color:var(--htxt)}
+.pub-btn{margin-left:10px;border:1px solid var(--acc);background:var(--acc);color:var(--htxt);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer}
+.pub-btn:disabled{opacity:.6;cursor:wait}
 
 /* ── Layout ── */
 .layout{display:flex;padding-top:48px;min-height:100vh}
@@ -198,6 +200,7 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:18px 28px;d
     <a href="bowling.html">🎳 ボウリング</a>
     <a href="drone.html">🚁 ドローン</a>
   </nav>
+  <button type="button" class="pub-btn" id="pubBtn" hidden onclick="publishToGitHub()">GitHubに公開</button>
 </header>
 
 <div class="layout">
@@ -742,6 +745,38 @@ function switchRegion(region, el){
 
 loadTravelPhotos();
 setInterval(loadTravelPhotos, 5000);
+
+/* ── Local publish (GitHub Pages) ── */
+(function(){
+  const btn=document.getElementById('pubBtn');
+  if(!btn)return;
+  const local=location.hostname==='localhost'||location.hostname==='127.0.0.1';
+  if(local) btn.hidden=false;
+})();
+
+async function publishToGitHub(){
+  const btn=document.getElementById('pubBtn');
+  if(!btn||btn.disabled)return;
+  btn.disabled=true;
+  const old=btn.textContent;
+  btn.textContent='公開中…';
+  try{
+    const res=await fetch('/api/publish',{method:'POST'});
+    const data=await res.json();
+    if(!res.ok||!data.ok) throw new Error(data.message||('HTTP '+res.status));
+    btn.textContent=data.pushed?'公開完了':'変更なし';
+    await loadTravelPhotos();
+    alert(data.pushed
+      ?('GitHubへ公開しました。\nアルバム '+data.albums+' / 写真 '+data.files)
+      :(data.message||'変更なし'));
+  }catch(err){
+    console.error(err);
+    btn.textContent='失敗';
+    alert('公開に失敗しました: '+(err&&err.message?err.message:err));
+  }finally{
+    setTimeout(()=>{btn.disabled=false;btn.textContent=old;},2500);
+  }
+}
 </script>
 </body>
 </html>
