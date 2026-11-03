@@ -147,6 +147,12 @@ body{font-family:'Hiragino Kaku Gothic Pro','メイリオ',sans-serif;background
 .lb-nav:hover{opacity:1}
 .lb-prev{left:0}.lb-next{right:40px}
 .lb-count{color:#aaa;font-size:11px;margin-top:6px}
+.lb-controls{display:flex;align-items:center;gap:10px;margin-top:14px}
+.lb-btn{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);color:#fff;border-radius:999px;padding:8px 16px;font-size:13px;cursor:pointer;line-height:1;transition:background .2s,border-color .2s}
+.lb-btn:hover{background:rgba(255,255,255,.24);border-color:rgba(255,255,255,.45)}
+.lb-btn.on{background:rgba(255,255,255,.28);border-color:#fff}
+.lb-speed{color:#bbb;font-size:12px;display:flex;align-items:center;gap:6px}
+.lb-speed select{background:rgba(0,0,0,.35);color:#fff;border:1px solid rgba(255,255,255,.28);border-radius:6px;padding:4px 8px;font-size:12px}
 
 /* Tips strip */
 .tips-strip{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px}
@@ -429,6 +435,17 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:18px 28px;d
   <img class="lb-img" id="lb-img" src="" alt="">
   <div class="lb-caption" id="lb-cap"></div>
   <div class="lb-count" id="lb-cnt"></div>
+  <div class="lb-controls" onclick="event.stopPropagation()">
+    <button type="button" class="lb-btn" id="lb-play" onclick="toggleSlideshow(event)">▶ 自動再生</button>
+    <label class="lb-speed">間隔
+      <select id="lb-speed" onchange="onSlideshowSpeedChange()">
+        <option value="2000">2秒</option>
+        <option value="3000" selected>3秒</option>
+        <option value="5000">5秒</option>
+        <option value="8000">8秒</option>
+      </select>
+    </label>
+  </div>
   <span class="lb-nav lb-next" onclick="moveLb(1,event)">›</span>
 </div>
 
@@ -461,80 +478,117 @@ function setT(i){
 const s=localStorage.getItem('tt');
 if(s!==null)setT(+s);
 
-/* ── Photo Data ── */
-const PHOTO_DATA={
-  hokkaido:[
-    {label:'2020/02/09-10 札幌',path:'images/travel/hokkaido/20200209-10 札幌/',badge:'札幌',
-     files:['IMG_4137.jpg','IMG_4473.JPG','IMG_4480.JPG','IMG_4510.JPG','IMG_4513.JPG','IMG_4522.JPG','IMG_4525.JPG','IMG_4541.JPG','IMG_4559.JPG','IMG_4568.JPG','IMG_4584.JPG','IMG_4586.JPG','IMG_4601.JPG','IMG_4609.JPG']},
-    {label:'2025/05/25-26 定山渓',path:'images/travel/hokkaido/20250525-26 定山渓/',badge:'定山渓',
-     files:['IMG_0350.jpg','IMG_0404.jpg','IMG_0492.jpg','IMG_0500.jpg','IMG_0509.jpg','IMG_0531.jpg','IMG_0589.jpg','IMG_0625.jpg','IMG_0644.jpg','IMG_0684.jpg','IMG_0692.jpg','IMG_0759.jpg']},
-    {label:'2025/09/28-29 十勝',path:'images/travel/hokkaido/20250928-29 十勝/',badge:'十勝',
-     files:['IMG_5600.jpg','IMG_5637.jpg','IMG_5664.jpg','IMG_5670.jpg','IMG_5688.jpg','IMG_5710.jpg','IMG_5727.jpg','IMG_5743.jpg','IMG_5784.jpg','IMG_5790.jpg','IMG_5798.jpg','IMG_5837.jpg','IMG_5838.jpg','IMG_5840.jpg','IMG_5868.jpg','IMG_5928.jpg','IMG_5940.jpg']}
-  ],
-  tohoku:[
-    {label:'2025/07/15-16 青森',path:'images/travel/tohoku/20250715-6 青森/',badge:'青森',
-     files:['IMG_2179.jpg','IMG_2205.jpg','IMG_2221.jpg','IMG_2229.jpg','IMG_2256.jpg','IMG_2268.jpg','IMG_2285.jpg','IMG_2300.jpg','IMG_2316.jpg','IMG_2324.jpg','IMG_2354.jpg','IMG_2358.jpg','IMG_2387.jpg']}
-  ],
-  kanto:[
-    {label:'2021/09/25 東京・横浜',path:'images/travel/kanto/20210925 東京・横浜/',badge:'東京',
-     files:['IMG_0674.JPEG','IMG_0682.JPEG','IMG_0698.JPEG','IMG_0707.JPEG','IMG_0710.JPEG','IMG_0714.JPEG','IMG_0722.JPEG','IMG_0733.JPEG','IMG_0748.JPEG','IMG_0754.JPEG','IMG_0755.JPEG','IMG_0769.JPEG','IMG_0776.JPEG','IMG_0801.JPEG','IMG_0810.JPEG','IMG_0812.JPEG','IMG_0813.JPEG','IMG_0841.JPEG','IMG_0855.JPEG','IMG_0865.JPEG','IMG_0871.JPEG','IMG_0876.JPEG','IMG_0886.JPEG','IMG_0890.JPEG','IMG_0924.JPEG','IMG_0940.JPEG','IMG_0943.JPEG','IMG_0956.JPEG']}
-  ],
-  chubu:[
-    {label:'2021/08/13-15 富士急',path:'images/travel/chubu/20210813-15 富士急/',badge:'山梨',
-     files:['5S9A3286.JPG','5S9A3312.JPG','5S9A3320.JPG','IMG_6994.JPEG','IMG_6995.JPG','IMG_6998.JPG','IMG_7004.JPEG','IMG_7008.JPEG','IMG_7017.JPEG','IMG_7022.PNG','IMG_7027.JPEG','IMG_7040.JPG','IMG_7046.JPEG','IMG_7055.JPEG','IMG_7059 のコピー.jpg','IMG_7064.JPEG','IMG_7187.JPEG','IMG_7191.JPEG','IMG_7196.JPEG','IMG_7198.JPEG','IMG_7210.JPEG','IMG_7216.JPG','IMG_7291.JPG','IMG_7445.JPEG','IMG_7464.JPEG','IMG_7483.JPEG','IMG_7694.JPEG','IMG_7700.JPG','IMG_7720.JPEG','IMG_7721 のコピー.jpg']}
-  ],
-  kinki:[
-    {label:'2018/11/11 生駒山',path:'images/travel/kinki/20181111 生駒山/',badge:'奈良',
-     files:['5S9A3517.JPG','5S9A3525.JPG','5S9A3528.JPG','5S9A3536.JPG','5S9A3537.JPG','5S9A3545.JPG','5S9A3551.JPG','5S9A3553.JPG','5S9A3561.JPG','5S9A3572.JPG','5S9A3581.JPG','5S9A3585.JPG','5S9A3587.JPG','5S9A3590.JPG','5S9A3595.JPG','5S9A3597.JPG','5S9A3601.JPG','5S9A3605.JPG','5S9A3608.JPG','5S9A3615.JPG','D00A1679.JPG','D00A1681.JPG','D00A1684.JPG','D00A1689.JPG','D00A1698.JPG','D00A1699.JPG','D00A1708.JPG','D00A1742.JPG','D00A1797.JPG']},
-    {label:'2018/11/18 生駒山',path:'images/travel/kinki/20181118 生駒山/',badge:'奈良',
-     files:['2018_11_181003078.JPG','2018_11_181003082.JPG','2018_11_181003085.JPG','2018_11_181003094.JPG','2018_11_181003101.JPG','2018_11_181003102.JPG','2018_11_181003103.JPG','2018_11_181003113.JPG','2018_11_181003117.JPG','2018_11_181003118.JPG','2018_11_181003119.JPG','2018_11_181003131.JPG','2018_11_181003139.JPG','2018_11_181003147.JPG','2018_11_181003166.JPG','2018_11_181003173.JPG']},
-    {label:'2019/01/11-12 金沢・福井',path:'images/travel/kinki/20190111ｰ2 金沢・福井/',badge:'石川',
-     files:['5S9A9380.JPG','5S9A9392.JPG','5S9A9396.JPG','5S9A9423.JPG','5S9A9426.JPG','5S9A9438.JPG','5S9A9452.JPG','5S9A9470.JPG','5S9A9489.JPG','5S9A9492.JPG','5S9A9494.JPG','5S9A9497.JPG','5S9A9521.JPG','5S9A9526.JPG','5S9A9567.JPG','5S9A9592.JPG','5S9A9621.JPG','5S9A9649.JPG','5S9A9675.JPG','D00A2046.JPG','D00A2103.JPG','D00A2166.JPG','D00A2168.JPG','D00A2298.JPG']},
-    {label:'2019/07/15 冒険の森 やまぞえ',path:'images/travel/kinki/20190715 冒険の森 in やまぞえ/',badge:'奈良',
-     files:['IMG_4183.jpg','IMG_4186.jpg','IMG_4188.jpg','IMG_4202.jpg','IMG_4207.jpg','IMG_4213.jpg','IMG_4215.jpg','IMG_4226.jpg','IMG_4230.jpg','IMG_4235.jpg','IMG_4258.jpg','IMG_4264.jpg','IMG_4276.jpg','IMG_4279.jpg','IMG_4281.jpg']},
-    {label:'2019/11/23 京都',path:'images/travel/kinki/20191123 京都/',badge:'京都',
-     files:['5S9A0636.JPG','5S9A0652.JPG','5S9A0663.JPG','5S9A0684.JPG','5S9A0733.JPG','5S9A0741.JPG','5S9A0746.JPG','5S9A0764.JPG','5S9A0772.JPG','D00A6209.JPG','D00A6221.JPG','D00A6230.JPG','D00A6244.JPG','D00A6257.JPG','D00A6260.JPG','D00A6295.JPG']},
-    {label:'2019/12/08 和歌山',path:'images/travel/kinki/20191208 和歌山/',badge:'和歌山',
-     files:['5S9A7334.JPG','5S9A7340.JPG','5S9A7342.JPG','5S9A7345.JPG','5S9A7348.JPG','5S9A7358.JPG','5S9A7393.JPG','5S9A7397.JPG','5S9A7449.JPG','5S9A7485.JPG','5S9A7486.JPG','5S9A7488.JPG','5S9A7493.JPG','5S9A7533.JPG','D00A1766.JPG','D00A1769.JPG','D00A1849.JPG']},
-    {label:'2025/01/11-12 彦根',path:'images/travel/kinki/20250111-2 彦根/',badge:'滋賀',
-     files:['IMG_7161.jpg','IMG_7173.jpg','IMG_7252.jpg','IMG_7292.jpg','IMG_7305.jpg','IMG_7309.jpg','IMG_7347.jpg','IMG_7351.jpg']},
-    {label:'2025/10/11-12 MK上賀茂',path:'images/travel/kinki/20251011-12 MK上賀茂/',badge:'京都',
-     files:['IMG_6803.jpg','IMG_6820.jpg','IMG_6884.jpg','IMG_6885.jpg','IMG_6901.jpg','IMG_6907.jpg','IMG_6909.jpg','IMG_6916.jpg','IMG_6918.jpg','IMG_6924.jpg','IMG_6928.jpg','IMG_6991.jpg','IMG_6992.jpg','IMG_6994.jpg']}
-  ],
-  chugoku:[
-    {label:'2018/07/22-23 出雲大社',path:'images/travel/chugoku/20180722-3 出雲大社/',badge:'島根',
-     files:['2018_07_221023896.JPG','2018_07_221023903.JPG','2018_07_221023918.JPG','2018_07_221023920.JPG','2018_07_221040839.JPG','2018_07_221040852.JPG','2018_07_221040854.JPG','2018_07_221040885.JPG','2018_07_221040920.JPG','2018_07_221040926.JPG','2018_07_221040980.JPG','2018_07_221040983.JPG','2018_07_221041007.JPG','2018_07_221041026.JPG','2018_07_221041098.JPG','2018_07_221041106.JPG','2018_07_231023983.JPG','2018_07_231023987.JPG','2018_07_231024010.JPG','2018_07_231024019.JPG','2018_07_231041215.JPG','2018_07_231041306.JPG','2018_07_231041332.JPG','2018_07_231041361.JPG','2018_07_231041365.JPG','2018_07_231041373.JPG','2018_07_231041383.JPG','2018_07_231041390.JPG','2018_07_231041391.JPG']}
-  ],
-  shikoku:[
-    {label:'2008/03/23 松山',path:'images/travel/shikoku/20080323 松山/',badge:'愛媛',
-     files:['CIMG0003.JPG','CIMG0005.JPG','CIMG0017.JPG','CIMG0035.JPG','CIMG0040.JPG','CIMG0060.JPG','CIMG0075.JPG','CIMG0080.JPG','CIMG0081.JPG','CIMG0085.JPG','CIMG0099.JPG','CIMG0103.JPG','CIMG0117.JPG','CIMG0122.JPG','CIMG0125.JPG','CIMG0128.JPG','CIMG0129.JPG','CIMG0131.JPG','CIMG0132.JPG','CIMG0133.JPG','CIMG0154.JPG','CIMG0167.JPG','CIMG0168.JPG','CIMG0184.JPG','CIMG0187.JPG','CIMG0209.JPG','CIMG0223.JPG']},
-    {label:'2025/10/19 徳島運動会',path:'images/travel/shikoku/20251019 徳島運動会/',badge:'徳島',
-     files:['IMG_7339.jpg','IMG_7350.jpg','IMG_7353.jpg','IMG_7361.jpg','IMG_7362.jpg','IMG_7365.jpg','IMG_7373.jpg','IMG_7402.jpg','IMG_7405.jpg','IMG_7413.jpg']},
-    {label:'2025/12/08 徳島',path:'images/travel/shikoku/20251208 徳島/',badge:'徳島',
-     files:['IMG_0626.jpg','IMG_0638.jpg','IMG_0645.jpg','IMG_0648.jpg','IMG_0653.jpg']}
-  ],
-  kyushu:[
-    {label:'2018/12/14-15 長崎',path:'images/travel/kyushu/20181214-5 長崎/',badge:'長崎',
-     files:['IMG_3181.JPG','IMG_3182.JPG','IMG_3194.JPG','IMG_3208.JPG','IMG_3224.JPG','IMG_3226.JPG','IMG_3231.JPG','IMG_3244.JPG','IMG_3251.JPG','IMG_3256.JPG','IMG_3262.JPG','IMG_3277.JPG','IMG_3298.JPG','IMG_3302.JPG','IMG_3307.JPG','IMG_3318.JPG']},
-    {label:'2024/11/24-25 宮崎',path:'images/travel/kyushu/20241124-5 宮崎/',badge:'宮崎',
-     files:['IMG_3154.jpg','IMG_3206.jpg','IMG_3244.jpg','IMG_3260.jpg','IMG_3265.jpg','IMG_3288.jpg','IMG_3309.jpg','IMG_3360.jpg','IMG_3382.jpg','IMG_3409.jpg','IMG_3430.jpg','IMG_3514.jpg','IMG_3550.jpg','IMG_3582.jpg','IMG_3602.jpg','IMG_3605.jpg','IMG_3635.jpg','IMG_3695.jpg','IMG_3713.jpg']},
-    {label:'2025/03/09 高千穂',path:'images/travel/kyushu/20250309 高千穂/',badge:'宮崎',
-     files:['IMG_8434.jpg','IMG_8450.jpg','IMG_8459.jpg','IMG_8465.jpg','IMG_8474.jpg','IMG_8505.jpg','IMG_8515.jpg','IMG_8543.jpg','IMG_8576.jpg','IMG_8594.jpg','IMG_8663.jpg','IMG_8676.jpg','IMG_8698.jpg','IMG_8710.jpg','IMG_8725.jpg','IMG_8819.jpg','IMG_8830.jpg','IMG_8841.jpg','IMG_8846.jpg','IMG_8848.jpg','IMG_8866.jpg','IMG_8885.jpg']},
-    {label:'2025/12/21-22 熊本',path:'images/travel/kyushu/20251221-2 熊本/',badge:'熊本',
-     files:['IMG_1807.jpg','IMG_1824.jpg','IMG_1837.jpg','IMG_1856.jpg','IMG_1999.jpg','IMG_2027.jpg']}
-  ]
-};
+/* ── Photo Data（images/travel → photos.json / API） ── */
+let PHOTO_DATA = {};
+let _photoDataSig = '';
+let _photoLoading = false;
 
-/* ── Lightbox (per-album) ── */
+function clearPhotoCards(){
+  document.querySelectorAll('.dcard-photo').forEach(el=>el.remove());
+  window._albumMap={};
+  window._albumData={};
+}
+
+function photoSrc(albumPath, fileName){
+  return encodeURI(albumPath + fileName);
+}
+
+function albumCount(data){
+  return Object.values(data||{}).reduce((n,a)=>n+(a?a.length:0),0);
+}
+
+function applyPhotoData(data){
+  if(!data || typeof data!=='object') return false;
+  const sig=JSON.stringify(data);
+  if(sig===_photoDataSig) return false;
+  // 取得失敗で空になったように見えるケースを防ぐ
+  if(albumCount(data)===0 && albumCount(PHOTO_DATA)>0) return false;
+  _photoDataSig=sig;
+  PHOTO_DATA=data;
+  clearPhotoCards();
+  buildRegionContent();
+  updateTabCounts();
+  return true;
+}
+
+async function fetchJson(url){
+  const res=await fetch(url,{cache:'no-store'});
+  if(!res.ok) throw new Error('HTTP '+res.status+' '+url);
+  return res.json();
+}
+
+async function loadTravelPhotos(){
+  if(_photoLoading) return;
+  _photoLoading=true;
+  try{
+    // 先に photos.json（速い）→ その後 API（最新）
+    try{
+      applyPhotoData(await fetchJson('photos.json?t='+Date.now()));
+    }catch(err){
+      console.warn('photos.json を読めませんでした:', err);
+    }
+    try{
+      applyPhotoData(await fetchJson('/api/travel-photos'));
+    }catch(err){
+      if(albumCount(PHOTO_DATA)===0) throw err;
+      console.warn('api 更新に失敗（表示中の一覧は維持）:', err);
+    }
+  }catch(err){
+    console.error('旅行写真の読み込みに失敗:', err);
+  }finally{
+    _photoLoading=false;
+  }
+}
+
+/* ── Lightbox (per-album) + slideshow ── */
 let lbAlbum=[];
 let lbIdx=0;
+let lbTimer=null;
+let lbPlaying=false;
+
+function getLbSpeed(){
+  const el=document.getElementById('lb-speed');
+  const n=el?Number(el.value):3000;
+  return Number.isFinite(n)&&n>0?n:3000;
+}
+function updatePlayBtn(){
+  const btn=document.getElementById('lb-play');
+  if(!btn)return;
+  btn.textContent=lbPlaying?'⏸ 停止':'▶ 自動再生';
+  btn.classList.toggle('on',lbPlaying);
+}
+function stopSlideshow(){
+  if(lbTimer){clearInterval(lbTimer);lbTimer=null;}
+  lbPlaying=false;
+  updatePlayBtn();
+}
+function startSlideshow(){
+  if(lbAlbum.length<2) return;
+  stopSlideshow();
+  lbPlaying=true;
+  updatePlayBtn();
+  lbTimer=setInterval(()=>{
+    if(!document.getElementById('lb').classList.contains('open')){stopSlideshow();return;}
+    moveLb(1);
+  },getLbSpeed());
+}
+function toggleSlideshow(e){
+  if(e)e.stopPropagation();
+  if(lbPlaying) stopSlideshow();
+  else startSlideshow();
+}
+function onSlideshowSpeedChange(){
+  if(lbPlaying) startSlideshow();
+}
 
 function openAlbumLb(albumKey,photoIdx){
+  stopSlideshow();
   lbAlbum=window._albumMap[albumKey]||[];
   lbIdx=photoIdx;
   _showLb();
   document.getElementById('lb').classList.add('open');
   document.body.style.overflow='hidden';
+  startSlideshow();
 }
 function _showLb(){
   const it=lbAlbum[lbIdx];
@@ -545,11 +599,13 @@ function _showLb(){
 }
 function closeLb(e){
   if(e&&e.target!==document.getElementById('lb')&&!e.target.classList.contains('lb-close'))return;
+  stopSlideshow();
   document.getElementById('lb').classList.remove('open');
   document.body.style.overflow='';
 }
 function moveLb(dir,e){
   if(e)e.stopPropagation();
+  if(!lbAlbum.length)return;
   lbIdx=(lbIdx+dir+lbAlbum.length)%lbAlbum.length;
   _showLb();
 }
@@ -557,7 +613,8 @@ document.addEventListener('keydown',e=>{
   if(!document.getElementById('lb').classList.contains('open'))return;
   if(e.key==='ArrowRight')moveLb(1);
   else if(e.key==='ArrowLeft')moveLb(-1);
-  else if(e.key==='Escape'){document.getElementById('lb').classList.remove('open');document.body.style.overflow='';}
+  else if(e.key===' '){e.preventDefault();toggleSlideshow();}
+  else if(e.key==='Escape')closeLb();
 });
 
 /* ── Hover panel ── */
@@ -577,7 +634,7 @@ function showHoverPanel(albumKey,cardEl){
   if(!album)return;
   const items=album.files.map((f,fi)=>`
     <div class="hp-item" onclick="openAlbumLb('${albumKey}',${fi});hideHoverPanel(true)">
-      <img src="${album.path+f}" loading="lazy" alt="">
+      <img src="${photoSrc(album.path,f)}" loading="lazy" alt="">
     </div>`).join('');
   hpEl.innerHTML=`<div class="hp-title">📷 ${album.label}（${album.files.length}枚）</div><div class="hp-grid">${items}</div>`;
 
@@ -610,10 +667,10 @@ function buildRegionContent(){
 
     albums.forEach((album,ai)=>{
       const albumKey=region+'-'+ai;
-      window._albumMap[albumKey]=album.files.map(f=>({src:album.path+f,cap:album.label+' — '+f}));
+      window._albumMap[albumKey]=album.files.map(f=>({src:photoSrc(album.path,f),cap:album.label+' — '+f}));
       window._albumData[albumKey]=album;
 
-      const thumbSrc=album.path+album.files[0];
+      const thumbSrc=photoSrc(album.path,album.files[0]);
       const dcard=document.createElement('div');
       dcard.className='dcard dcard-photo';
       dcard.onclick=()=>openAlbumLb(albumKey,0);
@@ -633,8 +690,6 @@ function buildRegionContent(){
     });
   });
 }
-
-buildRegionContent();
 
 /* ── Update tab count badges from PHOTO_DATA ── */
 function updateTabCounts(){
@@ -657,8 +712,6 @@ function updateTabCounts(){
     }
   });
 }
-updateTabCounts();
-
 /* ── Region filter ── */
 const REGIONS=['hokkaido','tohoku','kanto','chubu','kinki','chugoku','shikoku','kyushu'];
 
@@ -674,6 +727,9 @@ function switchRegion(region, el){
   });
   document.querySelector('.content').scrollIntoView({behavior:'smooth',block:'start'});
 }
+
+loadTravelPhotos();
+setInterval(loadTravelPhotos, 5000);
 </script>
 </body>
 </html>
