@@ -331,7 +331,7 @@ footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:18px 28px;d
           <div class="region-map">
             <div class="region-map-em">🗼</div>
             <div class="region-map-name">関東</div>
-            <div class="region-map-prefs">東京・横浜</div>
+            <div class="region-map-prefs">東京・横浜・笠間</div>
           </div>
           <div class="region-cards"></div>
         </div>
@@ -507,6 +507,7 @@ function applyPhotoData(data){
   PHOTO_DATA=data;
   clearPhotoCards();
   buildRegionContent();
+  updateRegionPrefs();
   updateTabCounts();
   return true;
 }
@@ -658,6 +659,17 @@ hpEl.addEventListener('mouseenter',()=>clearTimeout(_hpTimer));
 hpEl.addEventListener('mouseleave',()=>hideHoverPanel());
 
 /* ── Build photo dcards ── */
+function updateRegionPrefs(){
+  Object.keys(PHOTO_DATA).forEach(region=>{
+    const sec=document.getElementById('r-'+region);
+    if(!sec)return;
+    const prefs=sec.querySelector('.region-map-prefs');
+    if(!prefs)return;
+    const badges=[...new Set((PHOTO_DATA[region]||[]).map(a=>a.badge).filter(Boolean))];
+    if(badges.length) prefs.textContent=badges.join('・');
+  });
+}
+
 function buildRegionContent(){
   Object.keys(PHOTO_DATA).forEach(region=>{
     const sec=document.getElementById('r-'+region);
