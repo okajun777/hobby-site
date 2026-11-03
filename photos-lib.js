@@ -7,10 +7,24 @@ const PHOTOS_JSON = path.join(ROOT, 'photos.json');
 const REGIONS = ['hokkaido', 'tohoku', 'kanto', 'chubu', 'kinki', 'chugoku', 'shikoku', 'kyushu'];
 const IMG_RE = /\.(jpe?g|png|gif|webp)$/i;
 
+function formatEndDay(startDay, rangeToken) {
+  // フォルダ例: 20181214-5 → 14-15 / 20250111-2 → 11-12 / 20210813-15 → 13-15
+  if (!rangeToken) return '';
+  const raw = String(rangeToken).replace(/^[ｰ\-]/, '');
+  if (!/^\d+$/.test(raw)) return '-' + raw;
+  let endDay = parseInt(raw, 10);
+  if (raw.length === 1) {
+    endDay = Math.floor(startDay / 10) * 10 + endDay;
+    if (endDay < startDay) endDay += 10;
+  }
+  return '-' + endDay;
+}
+
 function formatLabel(folderName) {
   const m = folderName.match(/^(\d{4})(\d{2})(\d{2})([ｰ\-]\d+)?\s*(.*)$/);
   if (!m) return folderName;
-  const range = (m[4] || '').replace('ｰ', '-');
+  const startDay = parseInt(m[3], 10);
+  const range = formatEndDay(startDay, m[4] || '');
   const place = (m[5] || '').trim();
   const date = `${m[1]}/${m[2]}/${m[3]}${range}`;
   return place ? `${date} ${place}` : date;
