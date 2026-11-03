@@ -67,7 +67,7 @@
   ],
   "tohoku": [
     {
-      "label": "2025/07/15-16 青森",
+      "label": "2025/07/15-6 青森",
       "path": "images/travel/tohoku/20250715-6 青森/",
       "badge": "青森",
       "files": [
@@ -1757,7 +1757,7 @@
       ]
     },
     {
-      "label": "2019/01/11-12 金沢・福井",
+      "label": "2019/01/11-2 金沢・福井",
       "path": "images/travel/kinki/20190111ｰ2 金沢・福井/",
       "badge": "金沢・福井",
       "files": [
@@ -1857,7 +1857,7 @@
       ]
     },
     {
-      "label": "2025/01/11-12 彦根",
+      "label": "2025/01/11-2 彦根",
       "path": "images/travel/kinki/20250111-2 彦根/",
       "badge": "彦根",
       "files": [
@@ -1895,7 +1895,7 @@
   ],
   "chugoku": [
     {
-      "label": "2018/07/22-23 出雲大社",
+      "label": "2018/07/22-3 出雲大社",
       "path": "images/travel/chugoku/20180722-3 出雲大社/",
       "badge": "出雲大社",
       "files": [
@@ -1998,7 +1998,7 @@
   ],
   "kyushu": [
     {
-      "label": "2018/12/14-15 長崎",
+      "label": "2018/12/14-5 長崎",
       "path": "images/travel/kyushu/20181214-5 長崎/",
       "badge": "長崎",
       "files": [
@@ -2021,7 +2021,7 @@
       ]
     },
     {
-      "label": "2024/11/24-25 宮崎",
+      "label": "2024/11/24-5 宮崎",
       "path": "images/travel/kyushu/20241124-5 宮崎/",
       "badge": "宮崎",
       "files": [
@@ -2076,7 +2076,7 @@
       ]
     },
     {
-      "label": "2025/12/21-22 熊本",
+      "label": "2025/12/21-2 熊本",
       "path": "images/travel/kyushu/20251221-2 熊本/",
       "badge": "熊本",
       "files": [
